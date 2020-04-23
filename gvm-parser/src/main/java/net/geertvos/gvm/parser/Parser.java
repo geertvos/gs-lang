@@ -45,15 +45,18 @@ class Parser extends BaseParser<Object> {
 
 	Rule Statements() {
 		Var<Scope> scopeVar = new Var<Scope>();
-		return Sequence(scopeVar.set((Scope)pop()), Statement(), push(scopeVar.get().addStatement((Statement)pop())), ZeroOrMore(Sequence(SEMI, Statement())), ZeroOrMore(SEMI));
+		return Sequence(scopeVar.set((Scope)pop()), Statement(), push(scopeVar.get().addStatement((Statement)pop())),
+				        ZeroOrMore(Sequence(SEMI, scopeVar.set((Scope)pop()),Statement(), push(scopeVar.get().addStatement((Statement)pop())))), OneOrMore(SEMI));
 	}
 
 	Rule Statement() {
+		//TODO: Add scope statement..
 		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(), ExpressionStatement(), BreakStatement());
 	}
 	
 	Rule ForStatement() {
-		return Sequence(FOR,LBRACE,Statement(),SEMI,Expression(),SEMI,Statement(), RBRACE,push(new ForStatement((Statement)pop(),(Expression)pop(),(Statement)pop())), LCURLY, Statements() , RCURLY);
+		//TODO: Use scope statement instead
+		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, push(new ForStatement((Expression)pop(), (Expression)pop(), (Expression)pop())), LCURLY, ZeroOrMore(Statements()) , RCURLY);
 	}
 
 	Rule ReturnValueStatement() {
@@ -188,7 +191,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule FunctionDefinition() {
-		return Sequence(LBRACE,push(new FunctionDefExpression()), ZeroOrMore(ArgumentDefinition()), RBRACE, ARROW, LCURLY, ZeroOrMore(Statements()), RCURLY);
+		return Sequence(LBRACE,push(new FunctionDefExpression()), ZeroOrMore(ArgumentDefinition(), ZeroOrMore(COMMA, ArgumentDefinition())), RBRACE, ARROW, LCURLY, ZeroOrMore(Statements()), RCURLY);
 	}
 
 	Rule NativeFunctionCall() {
@@ -235,12 +238,12 @@ class Parser extends BaseParser<Object> {
 	@MemoMismatches
 	Rule String() {
 		//TODO: Fix and support UTF-8 strings 
-		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),AnyOf(".,!?@#$%&*()|:; "))), push(new ConstantExpression(match())), "\"");
+		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!?@#$%&*()|:; '<>"))), push(new ConstantExpression(match())), "\"");
 	}
 
 	@SuppressSubnodes
 	Rule Identifier() {
-		return Sequence(Letter(), ZeroOrMore(LetterOrDigit()), Spacing());
+		return Sequence(TestNot(Terminal("native")), Letter(), ZeroOrMore(LetterOrDigit()), Spacing());
 	}
 
 	@MemoMismatches
@@ -285,7 +288,7 @@ class Parser extends BaseParser<Object> {
 	@SuppressNode
 	@DontLabel
 	Rule Terminal(String string) {
-		return Sequence(string, Spacing()).label('\'' + string + '\'');
+		return Sequence(Spacing(), string, Spacing()).label('\'' + string + '\'');
 	}
 
 	@SuppressNode

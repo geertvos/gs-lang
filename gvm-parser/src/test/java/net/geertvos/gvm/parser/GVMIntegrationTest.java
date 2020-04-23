@@ -3,12 +3,19 @@ package net.geertvos.gvm.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.parboiled.Parboiled;
 import org.parboiled.errors.ErrorUtils;
 import org.parboiled.parserunners.RecoveringParseRunner;
+import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.ParsingResult;
+
+import com.google.common.io.Resources;
 
 import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.compiler.GCompiler;
@@ -31,9 +38,11 @@ public class GVMIntegrationTest {
 	}
 
 	@Test()
-	public void testNativeFunctionCall2() {
-		String assignment = "native(\"net.geertvos.gvm.parser.GVMIntegrationTest\",\"testNumber\",1+3, 4);";
-		Program program = (Program) parse(assignment);
+	public void testLogic() throws IOException {
+		URL url = Resources.getResource("logic-test.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		System.out.println(source);
+		Program program = (Program) parse(source);
 		GCompiler compiler = new GCompiler();
 		GVMProgram p = compiler.compile(program.getAll());
 		GVM vm = new GVM(p);
@@ -44,8 +53,17 @@ public class GVMIntegrationTest {
 		flag = true;
 	}
 	
-	public static void testNumber(Integer value, Integer expected) {
+
+	public static void testEqualsInt(Integer value, Integer expected) {
 		assertEquals((int)expected, (int)value);
+	}
+
+	public static void testEqualsBoolean(Boolean value,  Boolean expected) {
+		assertEquals((boolean)expected, (boolean)value);
+	}
+
+	public static void print(String message) {
+		System.out.println(message);
 	}
 	
 	public Object parse(String code) {
@@ -54,6 +72,9 @@ public class GVMIntegrationTest {
 		if (!result.parseErrors.isEmpty()) {
 			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
 			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));
+		} else {
+			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+			System.out.println(parseTreePrintOut);
 		}
 		Object value = result.parseTreeRoot.getValue();
 		return value;

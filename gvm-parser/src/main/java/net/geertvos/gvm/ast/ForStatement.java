@@ -9,11 +9,11 @@ import nl.gvm.core.GVM;
 public class ForStatement extends LoopStatement implements Scope {
 
 	private final Expression condition;
-	private final Statement initstatement;
-	private final Statement updatestatement;
+	private final Expression initstatement;
+	private final Expression updatestatement;
 	private List<Statement> loop = new LinkedList<Statement>();
 
-	public ForStatement( Statement update , Expression condition , Statement init )
+	public ForStatement( Expression update , Expression condition , Expression init )
 	{
 		this.initstatement = init;
 		this.condition = condition;

@@ -2,9 +2,6 @@ package net.geertvos.gvm.parser;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.parboiled.Parboiled;
@@ -21,6 +18,7 @@ import net.geertvos.gvm.ast.ConstantExpression;
 import net.geertvos.gvm.ast.ConstructorExpression;
 import net.geertvos.gvm.ast.EqualityExpression;
 import net.geertvos.gvm.ast.ExpressionStatement;
+import net.geertvos.gvm.ast.ForStatement;
 import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
 import net.geertvos.gvm.ast.ImplicitConstructorExpression;
@@ -31,10 +29,7 @@ import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.VariableExpression;
-import nl.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
 import nl.gvm.core.Value;
-import nl.gvm.program.GVMProgram;
 
 public class ParserTest {
 
@@ -395,9 +390,9 @@ public class ParserTest {
 
 	@Test()
 	public void testForLoop() {
-		String assignment = "for(i=0;i;i=1) {} ;";
+		String assignment = "for(true;true;true){}";
 		Program program = (Program) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ForStatement statement = (ForStatement) program.getStatement(0);
 		//TODO: implement test
 	}
 
