@@ -31,6 +31,7 @@ import net.geertvos.gvm.ast.NativeFunctionCallExpression;
 import net.geertvos.gvm.ast.NotExpression;
 import net.geertvos.gvm.ast.OrExpression;
 import net.geertvos.gvm.ast.Parameterizable;
+import net.geertvos.gvm.ast.PostFixOperatorExpression;
 import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.ast.VariableExpression;
@@ -61,8 +62,7 @@ class Parser extends BaseParser<Object> {
 	}
 	
 	Rule ForStatement() {
-		//TODO: Use scope statement instead
-		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, push(new ForStatement((Expression)pop(), (Expression)pop(), (Expression)pop())), LCURLY, ZeroOrMore(Statements()) , RCURLY);
+		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), push(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
 	}
 
 	Rule IfStatement() {
@@ -114,14 +114,14 @@ class Parser extends BaseParser<Object> {
     Rule ConditionalOrExpression() {
         return Sequence(
         		ConditionalAndExpression(),
-                ZeroOrMore(Terminal("||"), ConditionalAndExpression(), push(new OrExpression((Expression)pop(), (Expression)pop())))
+                ZeroOrMore(OROR, ConditionalAndExpression(), push(new OrExpression((Expression)pop(), (Expression)pop())))
         );
     }
 	
     Rule ConditionalAndExpression() {
         return Sequence(
         		EqualityExpression(),
-                ZeroOrMore(Terminal("&&"), EqualityExpression(), push(new AndExpression((Expression)pop(), (Expression)pop())))
+                ZeroOrMore(ANDAND, EqualityExpression(), push(new AndExpression((Expression)pop(), (Expression)pop())))
         );
     }
 
@@ -178,13 +178,18 @@ class Parser extends BaseParser<Object> {
     Rule UnaryExpression() {
         return FirstOf(
                 Sequence(EXCLAMATION, UnaryExpression(), push(new NotExpression((Expression)pop()))),
+                Sequence(Reference(),PostFixOperator(), push(new PostFixOperatorExpression(match(), (Expression)(pop())))),
                 OtherExpression()
         );
     }
     
+    Rule PostFixOperator() {
+    	return FirstOf(Terminal("++"),Terminal("--"));
+    }
+    
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(), Number(), Boolean(), String(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), Reference());
     }
     
 	Rule Assignment() {
@@ -277,8 +282,7 @@ class Parser extends BaseParser<Object> {
 
 	@MemoMismatches
 	Rule Number() {
-		return Sequence(OneOrMore(CharRange('0', '9')),
-				push(new ConstantExpression(Integer.parseInt(match()), Value.TYPE.NUMBER)));
+		return Sequence(OneOrMore(CharRange('0', '9')),	push(new ConstantExpression(Integer.parseInt(match().trim()), Value.TYPE.NUMBER)));
 	}
 
 	final Rule DOT = Terminal(".");
@@ -305,6 +309,8 @@ class Parser extends BaseParser<Object> {
 	final Rule CONTINUE = Terminal("continue");
 	final Rule THIS = Terminal("this"); 
 	final Rule NATIVE = Terminal("native"); 
+	final Rule ANDAND = Terminal("&&"); 
+	final Rule OROR = Terminal("||"); 
 
 	@SuppressNode
 	@DontLabel

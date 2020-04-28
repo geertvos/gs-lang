@@ -20,6 +20,14 @@ public class ForStatement extends LoopStatement implements Scope {
 		this.updatestatement = update;
 	}
 
+	public ForStatement( Statement statement, Expression update , Expression condition , Expression init )
+	{
+		this.initstatement = init;
+		this.loop.add(statement);
+		this.condition = condition;
+		this.updatestatement = update;
+	}
+
 	
 	@Override
 	public void compile(GCompiler c) {

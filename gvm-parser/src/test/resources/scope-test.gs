@@ -49,7 +49,19 @@ beef = new {
 	recipe = "grill";
 };
 print("Recipe: "+beef.recipe);
+for(b=0 ; b<10 ; b++ ) {
+	print(""+b);
+};
 print("done");
 
+name = "Geert";
+if(name == "Geert") {
+ print("vos!");
+};
 
+a=6;
+b=0;
+b= a++;
+print(""+a);
+print(""+b);
 
