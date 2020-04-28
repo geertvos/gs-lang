@@ -1,3 +1,7 @@
+/*
+*/
+
+
 print = (text) -> {
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
 	return; //TODO: add auto return if missing.
@@ -77,4 +81,14 @@ while(counter>0) {
 		continue;
 	};
 	print("Above 75");
+};
+
+//TODO: Check why this variable is not set to 0
+for(a=0;a<10;a++) {
+	print("a: "+a);
+};
+
+while(a<100) {
+	a++;
+	print("a: "+a);
 };

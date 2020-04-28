@@ -57,7 +57,7 @@ class Parser extends BaseParser<Object> {
 
 	Rule Statements() {
 		Var<Scope> scopeVar = new Var<Scope>();
-		return Sequence(scopeVar.set((Scope)pop()), Statement(), push(scopeVar.get().addStatement((Statement)pop())),
+		return Sequence(scopeVar.set((Scope)pop()),Spacing(), Statement(), push(scopeVar.get().addStatement((Statement)pop())),
 				        ZeroOrMore(Sequence(SEMI, scopeVar.set((Scope)pop()),Statement(), push(scopeVar.get().addStatement((Statement)pop())))), OneOrMore(SEMI));
 	}
 

@@ -13,15 +13,7 @@ public class ForStatement extends LoopStatement implements Scope {
 	private final Expression updatestatement;
 	private List<Statement> loop = new LinkedList<Statement>();
 
-	public ForStatement( Expression update , Expression condition , Expression init )
-	{
-		this.initstatement = init;
-		this.condition = condition;
-		this.updatestatement = update;
-	}
-
-	public ForStatement( Statement statement, Expression update , Expression condition , Expression init )
-	{
+	public ForStatement( Statement statement, Expression update , Expression condition , Expression init ) {
 		this.initstatement = init;
 		this.loop.add(statement);
 		this.condition = condition;
