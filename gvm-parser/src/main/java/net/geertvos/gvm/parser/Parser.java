@@ -63,7 +63,7 @@ class Parser extends BaseParser<Object> {
 
 	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
@@ -119,7 +119,6 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule BreakStatement() {
-		//TODO: To be implemented correctly
 		return Sequence(BREAK, pushBreak(new JumpStatement()));
 	}
 

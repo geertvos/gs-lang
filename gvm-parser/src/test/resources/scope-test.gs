@@ -68,9 +68,13 @@ print(""+b);
 
 counter = 100;
 while(counter>0) {
-print("Counter: "+counter);
-counter--;
-if(counter==50) {
-	break;
-};
+	print("Counter: "+counter);
+	counter--;
+	if(counter==50) {
+		break;
+	};
+	if(counter<75) {
+		continue;
+	};
+	print("Above 75");
 };
