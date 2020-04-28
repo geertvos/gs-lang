@@ -372,7 +372,7 @@ public class ParserTest {
 
 	@Test()
 	public void testImplicitConstructor() {
-		String assignment = "{};";
+		String assignment = "new {};";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
@@ -381,7 +381,7 @@ public class ParserTest {
 
 	@Test()
 	public void testImplicitConstructorWithStatements() {
-		String assignment = "{ print(\"a\"); };";
+		String assignment = "new { print(\"a\"); };";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();

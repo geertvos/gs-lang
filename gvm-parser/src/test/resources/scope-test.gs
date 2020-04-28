@@ -36,6 +36,14 @@ first = (argument) -> {
 third = () -> { return "test"; };
 thevalue = first(third);
 assertStringEquals(thevalue, "test");
-print("Test completed.");
+
+if(true) print("Works!");
+if(false) print("Should't work!");
+
+if(true)
+{
+	print("Test completed.");
+};
+
 
 

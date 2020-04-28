@@ -1,5 +1,7 @@
 package net.geertvos.gvm.parser;
 
+import net.geertvos.gvm.ast.IfStatement;
+import net.geertvos.gvm.ast.ScopeStatement;
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
@@ -51,13 +53,20 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule Statement() {
-		//TODO: Add scope statement..
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(), ExpressionStatement(), BreakStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ScopeStatement());
+	}
+	
+	Rule ScopeStatement() {
+		return Sequence(LCURLY, push(new ScopeStatement()), Statements(), RCURLY);
 	}
 	
 	Rule ForStatement() {
 		//TODO: Use scope statement instead
 		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, push(new ForStatement((Expression)pop(), (Expression)pop(), (Expression)pop())), LCURLY, ZeroOrMore(Statements()) , RCURLY);
+	}
+
+	Rule IfStatement() {
+		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), push(new IfStatement((Statement)pop(), (Expression)pop())));
 	}
 
 	Rule ReturnValueStatement() {
@@ -184,7 +193,7 @@ class Parser extends BaseParser<Object> {
 	}
 	
 	Rule ObjectDefinition() {
-		return Sequence(LCURLY, push(new ImplicitConstructorExpression()), ZeroOrMore(Statements()), RCURLY);
+		return Sequence(NEW, LCURLY, push(new ImplicitConstructorExpression()), ZeroOrMore(Statements()), RCURLY);
 	}
 
 	Rule ConstructorCall() {
