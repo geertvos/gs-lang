@@ -11,6 +11,7 @@ person = (name) -> {
 	getName = () -> { return this.name; };
 	return this;
 };
+Person john = new Person("John");
 ```
 
 # Native code support. 
