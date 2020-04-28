@@ -45,5 +45,11 @@ if(true)
 	print("Test completed.");
 };
 
+beef = new {
+	recipe = "grill";
+};
+print("Recipe: "+beef.recipe);
+print("done");
+
 
 

@@ -9,7 +9,7 @@ public class ConstructorExpression extends Expression {
 	public ConstructorExpression( FunctionCallExpression function )
 	{
 		this.function = function;
-		function.setFieldOnly( new ConstantExpression() );		
+		function.setFieldOnly( new ConstantExpression() );	
 	}
 
 	public FunctionCallExpression getFunction() {

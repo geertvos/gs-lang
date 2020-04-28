@@ -28,9 +28,14 @@ public class ImplicitConstructorExpression extends Expression implements Scope {
 	
 	@Override
 	public void compile(GCompiler c) {
-		FunctionDefExpression functionDef = new FunctionDefExpression(new LinkedList<String>(), statements);
+		ConstantExpression constant = new ConstantExpression();
+		constant.compile(c);  //Create new scope
+
+		List<Statement> functionStatements = new LinkedList<Statement>(statements);
+		functionStatements.add(new ReturnStatement(new ThisExpression()));
+		FunctionDefExpression functionDef = new FunctionDefExpression(new LinkedList<String>(), functionStatements);
 		functionDef.compile(c);
-		c.code.add( GVM.NEW);  //Create new scope
+		
 		c.code.add(GVM.INVOKE); //Invoke the function on the stack
 		c.code.writeInt(0); //No arguments
 	}
