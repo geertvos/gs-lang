@@ -48,6 +48,24 @@ create = () -> {
 
 ```
 
+# Control flow
+
+The language has support for the usual control flow statements like the if, while and for loop. Both while and for support break and continue and work as expected.
+```
+if( a < b ) {
+	print("a < b);
+};
+
+for(a=0;a<10;a++) {
+	print("a: "+a);
+};
+
+while(a<100) {
+	a++;
+	print("a: "+a);
+};
+```
+
 # Native code support. 
 This compiler compiles the GScript code in to an a bytecode format that can be executed by the GVM. (See other project). Both have support for 'native' code by binding a function to a Java method.
 
