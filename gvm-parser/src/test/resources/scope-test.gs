@@ -59,9 +59,18 @@ if(name == "Geert") {
  print("vos!");
 };
 
+//Postfix test
 a=6;
 b=0;
 b= a++;
 print(""+a);
 print(""+b);
 
+counter = 100;
+while(counter>0) {
+print("Counter: "+counter);
+counter--;
+if(counter==50) {
+	break;
+};
+};

@@ -390,7 +390,7 @@ public class ParserTest {
 
 	@Test()
 	public void testForLoop() {
-		String assignment = "for(true;true;true){};";
+		String assignment = "for(b=0 ; b<10 ; b++ ) {}";
 		Program program = (Program) parse(assignment);
 		ForStatement statement = (ForStatement) program.getStatement(0);
 		//TODO: implement test

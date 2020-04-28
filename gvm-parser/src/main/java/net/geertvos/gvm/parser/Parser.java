@@ -1,7 +1,7 @@
 package net.geertvos.gvm.parser;
 
-import net.geertvos.gvm.ast.IfStatement;
-import net.geertvos.gvm.ast.ScopeStatement;
+import java.util.Stack;
+
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
@@ -10,8 +10,7 @@ import org.parboiled.annotations.MemoMismatches;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.support.Var;
-import net.geertvos.gvm.ast.Statement;
-import net.geertvos.gvm.ast.ThisExpression;
+
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
@@ -19,30 +18,39 @@ import net.geertvos.gvm.ast.ConditionalExpression;
 import net.geertvos.gvm.ast.ConstantExpression;
 import net.geertvos.gvm.ast.ConstructorExpression;
 import net.geertvos.gvm.ast.EqualityExpression;
-import net.geertvos.gvm.ast.ExpressionStatement;
 import net.geertvos.gvm.ast.Expression;
+import net.geertvos.gvm.ast.ExpressionStatement;
 import net.geertvos.gvm.ast.FieldReferenceExpression;
 import net.geertvos.gvm.ast.ForStatement;
 import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
+import net.geertvos.gvm.ast.IfStatement;
 import net.geertvos.gvm.ast.ImplicitConstructorExpression;
 import net.geertvos.gvm.ast.JumpStatement;
+import net.geertvos.gvm.ast.LoopStatement;
+import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.NativeFunctionCallExpression;
 import net.geertvos.gvm.ast.NotExpression;
 import net.geertvos.gvm.ast.OrExpression;
 import net.geertvos.gvm.ast.Parameterizable;
 import net.geertvos.gvm.ast.PostFixOperatorExpression;
-import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.Program;
-import net.geertvos.gvm.ast.VariableExpression;
+import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.Scope;
+import net.geertvos.gvm.ast.ScopeStatement;
+import net.geertvos.gvm.ast.Statement;
+import net.geertvos.gvm.ast.ThisExpression;
+import net.geertvos.gvm.ast.VariableExpression;
+import net.geertvos.gvm.ast.WhileStatement;
 import nl.gvm.core.Value;
-import net.geertvos.gvm.ast.RelationalExpression;
 
 @BuildParseTree
 class Parser extends BaseParser<Object> {
 
+	private Stack<JumpStatement> breakStack = new Stack<>();
+	private Stack<JumpStatement> continueStack = new Stack<>();
+	
 	Rule Program() {
 		return Sequence(push(new Program()), Statements());
 	}
@@ -53,8 +61,9 @@ class Parser extends BaseParser<Object> {
 				        ZeroOrMore(Sequence(SEMI, scopeVar.set((Scope)pop()),Statement(), push(scopeVar.get().addStatement((Statement)pop())))), OneOrMore(SEMI));
 	}
 
+	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
@@ -62,7 +71,34 @@ class Parser extends BaseParser<Object> {
 	}
 	
 	Rule ForStatement() {
-		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), push(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
+		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), pushLoop(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
+	}
+
+	public boolean pushLoop(LoopStatement v) {
+		for(JumpStatement jump : breakStack) {
+			v.addBreak(jump);
+		}
+		for(JumpStatement jump : continueStack) {
+			v.addContinue(jump);
+		}
+		this.push(v);
+		return true;
+	}
+	
+	public boolean pushBreak(JumpStatement v) {
+		breakStack.push(v);
+		this.push(v);
+		return true;
+	}
+	
+	public boolean pushContinue(JumpStatement v) {
+		continueStack.push(v);
+		this.push(v);
+		return true;
+	}
+
+	Rule WhileStatement() {
+		return Sequence(WHILE,LBRACE,Expression(), RBRACE, Statement(), pushLoop(new WhileStatement((Statement)pop(), (Expression)pop())));
 	}
 
 	Rule IfStatement() {
@@ -79,12 +115,12 @@ class Parser extends BaseParser<Object> {
 
 	Rule ContinueStatement() {
 		//TODO: To be implemented correctly
-		return Sequence(CONTINUE, push(new JumpStatement()));
+		return Sequence(CONTINUE, pushContinue(new JumpStatement()));
 	}
 
 	Rule BreakStatement() {
 		//TODO: To be implemented correctly
-		return Sequence(BREAK, push(new JumpStatement()));
+		return Sequence(BREAK, pushBreak(new JumpStatement()));
 	}
 
 	
@@ -266,7 +302,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION,EXCLAMATION,NEW,NATIVE,THIS);
+		return FirstOf(QUESTION,EXCLAMATION,NEW,NATIVE,THIS, RETURN, BREAK,IF,WHILE,FOR,CONTINUE);
 	}
 
 	
@@ -304,6 +340,8 @@ class Parser extends BaseParser<Object> {
 	final Rule MOD = Terminal("%");
 	final Rule NEW = Terminal("new");
 	final Rule FOR = Terminal("for");
+	final Rule WHILE = Terminal("while");
+	final Rule DO = Terminal("do");
 	final Rule IF = Terminal("if");
 	final Rule BREAK = Terminal("break");
 	final Rule CONTINUE = Terminal("continue");
