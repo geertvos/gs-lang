@@ -58,7 +58,7 @@ class Parser extends BaseParser<Object> {
 	Rule Statements() {
 		Var<Scope> scopeVar = new Var<Scope>();
 		return Sequence(scopeVar.set((Scope)pop()),Spacing(), Statement(), push(scopeVar.get().addStatement((Statement)pop())),
-				        ZeroOrMore(Sequence(SEMI, scopeVar.set((Scope)pop()),Statement(), push(scopeVar.get().addStatement((Statement)pop())))), OneOrMore(SEMI));
+				        ZeroOrMore(Sequence(ZeroOrMore(SEMI), scopeVar.set((Scope)pop()),Statement(), push(scopeVar.get().addStatement((Statement)pop())))), ZeroOrMore(SEMI));
 	}
 
 	
@@ -72,29 +72,6 @@ class Parser extends BaseParser<Object> {
 	
 	Rule ForStatement() {
 		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), pushLoop(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
-	}
-
-	public boolean pushLoop(LoopStatement v) {
-		for(JumpStatement jump : breakStack) {
-			v.addBreak(jump);
-		}
-		for(JumpStatement jump : continueStack) {
-			v.addContinue(jump);
-		}
-		this.push(v);
-		return true;
-	}
-	
-	public boolean pushBreak(JumpStatement v) {
-		breakStack.push(v);
-		this.push(v);
-		return true;
-	}
-	
-	public boolean pushContinue(JumpStatement v) {
-		continueStack.push(v);
-		this.push(v);
-		return true;
 	}
 
 	Rule WhileStatement() {
@@ -114,7 +91,6 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ContinueStatement() {
-		//TODO: To be implemented correctly
 		return Sequence(CONTINUE, pushContinue(new JumpStatement()));
 	}
 
@@ -368,4 +344,29 @@ class Parser extends BaseParser<Object> {
 				// end of line comment
 				Sequence("//", ZeroOrMore(TestNot(AnyOf("\r\n")), ANY), FirstOf("\r\n", '\r', '\n', EOI))));
 	}
+	
+	public boolean pushLoop(LoopStatement v) {
+		for(JumpStatement jump : breakStack) {
+			v.addBreak(jump);
+		}
+		for(JumpStatement jump : continueStack) {
+			v.addContinue(jump);
+		}
+		this.push(v);
+		return true;
+	}
+	
+	public boolean pushBreak(JumpStatement v) {
+		breakStack.push(v);
+		this.push(v);
+		return true;
+	}
+	
+	public boolean pushContinue(JumpStatement v) {
+		continueStack.push(v);
+		this.push(v);
+		return true;
+	}
+
+
 }
