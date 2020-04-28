@@ -13,6 +13,15 @@ person = (name) -> {
 };
 Person john = new Person("John");
 ```
+# Anonymous objects
+```
+create = () -> {
+	return new { 
+		this.name = "MyName"; 
+	};
+};
+
+```
 
 # Native code support. 
 This compiler compiles the GScript code in to an a bytecode format that can be executed by the GVM. (See other project). Both have support for 'native' code by binding a function to a Java method.
