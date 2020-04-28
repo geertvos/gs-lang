@@ -23,8 +23,8 @@ public class EqualityExpression extends TwoArgumentExpression {
 			c.code.add(GVM.EQL);
 		}
 		else if(operator.equalsIgnoreCase("!=")) {
-			c.code.add(GVM.NOT);
 			c.code.add(GVM.EQL);
+			c.code.add(GVM.NOT);
 		} else {
 			throw new IllegalStateException("Unknow operator: "+operator);
 		}

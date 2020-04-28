@@ -23,9 +23,25 @@ public class AssignmentExpression extends Expression {
 	}
 	
 	public void compile(GCompiler c) {
-		value.compile(c);
-		variable.compile(c);
-		c.code.add(GVM.PUT);
+		if(operator.equalsIgnoreCase("=")) {
+			value.compile(c);
+			variable.compile(c);
+			c.code.add(GVM.PUT);
+		} else if(operator.equalsIgnoreCase("+=")) {
+			variable.compile(c);
+			value.compile(c);
+			c.code.add(GVM.ADD);
+			variable.compile(c);
+			c.code.add(GVM.PUT);
+		} else if(operator.equalsIgnoreCase("-=")) {
+			variable.compile(c);
+			value.compile(c);
+			c.code.add(GVM.SUB);
+			variable.compile(c);
+			c.code.add(GVM.PUT);
+		} else {
+			throw new UnsupportedOperationException("Operator "+operator+" not implemented.");
+		}
 	}
 
 	public String getOperator() {

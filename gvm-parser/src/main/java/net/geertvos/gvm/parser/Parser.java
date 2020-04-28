@@ -9,6 +9,7 @@ import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.support.Var;
 import net.geertvos.gvm.ast.Statement;
+import net.geertvos.gvm.ast.ThisExpression;
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
@@ -212,7 +213,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule Reference() {
-		return Sequence(FirstOf(FunctionCall(), Variable()), ZeroOrMore(SubReferences()));
+		return Sequence(FirstOf(FunctionCall(), SelfReference(), Variable()), ZeroOrMore(SubReferences()));
 	}
 
 	Rule SubReferences() {
@@ -224,6 +225,10 @@ class Parser extends BaseParser<Object> {
 		return Sequence(Identifier(), push( ((FunctionDefExpression)pop()).addParameter(match())));
 	}
 
+	Rule SelfReference() {
+		return Sequence(THIS, push(new ThisExpression()));
+	}
+	
 	Rule Variable() {
 		return Sequence(Identifier(), push(new VariableExpression(match())));
 	}
@@ -243,9 +248,14 @@ class Parser extends BaseParser<Object> {
 
 	@SuppressSubnodes
 	Rule Identifier() {
-		return Sequence(TestNot(Terminal("native")), Letter(), ZeroOrMore(LetterOrDigit()), Spacing());
+		return Sequence(TestNot(ReservedKeywords()), Letter(), ZeroOrMore(LetterOrDigit()), Spacing());
 	}
 
+	Rule ReservedKeywords() {
+		return FirstOf(QUESTION,EXCLAMATION,NEW,NATIVE,THIS);
+	}
+
+	
 	@MemoMismatches
 	Rule Letter() {
 		return FirstOf(CharRange('a', 'z'), CharRange('A', 'Z'), '_', '$');
@@ -284,6 +294,8 @@ class Parser extends BaseParser<Object> {
 	final Rule IF = Terminal("if");
 	final Rule BREAK = Terminal("break");
 	final Rule CONTINUE = Terminal("continue");
+	final Rule THIS = Terminal("this"); 
+	final Rule NATIVE = Terminal("native"); 
 
 	@SuppressNode
 	@DontLabel

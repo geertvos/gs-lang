@@ -29,11 +29,7 @@ public class GVMIntegrationTest {
 	@Test()
 	public void testNativeFunctionCall() {
 		String assignment = "native(\"net.geertvos.gvm.parser.GVMIntegrationTest\",\"setBoolean\");";
-		Program program = (Program) parse(assignment);
-		GCompiler compiler = new GCompiler();
-		GVMProgram p = compiler.compile(program.getAll());
-		GVM vm = new GVM(p);
-		vm.run();
+		compileAndRun(assignment);
 		assertTrue(flag);
 	}
 
@@ -41,7 +37,17 @@ public class GVMIntegrationTest {
 	public void testLogic() throws IOException {
 		URL url = Resources.getResource("logic-test.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);
-		System.out.println(source);
+		compileAndRun(source);
+	}
+
+	@Test()
+	public void testScope() throws IOException {
+		URL url = Resources.getResource("scope-test.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
+	private void compileAndRun(String source) {
 		Program program = (Program) parse(source);
 		GCompiler compiler = new GCompiler();
 		GVMProgram p = compiler.compile(program.getAll());
@@ -60,6 +66,10 @@ public class GVMIntegrationTest {
 
 	public static void testEqualsBoolean(Boolean value,  Boolean expected) {
 		assertEquals((boolean)expected, (boolean)value);
+	}
+	
+	public static void testEqualsString(String value, String expected) {
+		assertEquals(expected, value);
 	}
 
 	public static void print(String message) {

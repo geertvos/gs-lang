@@ -35,7 +35,7 @@ public class ParserTest {
 
 	@Test()
 	public void testIntegerAssignment() {
-		String assignment = "a = 10";
+		String assignment = "a = 10;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
@@ -49,7 +49,7 @@ public class ParserTest {
 
 	@Test()
 	public void testIntegerIncrement() {
-		String assignment = "a += 10";
+		String assignment = "a += 10;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
@@ -64,7 +64,7 @@ public class ParserTest {
 
 	@Test()
 	public void testConditional() {
-		String assignment = "a?b:c";
+		String assignment = "a?b:c;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ConditionalExpression conditionalExpression = (ConditionalExpression) statement.getExpression();
@@ -78,7 +78,7 @@ public class ParserTest {
 
 	@Test()
 	public void testBooleanTrue() {
-		String assignment = "true";
+		String assignment = "true;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
@@ -88,7 +88,7 @@ public class ParserTest {
 
 	@Test()
 	public void testBooleanFalse() {
-		String assignment = "false";
+		String assignment = "false;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
@@ -98,7 +98,7 @@ public class ParserTest {
 
 	@Test()
 	public void testOR() {
-		String assignment = "a || b";
+		String assignment = "a || b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		OrExpression conditionalExpression = (OrExpression) statement.getExpression();
@@ -110,7 +110,7 @@ public class ParserTest {
 
 	@Test()
 	public void testAND() {
-		String assignment = "a && b";
+		String assignment = "a && b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AndExpression conditionalExpression = (AndExpression) statement.getExpression();
@@ -122,7 +122,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testEquality() {
-		String assignment = "a == b";
+		String assignment = "a == b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		EqualityExpression expression = (EqualityExpression) statement.getExpression();
@@ -135,7 +135,7 @@ public class ParserTest {
 
 	@Test()
 	public void testRelational() {
-		String assignment = "a <= b";
+		String assignment = "a <= b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		RelationalExpression expression = (RelationalExpression) statement.getExpression();
@@ -148,7 +148,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testRelationalGreaterEquals() {
-		String assignment = "a >= b";
+		String assignment = "a >= b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		RelationalExpression expression = (RelationalExpression) statement.getExpression();
@@ -161,7 +161,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testAdditive() {
-		String assignment = "a + b";
+		String assignment = "a + b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AdditiveExpression expression = (AdditiveExpression) statement.getExpression();
@@ -174,7 +174,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testAdditiveMinus() {
-		String assignment = "a - b";
+		String assignment = "a - b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AdditiveExpression expression = (AdditiveExpression) statement.getExpression();
@@ -187,7 +187,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testMultiply() {
-		String assignment = "a * b";
+		String assignment = "a * b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
@@ -200,7 +200,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testDivide() {
-		String assignment = "a / b";
+		String assignment = "a / b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
@@ -213,7 +213,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testModulus() {
-		String assignment = "a % b";
+		String assignment = "a % b;";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
@@ -226,7 +226,7 @@ public class ParserTest {
 	
 	@Test()
 	public void testStringAssignment() {
-		String assignment = "a = \"b\"";
+		String assignment = "a = \"b\";";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
@@ -240,7 +240,7 @@ public class ParserTest {
 
 	@Test()
 	public void testFunctionDef() {
-		String assignment = "(a)->{ return b; }";
+		String assignment = "(a)->{ return b; };";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		FunctionDefExpression functionDefExpression = (FunctionDefExpression) statement.getExpression();
@@ -372,7 +372,7 @@ public class ParserTest {
 
 	@Test()
 	public void testImplicitConstructor() {
-		String assignment = "{}";
+		String assignment = "{};";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
@@ -381,7 +381,7 @@ public class ParserTest {
 
 	@Test()
 	public void testImplicitConstructorWithStatements() {
-		String assignment = "{ print(\"a\"); }";
+		String assignment = "{ print(\"a\"); };";
 		Program program = (Program) parse(assignment);
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
@@ -390,7 +390,7 @@ public class ParserTest {
 
 	@Test()
 	public void testForLoop() {
-		String assignment = "for(true;true;true){}";
+		String assignment = "for(true;true;true){};";
 		Program program = (Program) parse(assignment);
 		ForStatement statement = (ForStatement) program.getStatement(0);
 		//TODO: implement test
