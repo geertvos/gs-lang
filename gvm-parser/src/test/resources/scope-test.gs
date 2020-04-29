@@ -92,7 +92,6 @@ while(a<100) {
 	a++;
 	print("a: "+a);
 }
-
 try {
 	a = true + 5;
 	print("Not good");
@@ -100,4 +99,6 @@ try {
 	print("Exception caught: "+a);
 };
 
+modulus = 5 % 1;
+print("Modulus: "+modulus);
 print("Finished.");

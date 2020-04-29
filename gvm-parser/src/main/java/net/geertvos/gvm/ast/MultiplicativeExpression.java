@@ -26,7 +26,7 @@ public class MultiplicativeExpression extends TwoArgumentExpression {
 		else if(operator.equalsIgnoreCase("/")) {
 			c.code.add(GVM.DIV);
 		} else if(operator.equalsIgnoreCase("%")) {
-			throw new UnsupportedOperationException("Modules not implemented in GVM yet.");
+			c.code.add(GVM.MOD);
 		} else {
 			throw new IllegalStateException("Unknow operator: "+operator);
 		}

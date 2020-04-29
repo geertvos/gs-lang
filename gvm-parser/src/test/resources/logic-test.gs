@@ -21,9 +21,12 @@ print("Starting integration test.");
 print("Additive test");
 assertIntEquals(1+1,2);
 assertIntEquals(3-1,2);
+
+print("Multiplicative test");
 assertIntEquals(2*2,4);
 assertIntEquals(6/2,3);
 assertIntEquals(2*2+3,7);
+assertIntEquals(5%2,1);
 
 number = 1;
 assertIntEquals(number += 10, 11);
