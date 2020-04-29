@@ -100,6 +100,11 @@ try {
 } catch(a) {
 	print("Exception caught: "+a);
 };
+try {
+	throw "Excellent!";
+} catch(a) {
+	print("Exception caught: "+a);
+};
 
 modulus = 5 % 1;
 print("Modulus: "+modulus);

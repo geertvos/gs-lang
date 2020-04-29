@@ -39,6 +39,7 @@ import net.geertvos.gvm.ast.Scope;
 import net.geertvos.gvm.ast.ScopeStatement;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.ast.ThisExpression;
+import net.geertvos.gvm.ast.ThrowStatement;
 import net.geertvos.gvm.ast.TryCatchBlock;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
@@ -59,7 +60,7 @@ class Parser extends BaseParser<Object> {
 
 	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(),ThrowStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
@@ -92,6 +93,10 @@ class Parser extends BaseParser<Object> {
 	
 	Rule ReturnStatement() {
 		return Sequence(RETURN, push(new ReturnStatement()));
+	}
+
+	Rule ThrowStatement() {
+		return Sequence(THROW, Expression(), push(new ThrowStatement((Expression)pop())));
 	}
 
 	Rule ContinueStatement() {
@@ -285,7 +290,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW);
 	}
 
 	
@@ -338,6 +343,7 @@ class Parser extends BaseParser<Object> {
 	final Rule TRY = Terminal("try");
 	final Rule CATCH = Terminal("catch");
 	final Rule UNDEF = Terminal("undef");
+	final Rule THROW = Terminal("throw");
 
 	@SuppressNode
 	@DontLabel
