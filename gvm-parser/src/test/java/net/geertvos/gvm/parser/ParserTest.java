@@ -29,6 +29,8 @@ import net.geertvos.gvm.ast.OrExpression;
 import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
+import net.geertvos.gvm.ast.ScopeStatement;
+import net.geertvos.gvm.ast.TryCatchBlock;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.core.Value;
 
@@ -394,12 +396,31 @@ public class ParserTest {
 		String assignment = "if(a==b) { print(); } else { return; };";
 		Program program = (Program) parse(assignment);
 		IfStatement statement = (IfStatement) program.getStatement(0);
-		//TODO: implement test
+		
+		ScopeStatement then = (ScopeStatement) statement.getThenClause();
+		ExpressionStatement call = (ExpressionStatement) then.getStatement(0);
+		ScopeStatement elseClause = (ScopeStatement) statement.getElseClause();
+		ReturnStatement returnStatement = (ReturnStatement) elseClause.getStatement(0);
+	}
+
+	@Test()
+	public void testTryCatch() {
+		String assignment = "try { a=1+1; } catch(exception) {return;};";
+		Program program = (Program) parse(assignment);
+		TryCatchBlock statement = (TryCatchBlock) program.getStatement(0);
+		
+	}
+	@Test()
+	public void testTryCatchNoCatch() {
+		String assignment = "try { a=1+1; } catch(exception) {};";
+		Program program = (Program) parse(assignment);
+		TryCatchBlock statement = (TryCatchBlock) program.getStatement(0);
+		
 	}
 
 	@Test()
 	public void testForLoop() {
-		String assignment = "for(b=0 ; b<10 ; b++ ) {}";
+		String assignment = "for(b=0 ; b<10 ; b++ ) { return; }";
 		Program program = (Program) parse(assignment);
 		ForStatement statement = (ForStatement) program.getStatement(0);
 		//TODO: implement test

@@ -77,10 +77,11 @@ while(counter>0) {
 	counter--;
 	if(counter==50) {
 		break;
+	} else {
 	}
 	if(counter<75) {
 		continue;
-	}
+    }
 	print("Above 75");
 }
 

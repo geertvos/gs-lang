@@ -2,7 +2,9 @@ package net.geertvos.gvm.compiler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
+import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMFunction;
@@ -21,7 +23,8 @@ public class GCompiler {
 	private List<String> stringConstants = new ArrayList<>();
 	private List<String> varNamesConstants = new ArrayList<>();
 	private List<NativeMethodWrapper> natives = new ArrayList<>();
-
+	private Stack<LoopStatement> loopStack = new Stack<>();
+	
 	public RandomAccessByteStream code;
 	private GVMFunction function;
 	private GVMProgram program;
@@ -73,6 +76,18 @@ public class GCompiler {
 	
 	public GVMProgram getProgram() {
 		return program;
+	}
+	
+	public void pushLoop(LoopStatement loop) {
+		loopStack.push(loop);
+	}
+	
+	public LoopStatement popLoop() {
+		return loopStack.pop();
+	}
+	
+	public LoopStatement peekLoop() {
+		return loopStack.peek();
 	}
 	
 	public boolean hasNativeMethod(NativeMethodWrapper method) {

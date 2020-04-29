@@ -19,6 +19,7 @@ public class WhileStatement extends LoopStatement{
 		int pos = c.code.size();
 		
 		condition.compile(c);
+		c.pushLoop(this);
 		
 		c.code.add( GVM.NOT );
 		c.code.add( GVM.CJMP );
@@ -35,6 +36,7 @@ public class WhileStatement extends LoopStatement{
 			js.setJump(endPos);
 		for( JumpStatement js : continues )
 			js.setJump(pos);
+		c.popLoop();
 		
 	}
 

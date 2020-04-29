@@ -1,7 +1,5 @@
 package net.geertvos.gvm.parser;
 
-import java.util.Stack;
-
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
@@ -14,9 +12,11 @@ import org.parboiled.support.Var;
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
+import net.geertvos.gvm.ast.BreakStatement;
 import net.geertvos.gvm.ast.ConditionalExpression;
 import net.geertvos.gvm.ast.ConstantExpression;
 import net.geertvos.gvm.ast.ConstructorExpression;
+import net.geertvos.gvm.ast.ContinueStatement;
 import net.geertvos.gvm.ast.EqualityExpression;
 import net.geertvos.gvm.ast.Expression;
 import net.geertvos.gvm.ast.ExpressionStatement;
@@ -26,8 +26,6 @@ import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
 import net.geertvos.gvm.ast.IfStatement;
 import net.geertvos.gvm.ast.ImplicitConstructorExpression;
-import net.geertvos.gvm.ast.JumpStatement;
-import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.NativeFunctionCallExpression;
 import net.geertvos.gvm.ast.NotExpression;
@@ -49,9 +47,6 @@ import net.geertvos.gvm.core.Value;
 @BuildParseTree
 class Parser extends BaseParser<Object> {
 
-	private Stack<JumpStatement> breakStack = new Stack<>();
-	private Stack<JumpStatement> continueStack = new Stack<>();
-	
 	Rule Program() {
 		return Sequence(push(new Program()), Statements());
 	}
@@ -64,19 +59,19 @@ class Parser extends BaseParser<Object> {
 
 	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(),IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
-		return Sequence(LCURLY, push(new ScopeStatement()), Statements(), RCURLY);
+		return Sequence(LCURLY, push(new ScopeStatement()), Optional(Statements()), RCURLY);
 	}
 	
 	Rule ForStatement() {
-		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), pushLoop(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
+		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), push(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
 	}
 
 	Rule WhileStatement() {
-		return Sequence(WHILE,LBRACE,Expression(), RBRACE, Statement(), pushLoop(new WhileStatement((Statement)pop(), (Expression)pop())));
+		return Sequence(WHILE,LBRACE,Expression(), RBRACE, Statement(), push(new WhileStatement((Statement)pop(), (Expression)pop())));
 	}
 
 	Rule IfStatement() {
@@ -100,11 +95,11 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ContinueStatement() {
-		return Sequence(CONTINUE, pushContinue(new JumpStatement()));
+		return Sequence(CONTINUE, push(new ContinueStatement()));
 	}
 
 	Rule BreakStatement() {
-		return Sequence(BREAK, pushBreak(new JumpStatement()));
+		return Sequence(BREAK, push(new BreakStatement()));
 	}
 
 	
@@ -364,27 +359,6 @@ class Parser extends BaseParser<Object> {
 				Sequence("//", ZeroOrMore(TestNot(AnyOf("\r\n")), ANY), FirstOf("\r\n", '\r', '\n', EOI))));
 	}
 	
-	public boolean pushLoop(LoopStatement v) {
-		for(JumpStatement jump : breakStack) {
-			v.addBreak(jump);
-		}
-		for(JumpStatement jump : continueStack) {
-			v.addContinue(jump);
-		}
-		this.push(v);
-		return true;
-	}
-	
-	public boolean pushBreak(JumpStatement v) {
-		breakStack.push(v);
-		this.push(v);
-		return true;
-	}
-	
-	public boolean pushContinue(JumpStatement v) {
-		continueStack.push(v);
-		this.push(v);
-		return true;
-	}
+
 
 }

@@ -4,10 +4,10 @@ import net.geertvos.gvm.compiler.GCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
-public class JumpStatement extends Statement {
+public abstract class JumpStatement extends Statement {
 
-	private int jumpPos;
-	private RandomAccessByteStream code;
+	protected int jumpPos;
+	protected RandomAccessByteStream code;
 	
 	public void setJump( int jump )
 	{
