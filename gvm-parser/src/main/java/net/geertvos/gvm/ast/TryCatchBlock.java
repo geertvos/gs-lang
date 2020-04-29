@@ -9,7 +9,7 @@ public class TryCatchBlock extends Statement {
 	private final Statement catchBlock;
 	private final String variableName;
 	
-	public TryCatchBlock( Statement tryBlock , String variableName , Statement catchBlock )
+	public TryCatchBlock( Statement catchBlock , String variableName , Statement tryBlock )
 	{
 		this.tryBlock = tryBlock;
 		this.variableName = variableName;

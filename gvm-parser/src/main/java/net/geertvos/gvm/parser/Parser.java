@@ -41,6 +41,7 @@ import net.geertvos.gvm.ast.Scope;
 import net.geertvos.gvm.ast.ScopeStatement;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.ast.ThisExpression;
+import net.geertvos.gvm.ast.TryCatchBlock;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
 import net.geertvos.gvm.core.Value;
@@ -63,7 +64,7 @@ class Parser extends BaseParser<Object> {
 
 	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
@@ -82,6 +83,10 @@ class Parser extends BaseParser<Object> {
 		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), push(new IfStatement((Statement)pop(), (Expression)pop())));
 	}
 
+	Rule TryCatchStatement() {
+		return Sequence(TRY,Statement(), CATCH, LBRACE, Identifier(), push(match()), RBRACE, Statement(),push(new TryCatchBlock((Statement)pop(), (String)pop(), (Statement)pop())));
+	}
+	
 	Rule ReturnValueStatement() {
 		return Sequence(RETURN, Expression(), push(new ReturnStatement((Expression)pop())));
 	}
@@ -221,7 +226,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule NativeFunctionCall() {
-		return Sequence("native", push(new NativeFunctionCallExpression()), LBRACE, FunctionArguments(), RBRACE);
+		return Sequence(NATIVE, push(new NativeFunctionCallExpression()), LBRACE, FunctionArguments(), RBRACE);
 	}
 
 	Rule FunctionCall() {
@@ -260,8 +265,8 @@ class Parser extends BaseParser<Object> {
 
 	Rule Boolean() {
 		return FirstOf(
-				Sequence(Terminal("true"), push(new ConstantExpression(1, Value.TYPE.BOOLEAN))),
-				Sequence(Terminal("false"), push(new ConstantExpression(0, Value.TYPE.BOOLEAN)))
+				Sequence(TRUE, push(new ConstantExpression(1, Value.TYPE.BOOLEAN))),
+				Sequence(FALSE, push(new ConstantExpression(0, Value.TYPE.BOOLEAN)))
 				);
 	}
 	
@@ -277,7 +282,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION,EXCLAMATION,NEW,NATIVE,THIS, RETURN, BREAK,IF,WHILE,FOR,CONTINUE);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH);
 	}
 
 	
@@ -324,6 +329,10 @@ class Parser extends BaseParser<Object> {
 	final Rule NATIVE = Terminal("native"); 
 	final Rule ANDAND = Terminal("&&"); 
 	final Rule OROR = Terminal("||"); 
+	final Rule TRUE = Terminal("true");
+	final Rule FALSE = Terminal("false");
+	final Rule TRY = Terminal("try");
+	final Rule CATCH = Terminal("catch");
 
 	@SuppressNode
 	@DontLabel

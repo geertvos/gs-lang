@@ -92,3 +92,12 @@ while(a<100) {
 	a++;
 	print("a: "+a);
 }
+
+try {
+	a = true + 5;
+	print("Not good");
+} catch(a) {
+	print("Exception caught: "+a);
+};
+
+print("Finished.");
