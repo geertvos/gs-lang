@@ -66,6 +66,17 @@ while(a<100) {
 }
 ```
 
+# Exception handling
+The language and underlying VM have support for exception handling. For now there is no language construct yet to throw an exception, but the VM can in case errors happen during execution. 
+```
+try {
+	a = true + 5;
+	print("Not good");
+} catch(a) {
+	print("Exception caught: "+a);
+};
+```
+
 # Native code support. 
 This compiler compiles the GScript code in to an a bytecode format that can be executed by the GVM. (See other project). Both have support for 'native' code by binding a function to a Java method.
 
