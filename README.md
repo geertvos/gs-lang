@@ -1,5 +1,5 @@
 # gvm-parser
-Parser and compiler to translate GScript in to the GVM bytecode language.
+Parser and compiler to translate GScript in to the GVM bytecode language. It depends on the gs-code module that implements the bytecode and vm. See https://github.com/geertvos/gs-core
 
 # Language
 The GScript language is a basic functional scripting language loosely based on Javascript. It is both object oriented and functional where both Objects and Functions are first class citizens. 
