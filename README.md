@@ -70,11 +70,12 @@ while(a<100) {
 ```
 
 # Exception handling
-The language and underlying VM have support for exception handling. For now there is no language construct yet to throw an exception, but the VM can in case errors happen during execution. 
+The language and underlying VM have support for exception handling. Any type can be thrown as an Exception. The VM internally will throw String objects with a message.
 ```
 try {
 	a = true + 5;
 	print("Not good");
+	throw "Should have been an exception already.";
 } catch(a) {
 	print("Exception caught: "+a);
 };
