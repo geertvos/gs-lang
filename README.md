@@ -1,6 +1,9 @@
 # gs-lang
 Parser and compiler to translate GScript in to the GVM bytecode language. It depends on the gs-code module that implements the bytecode and vm. See https://github.com/geertvos/gs-core
 
+# Design goals
+The idea behind the scripting language and the vm is that it easy to understand and modify, targeted for educational purposes. 
+
 # Language
 The GScript language is a basic functional scripting language loosely based on Javascript. It is both object oriented and functional where both Objects and Functions are first class citizens. 
 
