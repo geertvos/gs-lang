@@ -2,6 +2,7 @@
 */
 
 
+
 print = (text) -> {
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
 	return; //TODO: add auto return if missing.
@@ -101,4 +102,6 @@ try {
 
 modulus = 5 % 1;
 print("Modulus: "+modulus);
+name = "GEert";
+print(name.lowercase);
 print("Finished.");

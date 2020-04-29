@@ -64,7 +64,7 @@ class Parser extends BaseParser<Object> {
 
 	
 	Rule Statement() {
-		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
+		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(),IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(), ScopeStatement());
 	}
 	
 	Rule ScopeStatement() {
@@ -81,6 +81,10 @@ class Parser extends BaseParser<Object> {
 
 	Rule IfStatement() {
 		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), push(new IfStatement((Statement)pop(), (Expression)pop())));
+	}
+
+	Rule IfElseStatement() {
+		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), ELSE, Statement(), push(new IfStatement((Statement)pop(),(Statement)pop(),(Expression)pop())));
 	}
 
 	Rule TryCatchStatement() {
@@ -205,7 +209,7 @@ class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), Undef(), Reference());
     }
     
 	Rule Assignment() {
@@ -270,6 +274,10 @@ class Parser extends BaseParser<Object> {
 				);
 	}
 	
+	Rule Undef() {
+		return Sequence(UNDEF, push(new ConstantExpression(0, Value.TYPE.UNDEFINED)));
+	}
+	
 	@MemoMismatches
 	Rule String() {
 		//TODO: Fix and support UTF-8 strings 
@@ -282,7 +290,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE);
 	}
 
 	
@@ -323,6 +331,7 @@ class Parser extends BaseParser<Object> {
 	final Rule WHILE = Terminal("while");
 	final Rule DO = Terminal("do");
 	final Rule IF = Terminal("if");
+	final Rule ELSE = Terminal("else");
 	final Rule BREAK = Terminal("break");
 	final Rule CONTINUE = Terminal("continue");
 	final Rule THIS = Terminal("this"); 
@@ -333,6 +342,7 @@ class Parser extends BaseParser<Object> {
 	final Rule FALSE = Terminal("false");
 	final Rule TRY = Terminal("try");
 	final Rule CATCH = Terminal("catch");
+	final Rule UNDEF = Terminal("undef");
 
 	@SuppressNode
 	@DontLabel

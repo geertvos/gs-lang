@@ -21,6 +21,7 @@ import net.geertvos.gvm.ast.ExpressionStatement;
 import net.geertvos.gvm.ast.ForStatement;
 import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
+import net.geertvos.gvm.ast.IfStatement;
 import net.geertvos.gvm.ast.ImplicitConstructorExpression;
 import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.NativeFunctionCallExpression;
@@ -386,6 +387,14 @@ public class ParserTest {
 		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
 		assertEquals(1, implicitConstructor.getStatements());
+	}
+
+	@Test()
+	public void testIf() {
+		String assignment = "if(a==b) { print(); } else { return; };";
+		Program program = (Program) parse(assignment);
+		IfStatement statement = (IfStatement) program.getStatement(0);
+		//TODO: implement test
 	}
 
 	@Test()

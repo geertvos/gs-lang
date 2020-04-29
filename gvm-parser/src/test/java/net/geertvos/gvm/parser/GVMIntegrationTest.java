@@ -47,6 +47,14 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+	@Test()
+	public void testHashSet() throws IOException {
+		URL url = Resources.getResource("hashset-test.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
+	
 	private void compileAndRun(String source) {
 		Program program = (Program) parse(source);
 		GCompiler compiler = new GCompiler();

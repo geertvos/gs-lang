@@ -15,6 +15,14 @@ public class IfStatement extends Statement implements Scope {
 		this.truestatement = truestatement;
 	}
 	
+	public IfStatement( Statement falsestatement,Statement truestatement, Expression condition)
+	{
+		this.condition = condition;
+		this.truestatement = truestatement;
+		this.falsestatement = falsestatement;
+	}
+	
+	
 	@Override
 	public void compile(GCompiler c) {
 		condition.compile(c);
