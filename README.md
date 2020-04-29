@@ -10,7 +10,7 @@ Currently most of the basic language features are working. However, programming 
 # language
 The GScript language is a basic functional scripting language loosely based on Javascript. It is both object oriented and functional where both Objects and Functions are first class citizens. 
 
-# Types
+# types
 At the core of GScript are 6 types:
 
  - Boolean
@@ -34,7 +34,7 @@ Strings are UTF-8 encoded and can be defined by using the following notation:
 ```
 For objects and functions, see the sections below. Undefined cannot be defined. It is the opposite.
 
-# Functions
+# functions
 The following example shows how to create a Constructor that creates person objects. 
 ```
 person = (name) -> {
@@ -44,7 +44,7 @@ person = (name) -> {
 };
 Person john = new Person("John");
 ```
-# Anonymous objects
+# anonymous objects
 ```
 create = () -> {
 	return new { 
@@ -54,7 +54,7 @@ create = () -> {
 
 ```
 
-# Control flow
+# control flow
 
 The language has support for the usual control flow statements like the if, while and for loop. Both while and for support break and continue and work as expected.
 ```
@@ -72,7 +72,7 @@ while(a<100) {
 }
 ```
 
-# Exception handling
+# exception handling
 The language and underlying VM have support for exception handling. Any type can be thrown as an Exception. The VM internally will throw String objects with a message.
 ```
 try {
@@ -84,7 +84,7 @@ try {
 };
 ```
 
-# Native code support. 
+# native code support. 
 This compiler compiles the GScript code in to an a bytecode format that can be executed by the GVM. (See other project). Both have support for 'native' code by binding a function to a Java method.
 
 ```
