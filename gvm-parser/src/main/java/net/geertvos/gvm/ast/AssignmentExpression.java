@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class AssignmentExpression extends Expression {
@@ -22,7 +22,7 @@ public class AssignmentExpression extends Expression {
 		this.operator = operator.trim();
 	}
 	
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if(operator.equalsIgnoreCase("=")) {
 			value.compile(c);
 			variable.compile(c);

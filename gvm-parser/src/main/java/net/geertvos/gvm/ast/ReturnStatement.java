@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ReturnStatement extends Statement {
@@ -31,7 +31,7 @@ public class ReturnStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if( returnValues == null )
 			c.code.add(GVM.LDC_U);
 		else {

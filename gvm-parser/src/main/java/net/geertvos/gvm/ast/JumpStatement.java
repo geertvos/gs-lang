@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
@@ -18,7 +18,7 @@ public abstract class JumpStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		c.code.write(GVM.JMP);
 		jumpPos = c.code.size();
 		c.code.writeInt(-1);

@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ImplicitConstructorExpression extends Expression implements Scope {
@@ -27,7 +27,7 @@ public class ImplicitConstructorExpression extends Expression implements Scope {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		ConstantExpression constant = new ConstantExpression();
 		constant.compile(c);  //Create new scope
 

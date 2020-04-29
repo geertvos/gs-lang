@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 
 public class TwoArgumentExpression extends Expression {
 
@@ -15,7 +15,7 @@ public class TwoArgumentExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		lhs.compile(c);
 		rhs.compile(c);
 	}

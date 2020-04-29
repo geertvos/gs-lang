@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class TryCatchBlock extends Statement {
@@ -17,7 +17,7 @@ public class TryCatchBlock extends Statement {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		int startIndex = c.code.getPointerPosition();
 		tryBlock.compile(c);
 		c.code.add(GVM.JMP);

@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ThisExpression extends Expression {
@@ -15,7 +15,7 @@ public class ThisExpression extends Expression {
 	}
 
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		c.code.add(GVM.LDS);
 		c.code.writeInt(0);
 		if( field != null )

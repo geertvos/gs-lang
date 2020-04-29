@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class FunctionCallExpression extends Expression implements FieldReferenceExpression, Parameterizable {
@@ -71,7 +71,7 @@ public class FunctionCallExpression extends Expression implements FieldReference
 	}
 
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if( field== null ) //Add a pointer to this
 		{
 			c.code.add(GVM.LDS);

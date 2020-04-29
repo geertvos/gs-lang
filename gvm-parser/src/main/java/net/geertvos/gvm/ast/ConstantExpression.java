@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.core.Value.TYPE;
@@ -34,7 +34,7 @@ public class ConstantExpression extends Expression {
 	}	
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if (type == Value.TYPE.BOOLEAN)
 		{
 			c.code.add( GVM.LDC_B);
@@ -53,7 +53,7 @@ public class ConstantExpression extends Expression {
 		else if (type == Value.TYPE.STRING)
 		{
 			c.code.add( GVM.LDC_S);
-			c.code.writeInt( c.registerString(string) );
+			c.code.writeInt( c.getProgram().addString(string) );
 			return;
 		}
 		else if (type == Value.TYPE.UNDEFINED)

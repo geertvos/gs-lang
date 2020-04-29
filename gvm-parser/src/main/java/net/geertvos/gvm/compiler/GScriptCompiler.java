@@ -18,12 +18,11 @@ import net.geertvos.gvm.streams.RandomAccessByteStream;
  * 
  * @author geertvos
  */
-public class GCompiler {
+public class GScriptCompiler {
 
-	private List<String> stringConstants = new ArrayList<>();
-	private List<String> varNamesConstants = new ArrayList<>();
-	private List<NativeMethodWrapper> natives = new ArrayList<>();
-	private Stack<LoopStatement> loopStack = new Stack<>();
+	private final List<String> varNamesConstants = new ArrayList<>();
+	private final List<NativeMethodWrapper> natives = new ArrayList<>();
+	private final Stack<LoopStatement> loopStack = new Stack<>();
 	
 	public RandomAccessByteStream code;
 	private GVMFunction function;
@@ -45,18 +44,9 @@ public class GCompiler {
 		
 		//Prepare bytecode
 		function.setBytecode(code);
-
-		program.setConstants( stringConstants );
 		program.setNatives(natives);
 		return program;
 		
-	}
-	
-	public int registerString(String stringConstant) {
-		if(!stringConstants.contains(stringConstant)) {
-			stringConstants.add(stringConstant);
-		}
-		return stringConstants.indexOf(stringConstant);
 	}
 	
 	public int registerVariable(String svariableName) {

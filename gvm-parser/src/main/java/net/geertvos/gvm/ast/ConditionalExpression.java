@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 
 public class ConditionalExpression extends Expression {
 
@@ -38,7 +38,7 @@ public class ConditionalExpression extends Expression {
 
 
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not implemented yet");
 	}

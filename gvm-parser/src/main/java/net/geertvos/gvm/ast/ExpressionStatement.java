@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ExpressionStatement extends Statement {
@@ -13,7 +13,7 @@ public class ExpressionStatement extends Statement {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		expression.compile(c);
 		c.code.add( GVM.POP );
 	}

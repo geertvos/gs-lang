@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 
 public class ConstructorExpression extends Expression {
 
@@ -17,7 +17,7 @@ public class ConstructorExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		function.compile(c);
 	}
 

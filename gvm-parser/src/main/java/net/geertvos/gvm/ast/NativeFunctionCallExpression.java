@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.NativeMethodAutoWrapper;
 import net.geertvos.gvm.program.NativeMethodWrapper;
@@ -17,7 +17,7 @@ public class NativeFunctionCallExpression extends Expression implements Paramete
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		NativeMethodWrapper method = new NativeMethodAutoWrapper(parameters.size());
 		identifier = c.getNativeMethodIndex(method);
 		for( Expression e : parameters ) {

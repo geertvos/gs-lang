@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 
 public class ScopeStatement extends Statement implements Scope {
 
@@ -26,7 +26,7 @@ public class ScopeStatement extends Statement implements Scope {
 	}
 
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		for(Statement s : statements) {
 			s.compile(c);
 		}

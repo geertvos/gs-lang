@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
@@ -45,7 +45,7 @@ public class FunctionDefExpression extends Expression implements Scope {
 	}
 
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		RandomAccessByteStream code = c.code;
 		GVMFunction prev = c.getFunction();
 		

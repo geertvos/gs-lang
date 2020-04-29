@@ -18,7 +18,7 @@ import org.parboiled.support.ParsingResult;
 import com.google.common.io.Resources;
 
 import net.geertvos.gvm.ast.Program;
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMProgram;
 
@@ -57,7 +57,7 @@ public class GVMIntegrationTest {
 	
 	private void compileAndRun(String source) {
 		Program program = (Program) parse(source);
-		GCompiler compiler = new GCompiler();
+		GScriptCompiler compiler = new GScriptCompiler();
 		GVMProgram p = compiler.compile(program.getAll());
 		GVM vm = new GVM(p);
 		vm.run();

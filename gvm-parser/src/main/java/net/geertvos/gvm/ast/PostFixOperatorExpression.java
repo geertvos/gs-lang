@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.Value;
 
@@ -15,7 +15,7 @@ public class PostFixOperatorExpression extends Expression {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if(operator.equalsIgnoreCase("++")) {
 			//Hack to make sure we 'return' the previous value of the postfix
 			AdditiveExpression add0 = new AdditiveExpression(new ConstantExpression(0,  Value.TYPE.NUMBER),"+", argument);

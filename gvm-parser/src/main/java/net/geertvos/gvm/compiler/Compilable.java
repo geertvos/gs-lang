@@ -2,5 +2,5 @@ package net.geertvos.gvm.compiler;
 
 public interface Compilable {
 
-	abstract void compile( GCompiler c );
+	abstract void compile( GScriptCompiler c );
 }

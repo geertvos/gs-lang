@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class AdditiveExpression extends TwoArgumentExpression {
@@ -18,7 +18,7 @@ public class AdditiveExpression extends TwoArgumentExpression {
 	}
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		super.compile(c);
 		if(operator.equalsIgnoreCase("+")) {
 			c.code.add(GVM.ADD);

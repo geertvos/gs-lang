@@ -1,6 +1,6 @@
 package net.geertvos.gvm.ast;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class VariableExpression extends Expression implements FieldReferenceExpression {
@@ -36,7 +36,7 @@ public class VariableExpression extends Expression implements FieldReferenceExpr
 		return this;
 	}
 	
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		if( c.getFunction().getParameters().contains(name) && field==null )
 		{
 			//Variable points to a parameter

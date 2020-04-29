@@ -3,7 +3,7 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.geertvos.gvm.compiler.GCompiler;
+import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ForStatement extends LoopStatement implements Scope {
@@ -22,7 +22,7 @@ public class ForStatement extends LoopStatement implements Scope {
 
 	
 	@Override
-	public void compile(GCompiler c) {
+	public void compile(GScriptCompiler c) {
 		initstatement.compile(c);
 		int conditionpos = c.code.size();
 		condition.compile(c);
