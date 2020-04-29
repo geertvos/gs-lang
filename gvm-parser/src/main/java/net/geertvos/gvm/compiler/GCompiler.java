@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.geertvos.gvm.ast.Statement;
-import nl.gvm.core.GVM;
-import nl.gvm.program.GVMFunction;
-import nl.gvm.program.GVMProgram;
-import nl.gvm.program.NativeMethodWrapper;
-import nl.gvm.streams.RandomAccessByteStream;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.program.GVMFunction;
+import net.geertvos.gvm.program.GVMProgram;
+import net.geertvos.gvm.program.NativeMethodWrapper;
+import net.geertvos.gvm.streams.RandomAccessByteStream;
 
 /**
  * The GCompiler compiles a list of Statements into a bytecode program

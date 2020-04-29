@@ -16,9 +16,9 @@ print("Starting integration test.");
 
 person = (name) -> {
 	this.name = name;
-	getName = () -> { return this.name; };
-	return this;
-};
+	getName = () -> { return this.name }
+	return this
+}
 
 print("Object and function scope test");
 
@@ -76,10 +76,10 @@ while(counter>0) {
 	counter--;
 	if(counter==50) {
 		break;
-	};
+	}
 	if(counter<75) {
 		continue;
-	};
+	}
 	print("Above 75");
 }
 

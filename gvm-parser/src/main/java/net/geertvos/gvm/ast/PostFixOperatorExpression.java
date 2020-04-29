@@ -1,8 +1,8 @@
 package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.core.Value;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.core.Value;
 
 public class PostFixOperatorExpression extends Expression {
 

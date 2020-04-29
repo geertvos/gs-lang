@@ -29,7 +29,7 @@ import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.VariableExpression;
-import nl.gvm.core.Value;
+import net.geertvos.gvm.core.Value;
 
 public class ParserTest {
 

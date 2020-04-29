@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.program.NativeMethodAutoWrapper;
-import nl.gvm.program.NativeMethodWrapper;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.program.NativeMethodAutoWrapper;
+import net.geertvos.gvm.program.NativeMethodWrapper;
 
 public class NativeFunctionCallExpression extends Expression implements Parameterizable {
 

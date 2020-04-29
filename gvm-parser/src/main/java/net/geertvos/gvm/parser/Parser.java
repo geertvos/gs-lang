@@ -43,7 +43,7 @@ import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.ast.ThisExpression;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
-import nl.gvm.core.Value;
+import net.geertvos.gvm.core.Value;
 
 @BuildParseTree
 class Parser extends BaseParser<Object> {
@@ -367,6 +367,5 @@ class Parser extends BaseParser<Object> {
 		this.push(v);
 		return true;
 	}
-
 
 }

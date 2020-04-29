@@ -1,8 +1,8 @@
 package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.streams.RandomAccessByteStream;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.streams.RandomAccessByteStream;
 
 public class JumpStatement extends Statement {
 

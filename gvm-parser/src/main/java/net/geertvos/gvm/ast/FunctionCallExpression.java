@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
+import net.geertvos.gvm.core.GVM;
 
 public class FunctionCallExpression extends Expression implements FieldReferenceExpression, Parameterizable {
 

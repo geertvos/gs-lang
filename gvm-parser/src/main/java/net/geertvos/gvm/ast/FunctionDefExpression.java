@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.program.GVMFunction;
-import nl.gvm.streams.RandomAccessByteStream;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.program.GVMFunction;
+import net.geertvos.gvm.streams.RandomAccessByteStream;
 
 public class FunctionDefExpression extends Expression implements Scope {
 

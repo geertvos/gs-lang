@@ -19,8 +19,8 @@ import com.google.common.io.Resources;
 
 import net.geertvos.gvm.ast.Program;
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.program.GVMProgram;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.program.GVMProgram;
 
 public class GVMIntegrationTest {
 

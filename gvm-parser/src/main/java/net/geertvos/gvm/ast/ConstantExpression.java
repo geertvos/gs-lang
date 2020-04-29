@@ -1,9 +1,9 @@
 package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GCompiler;
-import nl.gvm.core.GVM;
-import nl.gvm.core.Value;
-import nl.gvm.core.Value.TYPE;
+import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.core.Value.TYPE;
 
 public class ConstantExpression extends Expression {
 
