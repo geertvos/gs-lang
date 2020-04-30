@@ -98,15 +98,15 @@ try {
 	a = true + 5;
 	print("Not good");
 } catch(a) {
-	print("Exception caught: "+a);
+	print("Exception caught: "+a.message+" at ("+a.line+")");
 };
 try {
 	throw "Excellent!";
 } catch(a) {
-	print("Exception caught: "+a);
+	print("Exception caught again: "+a.message+" at ("+a.line+")");
 };
 
-modulus = 5 % 1;
+modulus = 5 % 2;
 print("Modulus: "+modulus);
 name = "GEert";
 print(name.lowercase);

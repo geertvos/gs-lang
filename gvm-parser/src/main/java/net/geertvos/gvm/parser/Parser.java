@@ -7,6 +7,7 @@ import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.MemoMismatches;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
+import org.parboiled.support.Position;
 import org.parboiled.support.Var;
 
 import net.geertvos.gvm.ast.AdditiveExpression;
@@ -64,52 +65,52 @@ class Parser extends BaseParser<Object> {
 	}
 	
 	Rule ScopeStatement() {
-		return Sequence(LCURLY, push(new ScopeStatement()), Optional(Statements()), RCURLY);
+		return Sequence(LCURLY, push(new ScopeStatement(getCurrentPos())), Optional(Statements()), RCURLY);
 	}
 	
 	Rule ForStatement() {
-		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), push(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop())));
+		return Sequence(FOR,LBRACE,Expression(), SEMI, Expression() ,SEMI,Expression(), RBRACE, Statement(), push(new ForStatement((Statement)pop(), (Expression)pop(), (Expression)pop(), (Expression)pop(), getCurrentPos())));
 	}
 
 	Rule WhileStatement() {
-		return Sequence(WHILE,LBRACE,Expression(), RBRACE, Statement(), push(new WhileStatement((Statement)pop(), (Expression)pop())));
+		return Sequence(WHILE,LBRACE,Expression(), RBRACE, Statement(), push(new WhileStatement((Statement)pop(), (Expression)pop(), getCurrentPos())));
 	}
 
 	Rule IfStatement() {
-		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), push(new IfStatement((Statement)pop(), (Expression)pop())));
+		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), push(new IfStatement((Statement)pop(), (Expression)pop(), getCurrentPos())));
 	}
 
 	Rule IfElseStatement() {
-		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), ELSE, Statement(), push(new IfStatement((Statement)pop(),(Statement)pop(),(Expression)pop())));
+		return Sequence(IF,LBRACE,Expression(), RBRACE, Statement(), ELSE, Statement(), push(new IfStatement((Statement)pop(),(Statement)pop(),(Expression)pop(), getCurrentPos())));
 	}
 
 	Rule TryCatchStatement() {
-		return Sequence(TRY,Statement(), CATCH, LBRACE, Identifier(), push(match()), RBRACE, Statement(),push(new TryCatchBlock((Statement)pop(), (String)pop(), (Statement)pop())));
+		return Sequence(TRY,Statement(), CATCH, LBRACE, Identifier(), push(match()), RBRACE, Statement(),push(new TryCatchBlock((Statement)pop(), (String)pop(), (Statement)pop(), getCurrentPos())));
 	}
 	
 	Rule ReturnValueStatement() {
-		return Sequence(RETURN, Expression(), push(new ReturnStatement((Expression)pop())));
+		return Sequence(RETURN, Expression(), push(new ReturnStatement((Expression)pop(), getCurrentPos())));
 	}
 	
 	Rule ReturnStatement() {
-		return Sequence(RETURN, push(new ReturnStatement()));
+		return Sequence(RETURN, push(new ReturnStatement(getCurrentPos())));
 	}
 
 	Rule ThrowStatement() {
-		return Sequence(THROW, Expression(), push(new ThrowStatement((Expression)pop())));
+		return Sequence(THROW, Expression(), push(new ThrowStatement((Expression)pop(), getCurrentPos())));
 	}
 
 	Rule ContinueStatement() {
-		return Sequence(CONTINUE, push(new ContinueStatement()));
+		return Sequence(CONTINUE, push(new ContinueStatement(getCurrentPos())));
 	}
 
 	Rule BreakStatement() {
-		return Sequence(BREAK, push(new BreakStatement()));
+		return Sequence(BREAK, push(new BreakStatement(getCurrentPos())));
 	}
 
 	
 	Rule ExpressionStatement() {
-		return Sequence(Expression(), push(new ExpressionStatement((Expression) pop())));
+		return Sequence(Expression(), push(new ExpressionStatement((Expression) pop(), getCurrentPos())));
 	}
 
 	
@@ -218,7 +219,7 @@ class Parser extends BaseParser<Object> {
 	}
 	
 	Rule ObjectDefinition() {
-		return Sequence(NEW, LCURLY, push(new ImplicitConstructorExpression()), ZeroOrMore(Statements()), RCURLY);
+		return Sequence(NEW, LCURLY, push(new ImplicitConstructorExpression(getCurrentPos())), ZeroOrMore(Statements()), RCURLY);
 	}
 
 	Rule ConstructorCall() {
@@ -365,6 +366,9 @@ class Parser extends BaseParser<Object> {
 				Sequence("//", ZeroOrMore(TestNot(AnyOf("\r\n")), ANY), FirstOf("\r\n", '\r', '\n', EOI))));
 	}
 	
-
+	Position getCurrentPos() {
+		return getContext().getPosition();
+	}
+	
 
 }

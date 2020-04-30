@@ -46,9 +46,9 @@ public class GScriptCompiler {
 		function.setBytecode(code);
 		program.setNatives(natives);
 		return program;
-		
 	}
 	
+	//TODO: Move to symbol table inside program
 	public int registerVariable(String svariableName) {
 		if(!varNamesConstants.contains(svariableName)) {
 			varNamesConstants.add(svariableName);
@@ -78,6 +78,10 @@ public class GScriptCompiler {
 	
 	public LoopStatement peekLoop() {
 		return loopStack.peek();
+	}
+	
+	public boolean isDebugModeEnabled() {
+		return true;
 	}
 	
 	public boolean hasNativeMethod(NativeMethodWrapper method) {

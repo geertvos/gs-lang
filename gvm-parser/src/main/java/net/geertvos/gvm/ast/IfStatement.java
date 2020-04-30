@@ -1,5 +1,7 @@
 package net.geertvos.gvm.ast;
 
+import org.parboiled.support.Position;
+
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
@@ -9,15 +11,14 @@ public class IfStatement extends Statement {
 	private final Statement thenClause;
 	private final Statement elseClause;
 	
-	public IfStatement( Statement thenClause, Expression condition)
+	public IfStatement( Statement thenClause, Expression condition, Position pos)
 	{
-		this.condition = condition;
-		this.thenClause = thenClause;
-		this.elseClause = null;
+		this(null, thenClause, condition, pos);
 	}
 	
-	public IfStatement( Statement elseClause, Statement thenClause, Expression condition)
+	public IfStatement( Statement elseClause, Statement thenClause, Expression condition, Position pos)
 	{
+		super(pos);
 		this.condition = condition;
 		this.thenClause = thenClause;
 		this.elseClause = elseClause;
@@ -34,6 +35,7 @@ public class IfStatement extends Statement {
 	
 	@Override
 	public void compile(GScriptCompiler c) {
+		super.compile(c);
 		condition.compile(c);
 		c.code.add( GVM.NOT );
 		c.code.add( GVM.CJMP );
