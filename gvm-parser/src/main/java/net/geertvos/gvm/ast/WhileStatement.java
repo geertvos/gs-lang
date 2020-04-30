@@ -1,5 +1,7 @@
 package net.geertvos.gvm.ast;
 
+import org.parboiled.support.Position;
+
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
@@ -8,14 +10,16 @@ public class WhileStatement extends LoopStatement{
 	private Expression condition;
 	private Statement statement;
 	
-	public WhileStatement( Statement loop, Expression condition )
+	public WhileStatement( Statement loop, Expression condition, Position pos )
 	{
+		super(pos);
 		this.condition = condition;
 		this.statement = loop;
 	}	
 	
 	@Override
 	public void compile(GScriptCompiler c) {
+		super.compile(c);
 		int pos = c.code.size();
 		
 		condition.compile(c);

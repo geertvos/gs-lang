@@ -3,6 +3,8 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.parboiled.support.Position;
+
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
@@ -13,7 +15,8 @@ public class ForStatement extends LoopStatement implements Scope {
 	private final Expression updatestatement;
 	private List<Statement> loop = new LinkedList<Statement>();
 
-	public ForStatement( Statement statement, Expression update , Expression condition , Expression init ) {
+	public ForStatement( Statement statement, Expression update , Expression condition , Expression init, Position pos ) {
+		super(pos);
 		this.initstatement = init;
 		this.loop.add(statement);
 		this.condition = condition;
@@ -23,6 +26,7 @@ public class ForStatement extends LoopStatement implements Scope {
 	
 	@Override
 	public void compile(GScriptCompiler c) {
+		super.compile(c);
 		initstatement.compile(c);
 		int conditionpos = c.code.size();
 		condition.compile(c);

@@ -3,14 +3,18 @@ package net.geertvos.gvm.ast;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.parboiled.support.Position;
+
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
 public class ImplicitConstructorExpression extends Expression implements Scope {
 
 	private final List<Statement> statements = new LinkedList<Statement>();
-
-	public ImplicitConstructorExpression() {
+	private Position pos;
+	
+	public ImplicitConstructorExpression(Position pos) {
+		this.pos = pos;
 	}
 	
 	public Scope addStatement(Statement statement) {
@@ -32,7 +36,7 @@ public class ImplicitConstructorExpression extends Expression implements Scope {
 		constant.compile(c);  //Create new scope
 
 		List<Statement> functionStatements = new LinkedList<Statement>(statements);
-		functionStatements.add(new ReturnStatement(new ThisExpression()));
+		functionStatements.add(new ReturnStatement(new ThisExpression(), pos));
 		FunctionDefExpression functionDef = new FunctionDefExpression(new LinkedList<String>(), functionStatements);
 		functionDef.compile(c);
 		

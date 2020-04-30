@@ -103,7 +103,7 @@ try {
 try {
 	throw "Excellent!";
 } catch(a) {
-	print("Exception caught: "+a);
+	print("Exception caught again: "+a);
 };
 
 modulus = 5 % 1;
