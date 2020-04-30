@@ -1,4 +1,5 @@
-# gs-lang
+![Java CI with Maven](https://github.com/geertvos/gs-lang/workflows/Java%20CI%20with%20Maven/badge.svg)
+# gs-lang 
 Parser and compiler to translate GScript in to the GVM bytecode language. It depends on the gs-code module that implements the bytecode and vm. See https://github.com/geertvos/gs-core
 
 # design goals
