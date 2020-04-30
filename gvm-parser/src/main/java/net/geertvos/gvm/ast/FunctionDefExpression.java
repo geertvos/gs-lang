@@ -49,15 +49,19 @@ public class FunctionDefExpression extends Expression implements Scope {
 		RandomAccessByteStream code = c.code;
 		GVMFunction prev = c.getFunction();
 		
-		RandomAccessByteStream fcode = new RandomAccessByteStream();
-		GVMFunction function = new GVMFunction( fcode, parameters);
+		RandomAccessByteStream functionCode = new RandomAccessByteStream();
+		GVMFunction function = new GVMFunction( functionCode, parameters);
 		c.setFunction(function);
-		c.code = fcode;
+		c.code = functionCode;
 		
 		int index = c.getProgram().addFunction(function);
 		for( Statement s : statements )
 		{
 			s.compile(c);
+		}
+		if(!(statements.get(statements.size()-1) instanceof ReturnStatement)) {
+			c.code.add(GVM.LDC_U);
+			c.code.add(GVM.RETURN);
 		}
 		c.code = code;
 		c.setFunction(prev);

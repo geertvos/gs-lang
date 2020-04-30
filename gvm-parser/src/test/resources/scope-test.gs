@@ -5,13 +5,11 @@
 
 print = (text) -> {
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
-	return; //TODO: add auto return if missing.
 };
 assertStringEquals = (value, expected) -> {
 	test = value==expected;
 	print(" >> Testing value: '"+value+"' against: '" +expected+"', should be '"+test+"'");
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "testEqualsString", value ,expected);
-	return; //TODO: add auto return if missing.
 };
 print("Starting integration test.");
 
