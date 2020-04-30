@@ -89,5 +89,19 @@ print("Added: "+set.add("Geert"));
 print("Added: "+set.add("Geert"));
 print("Contains: "+set.contains("Geert"));
 print("Contains: "+set.contains("vos"));
+
+testIt = () -> {
+    i=20;
+	for(i=0;i<10;i++) {
+		print = (text) -> {
+			native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
+			return; //TODO: add auto return if missing.
+		};
+		print(""+i);
+	}
+	return;		
+} 
+testIt();
+testIt();
 print("Done");
 

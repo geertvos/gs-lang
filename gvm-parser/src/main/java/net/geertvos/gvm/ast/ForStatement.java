@@ -8,17 +8,17 @@ import org.parboiled.support.Position;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
-public class ForStatement extends LoopStatement implements Scope {
+public class ForStatement extends LoopStatement  {
 
 	private final Expression condition;
 	private final Expression initstatement;
 	private final Expression updatestatement;
-	private List<Statement> loop = new LinkedList<Statement>();
+	private final Statement loop;
 
 	public ForStatement( Statement statement, Expression update , Expression condition , Expression init, Position pos ) {
 		super(pos);
 		this.initstatement = init;
-		this.loop.add(statement);
+		this.loop = statement;
 		this.condition = condition;
 		this.updatestatement = update;
 	}
@@ -28,17 +28,17 @@ public class ForStatement extends LoopStatement implements Scope {
 	public void compile(GScriptCompiler c) {
 		super.compile(c);
 		initstatement.compile(c);
+		c.code.add(GVM.POP);
 		int conditionpos = c.code.size();
 		condition.compile(c);
 		c.code.add( GVM.NOT );
 		c.code.add( GVM.CJMP );
 		int elsepos = c.code.size();
 		c.code.writeInt( -1 ); 
-		for(Statement s : loop) {
-			s.compile(c); //TODO: check this after changes made
-		}
+		loop.compile(c);
 		int updatepos = c.code.size();
 		updatestatement.compile(c);
+		c.code.add(GVM.POP);
 		c.code.add( GVM.JMP );
 		c.code.writeInt( conditionpos );
 		c.code.set( elsepos, c.code.size());
@@ -51,20 +51,4 @@ public class ForStatement extends LoopStatement implements Scope {
 		
 	}
 
-
-	public Scope addStatement(Statement statement) {
-		loop.add(statement);
-		return this;
-	}
-
-
-	public Statement getStatement(int index) {
-		return loop.get(index);
-	}
-
-
-	public int getStatements() {
-		return loop.size();
-	}	
-	
 }
