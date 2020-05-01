@@ -28,6 +28,7 @@ public class ForStatement extends LoopStatement implements Scope {
 	public void compile(GScriptCompiler c) {
 		super.compile(c);
 		initstatement.compile(c);
+		c.code.add(GVM.POP);
 		int conditionpos = c.code.size();
 		condition.compile(c);
 		c.code.add( GVM.NOT );
@@ -39,6 +40,7 @@ public class ForStatement extends LoopStatement implements Scope {
 		}
 		int updatepos = c.code.size();
 		updatestatement.compile(c);
+		c.code.add(GVM.POP);
 		c.code.add( GVM.JMP );
 		c.code.writeInt( conditionpos );
 		c.code.set( elsepos, c.code.size());
