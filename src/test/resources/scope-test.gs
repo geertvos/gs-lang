@@ -50,7 +50,12 @@ if(true)
 
 beef = new {
 	recipe = "grill";
+	
+	hello = () -> {
+		print("Beef says hello!");
+	}
 };
+beef.hello();
 print("Recipe: "+beef.recipe);
 for(b=0 ; b<10 ; b++ ) {
 	print(""+b);
@@ -109,3 +114,4 @@ print("Modulus: "+modulus);
 name = "GEert";
 print(name.lowercase);
 print("Finished.");
+

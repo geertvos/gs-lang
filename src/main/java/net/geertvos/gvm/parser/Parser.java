@@ -63,7 +63,7 @@ class Parser extends BaseParser<Object> {
 	Rule Statement() {
 		return FirstOf(ReturnValueStatement(),ReturnStatement(), ForStatement(),WhileStatement(), IfElseStatement(), IfStatement(), TryCatchStatement(), ExpressionStatement(), BreakStatement(), ContinueStatement(),ThrowStatement(), ScopeStatement());
 	}
-	
+
 	Rule ScopeStatement() {
 		return Sequence(LCURLY, push(new ScopeStatement(getCurrentPos())), Optional(Statements()), RCURLY);
 	}
@@ -291,7 +291,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW, GLOBAL);
 	}
 
 	
@@ -345,6 +345,7 @@ class Parser extends BaseParser<Object> {
 	final Rule CATCH = Terminal("catch");
 	final Rule UNDEF = Terminal("undef");
 	final Rule THROW = Terminal("throw");
+	final Rule GLOBAL = Terminal("global");
 
 	@SuppressNode
 	@DontLabel
