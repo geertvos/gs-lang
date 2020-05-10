@@ -33,7 +33,7 @@ import net.geertvos.gvm.ast.NotExpression;
 import net.geertvos.gvm.ast.OrExpression;
 import net.geertvos.gvm.ast.Parameterizable;
 import net.geertvos.gvm.ast.PostFixOperatorExpression;
-import net.geertvos.gvm.ast.Program;
+import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.Scope;
@@ -50,9 +50,21 @@ import net.geertvos.gvm.core.Value;
 class Parser extends BaseParser<Object> {
 
 	Rule Program() {
-		return Sequence(push(new Program()), Statements());
+		return Sequence(push(new Module()), Optional(Module()), Statements());
 	}
 
+	Rule Module() {
+		return Sequence(Terminal("module"), Identifier(), push(((Module)pop()).setName(match())), Optional(SEMI), Imports());
+	}
+
+	Rule Imports() {
+		return ZeroOrMore(Import());
+	}
+	
+	Rule Import() {
+		return Sequence(Terminal("import"), Identifier(), push(((Module)pop()).addImport(match())), Optional(SEMI));
+	}
+	
 	Rule Statements() {
 		Var<Scope> scopeVar = new Var<Scope>();
 		return Sequence(scopeVar.set((Scope)pop()),Spacing(), Statement(), push(scopeVar.get().addStatement((Statement)pop())),
@@ -291,7 +303,7 @@ class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW, GLOBAL);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW, GLOBAL, IMPORT, MODULE);
 	}
 
 	
@@ -346,6 +358,8 @@ class Parser extends BaseParser<Object> {
 	final Rule UNDEF = Terminal("undef");
 	final Rule THROW = Terminal("throw");
 	final Rule GLOBAL = Terminal("global");
+	final Rule MODULE = Terminal("module");
+	final Rule IMPORT = Terminal("import");
 
 	@SuppressNode
 	@DontLabel

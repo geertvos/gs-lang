@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +19,7 @@ import org.parboiled.support.ParsingResult;
 
 import com.google.common.io.Resources;
 
-import net.geertvos.gvm.ast.Program;
+import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMProgram;
@@ -27,7 +29,7 @@ public class GVMIntegrationTest {
 	private static boolean flag = false;
 	
 	@Test()
-	public void testNativeFunctionCall() {
+	public void testNativeFunctionCall() throws IOException {
 		String assignment = "native(\"net.geertvos.gvm.parser.GVMIntegrationTest\",\"setBoolean\");";
 		compileAndRun(assignment);
 		assertTrue(flag);
@@ -54,11 +56,27 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+	@Test()
+	public void testImport() throws IOException {
+		URL url = Resources.getResource("ImportTest.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
 	
-	private void compileAndRun(String source) {
-		Program program = (Program) parse(source);
+	private void compileAndRun(String source) throws IOException {
+		List<Module> modules = new LinkedList<>();
+		Module program = (Module) parse(source);
+		for(String module : program.getImports() ) {
+			URL url = Resources.getResource(module+".gs");
+			String moduleSource = Resources.toString(url, StandardCharsets.UTF_8);
+			Module loadedModule = (Module) parse(moduleSource);
+			modules.add(loadedModule);
+		}
+		//Add the main program last
+		modules.add(program);
 		GScriptCompiler compiler = new GScriptCompiler();
-		GVMProgram p = compiler.compile(program.getAll());
+		GVMProgram p = compiler.compileModules(modules);
 		GVM vm = new GVM(p);
 		vm.run();
 	}

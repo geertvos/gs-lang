@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 import net.geertvos.gvm.ast.LoopStatement;
+import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMFunction;
@@ -47,6 +48,29 @@ public class GScriptCompiler {
 		program.setNatives(natives);
 		return program;
 	}
+
+	public GVMProgram compileModules(List<Module> modules)
+	{
+		program = new GVMProgram("demo");
+		code = new RandomAccessByteStream();
+		function = new GVMFunction(code, new ArrayList<String>());
+		program.addFunction(function);
+		
+		code.add(GVM.NEW); //Init main function
+		for(Module m : modules) {
+			for( Compilable s : m.getAll() )
+			{
+				s.compile(this);
+			}
+		}
+		code.add(GVM.HALT); //Make sure the VM stops
+		
+		//Prepare bytecode
+		function.setBytecode(code);
+		program.setNatives(natives);
+		return program;
+	}
+
 	
 	//TODO: Move to symbol table inside program
 	public int registerVariable(String svariableName) {
