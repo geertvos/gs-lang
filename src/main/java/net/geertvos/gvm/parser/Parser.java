@@ -47,9 +47,9 @@ import net.geertvos.gvm.ast.WhileStatement;
 import net.geertvos.gvm.core.Value;
 
 @BuildParseTree
-class Parser extends BaseParser<Object> {
+public class Parser extends BaseParser<Object> {
 
-	Rule Program() {
+	public Rule Program() {
 		return Sequence(Module(), Statements());
 	}
 

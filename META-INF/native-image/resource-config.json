@@ -1,0 +1,8 @@
+{
+  "resources":[
+    {"pattern":"\\Qnet/geertvos/gvm/parser/Parser.class\\E"}, 
+    {"pattern":"\\Qorg/parboiled/BaseActions.class\\E"}, 
+    {"pattern":"\\Qorg/parboiled/BaseParser.class\\E"}
+  ],
+  "bundles":[]
+}

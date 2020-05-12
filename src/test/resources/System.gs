@@ -1,5 +1,6 @@
 module System;
+import Native;
 
 print = (text) -> {
-	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
+	native("net.geertvos.gvm.runtime.Runtime", "print", text);
 };

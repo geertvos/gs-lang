@@ -1,0 +1,315 @@
+[
+{
+  "name":"java.lang.ClassLoader",
+  "methods":[
+    {"name":"defineClass","parameterTypes":["java.lang.String","byte[]","int","int"] }, 
+    {"name":"findLoadedClass","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"java.lang.Integer",
+  "methods":[{"name":"parseInt","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Object[]"
+},
+{
+  "name":"java.lang.String",
+  "methods":[{"name":"trim","parameterTypes":[] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.AdditiveExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","java.lang.String","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.AndExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.AssignmentExpression",
+  "methods":[
+    {"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","java.lang.String","net.geertvos.gvm.ast.Expression"] }, 
+    {"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.BreakStatement",
+  "methods":[{"name":"<init>","parameterTypes":["org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ConditionalExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ConstantExpression",
+  "methods":[
+    {"name":"<init>","parameterTypes":["int","net.geertvos.gvm.core.Value$TYPE"] }, 
+    {"name":"<init>","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.ConstructorExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.FunctionCallExpression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ContinueStatement",
+  "methods":[{"name":"<init>","parameterTypes":["org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.EqualityExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","java.lang.String","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ExpressionStatement",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.FieldReferenceExpression",
+  "methods":[{"name":"setField","parameterTypes":["net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ForStatement",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Statement","net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.FunctionCallExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.FieldReferenceExpression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.FunctionDefExpression",
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"addParameter","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.IfStatement",
+  "methods":[
+    {"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Statement","net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }, 
+    {"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Statement","net.geertvos.gvm.ast.Statement","net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.ImplicitConstructorExpression",
+  "methods":[{"name":"<init>","parameterTypes":["org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.Module",
+  "methods":[
+    {"name":"<init>","parameterTypes":["java.lang.String","org.parboiled.support.Position"] }, 
+    {"name":"addImport","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.MultiplicativeExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","java.lang.String","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.NativeFunctionCallExpression",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.NotExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.OrExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.Parameterizable",
+  "methods":[{"name":"addParameter","parameterTypes":["net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.PostFixOperatorExpression",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.RelationalExpression",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","java.lang.String","net.geertvos.gvm.ast.Expression"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ReturnStatement",
+  "methods":[
+    {"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }, 
+    {"name":"<init>","parameterTypes":["org.parboiled.support.Position"] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.ast.Scope",
+  "methods":[{"name":"addStatement","parameterTypes":["net.geertvos.gvm.ast.Statement"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ScopeStatement",
+  "methods":[{"name":"<init>","parameterTypes":["org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ThisExpression",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.ThrowStatement",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.TryCatchBlock",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Statement","java.lang.String","net.geertvos.gvm.ast.Statement","org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.VariableExpression",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.geertvos.gvm.ast.WhileStatement",
+  "methods":[{"name":"<init>","parameterTypes":["net.geertvos.gvm.ast.Statement","net.geertvos.gvm.ast.Expression","org.parboiled.support.Position"] }]
+},
+{
+  "name":"net.geertvos.gvm.core.Value$TYPE",
+  "fields":[
+    {"name":"BOOLEAN"}, 
+    {"name":"NUMBER"}, 
+    {"name":"UNDEFINED"}
+  ]
+},
+{
+  "name":"net.geertvos.gvm.parser.Parser",
+  "fields":[
+    {"name":"ANDAND"}, 
+    {"name":"ARROW"}, 
+    {"name":"BREAK"}, 
+    {"name":"CATCH"}, 
+    {"name":"COMMA"}, 
+    {"name":"CONTINUE"}, 
+    {"name":"DOT"}, 
+    {"name":"ELSE"}, 
+    {"name":"EQUALS"}, 
+    {"name":"EXCLAMATION"}, 
+    {"name":"FALSE"}, 
+    {"name":"FOR"}, 
+    {"name":"FWDSLASH"}, 
+    {"name":"IF"}, 
+    {"name":"LBRACE"}, 
+    {"name":"LCURLY"}, 
+    {"name":"MINUS"}, 
+    {"name":"MOD"}, 
+    {"name":"NATIVE"}, 
+    {"name":"NEW"}, 
+    {"name":"OROR"}, 
+    {"name":"PLUS"}, 
+    {"name":"QUESTION"}, 
+    {"name":"RBRACE"}, 
+    {"name":"RCURLY"}, 
+    {"name":"RETURN"}, 
+    {"name":"SEMI"}, 
+    {"name":"STAR"}, 
+    {"name":"THIS"}, 
+    {"name":"THROW"}, 
+    {"name":"TRUE"}, 
+    {"name":"TRY"}, 
+    {"name":"UNDEF"}, 
+    {"name":"WHILE"}
+  ],
+  "methods":[
+    {"name":"AdditiveExpression","parameterTypes":[] }, 
+    {"name":"ArgumentDefinition","parameterTypes":[] }, 
+    {"name":"AssignmentOperator","parameterTypes":[] }, 
+    {"name":"ConditionalAndExpression","parameterTypes":[] }, 
+    {"name":"ConditionalExpression","parameterTypes":[] }, 
+    {"name":"ConditionalOrExpression","parameterTypes":[] }, 
+    {"name":"EqualityExpression","parameterTypes":[] }, 
+    {"name":"Expression","parameterTypes":[] }, 
+    {"name":"FunctionArguments","parameterTypes":[] }, 
+    {"name":"FunctionCall","parameterTypes":[] }, 
+    {"name":"Identifier","parameterTypes":[] }, 
+    {"name":"Imports","parameterTypes":[] }, 
+    {"name":"MultiplicativeExpression","parameterTypes":[] }, 
+    {"name":"OtherExpression","parameterTypes":[] }, 
+    {"name":"PostFixOperator","parameterTypes":[] }, 
+    {"name":"Reference","parameterTypes":[] }, 
+    {"name":"RelationalExpression","parameterTypes":[] }, 
+    {"name":"Spacing","parameterTypes":[] }, 
+    {"name":"Statement","parameterTypes":[] }, 
+    {"name":"Statements","parameterTypes":[] }, 
+    {"name":"Terminal","parameterTypes":["java.lang.String"] }, 
+    {"name":"UnaryExpression","parameterTypes":[] }, 
+    {"name":"Variable","parameterTypes":[] }, 
+    {"name":"getCurrentPos","parameterTypes":[] }
+  ]
+},
+{
+  "name":"net.geertvos.gvm.parser.Parser$$parboiled",
+  "allPublicConstructors":true
+},
+{
+  "name":"net.geertvos.gvm.runtime.Runtime",
+  "methods":[{"name":"print","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.parboiled.BaseActions",
+  "methods":[
+    {"name":"match","parameterTypes":[] }, 
+    {"name":"pop","parameterTypes":[] }, 
+    {"name":"push","parameterTypes":["java.lang.Object"] }
+  ]
+},
+{
+  "name":"org.parboiled.BaseParser",
+  "methods":[
+    {"name":"AnyOf","parameterTypes":["java.lang.String"] }, 
+    {"name":"CharRange","parameterTypes":["char","char"] }, 
+    {"name":"FirstOf","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object[]"] }, 
+    {"name":"OneOrMore","parameterTypes":["java.lang.Object"] }, 
+    {"name":"Optional","parameterTypes":["java.lang.Object"] }, 
+    {"name":"Sequence","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object[]"] }, 
+    {"name":"ZeroOrMore","parameterTypes":["java.lang.Object"] }, 
+    {"name":"ZeroOrMore","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object[]"] }
+  ]
+},
+{
+  "name":"org.parboiled.Rule"
+},
+{
+  "name":"org.parboiled.common.Reference",
+  "methods":[
+    {"name":"get","parameterTypes":[] }, 
+    {"name":"set","parameterTypes":["java.lang.Object"] }
+  ]
+},
+{
+  "name":"org.parboiled.matchers.AbstractMatcher"
+},
+{
+  "name":"org.parboiled.matchers.AnyOfMatcher"
+},
+{
+  "name":"org.parboiled.matchers.CharIgnoreCaseMatcher"
+},
+{
+  "name":"org.parboiled.matchers.CharRangeMatcher"
+},
+{
+  "name":"org.parboiled.matchers.FirstOfMatcher"
+},
+{
+  "name":"org.parboiled.matchers.FirstOfStringsMatcher"
+},
+{
+  "name":"org.parboiled.matchers.SequenceMatcher"
+},
+{
+  "name":"org.parboiled.matchers.StringMatcher"
+},
+{
+  "name":"org.parboiled.matchers.TestMatcher"
+},
+{
+  "name":"org.parboiled.matchers.TestNotMatcher"
+},
+{
+  "name":"org.parboiled.matchers.VarFramingMatcher"
+},
+{
+  "name":"org.parboiled.support.Var",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+}
+]
