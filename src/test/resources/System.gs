@@ -1,7 +1,5 @@
-Module System;
+module System;
 
-System = new {
-	print = (text) -> {
-		native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
-	};
-}
+print = (text) -> {
+	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
+};

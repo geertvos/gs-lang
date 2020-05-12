@@ -39,8 +39,8 @@ public class ParserTest {
 	@Test()
 	public void testIntegerAssignment() {
 		String assignment = "a = 10;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
 		VariableExpression variable = (VariableExpression) assignmentExpression.getVariable();
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
@@ -53,8 +53,8 @@ public class ParserTest {
 	@Test()
 	public void testIntegerIncrement() {
 		String assignment = "a += 10;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
 		VariableExpression variable = (VariableExpression) assignmentExpression.getVariable();
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
@@ -68,8 +68,8 @@ public class ParserTest {
 	@Test()
 	public void testConditional() {
 		String assignment = "a?b:c;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConditionalExpression conditionalExpression = (ConditionalExpression) statement.getExpression();
 		VariableExpression condition = (VariableExpression) conditionalExpression.getCondition();
 		VariableExpression positive = (VariableExpression) conditionalExpression.getPositiveExpression();
@@ -82,8 +82,8 @@ public class ParserTest {
 	@Test()
 	public void testBooleanTrue() {
 		String assignment = "true;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
 		assertEquals(expression.getType(), Value.TYPE.BOOLEAN);
 		assertEquals(expression.getValue(), 1);
@@ -92,8 +92,8 @@ public class ParserTest {
 	@Test()
 	public void testBooleanFalse() {
 		String assignment = "false;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
 		assertEquals(expression.getType(), Value.TYPE.BOOLEAN);
 		assertEquals(expression.getValue(), 0);
@@ -102,8 +102,8 @@ public class ParserTest {
 	@Test()
 	public void testOR() {
 		String assignment = "a || b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		OrExpression conditionalExpression = (OrExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) conditionalExpression.getLhs();
 		VariableExpression rhs = (VariableExpression) conditionalExpression.getRhs();
@@ -114,8 +114,8 @@ public class ParserTest {
 	@Test()
 	public void testAND() {
 		String assignment = "a && b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AndExpression conditionalExpression = (AndExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) conditionalExpression.getLhs();
 		VariableExpression rhs = (VariableExpression) conditionalExpression.getRhs();
@@ -126,8 +126,8 @@ public class ParserTest {
 	@Test()
 	public void testEquality() {
 		String assignment = "a == b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		EqualityExpression expression = (EqualityExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -139,8 +139,7 @@ public class ParserTest {
 	@Test()
 	public void testRelational() {
 		String assignment = "a <= b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		RelationalExpression expression = (RelationalExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -152,8 +151,7 @@ public class ParserTest {
 	@Test()
 	public void testRelationalGreaterEquals() {
 		String assignment = "a >= b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		RelationalExpression expression = (RelationalExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -165,8 +163,8 @@ public class ParserTest {
 	@Test()
 	public void testAdditive() {
 		String assignment = "a + b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AdditiveExpression expression = (AdditiveExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -178,8 +176,8 @@ public class ParserTest {
 	@Test()
 	public void testAdditiveMinus() {
 		String assignment = "a - b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AdditiveExpression expression = (AdditiveExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -191,8 +189,8 @@ public class ParserTest {
 	@Test()
 	public void testMultiply() {
 		String assignment = "a * b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -204,8 +202,8 @@ public class ParserTest {
 	@Test()
 	public void testDivide() {
 		String assignment = "a / b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -217,8 +215,8 @@ public class ParserTest {
 	@Test()
 	public void testModulus() {
 		String assignment = "a % b;";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		MultiplicativeExpression expression = (MultiplicativeExpression) statement.getExpression();
 		VariableExpression lhs = (VariableExpression) expression.getLhs();
 		VariableExpression rhs = (VariableExpression) expression.getRhs();
@@ -230,8 +228,8 @@ public class ParserTest {
 	@Test()
 	public void testStringAssignment() {
 		String assignment = "a = \"b\";";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		AssignmentExpression assignmentExpression = (AssignmentExpression) statement.getExpression();
 		VariableExpression variable = (VariableExpression) assignmentExpression.getVariable();
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
@@ -244,8 +242,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionDef() {
 		String assignment = "(a)->{ return b; };";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionDefExpression functionDefExpression = (FunctionDefExpression) statement.getExpression();
 		assertEquals("a", functionDefExpression.getParameter(0));
 		ReturnStatement returnStatement = (ReturnStatement) functionDefExpression.getStatement(0);
@@ -256,8 +254,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCall() {
 		String assignment = "a();";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("a", field.getName());
@@ -266,16 +264,16 @@ public class ParserTest {
 	@Test()
 	public void testNativeFunctionCall() {
 		String assignment = "native(\"nl.gvm.main.GVMNatives\",\"printStdOut\",\"This demo is alive!\");";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		NativeFunctionCallExpression functionCallExpression = (NativeFunctionCallExpression) statement.getExpression();
 	}
 
 	@Test()
 	public void testFunctionCallOnObject() {
 		String assignment = "person.getName();";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getField();
 		assertEquals("person", field.getName());
@@ -286,8 +284,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCallOnObjectArguments() {
 		String assignment = "person.getName(a,b);";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getField();
 		assertEquals("person", field.getName());
@@ -305,8 +303,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCallArgument() {
 		String assignment = "a(b);";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("a", field.getName());
@@ -319,8 +317,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCallStringArgument() {
 		String assignment = "a(\"b\");";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("a", field.getName());
@@ -332,8 +330,8 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCallFunctionArgument() {
 		String assignment = "a( ()->{} );";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("a", field.getName());
@@ -347,8 +345,7 @@ public class ParserTest {
 	@Test()
 	public void testFunctionCallArguments() {
 		String assignment = "a(b,c);";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("a", field.getName());
@@ -362,8 +359,7 @@ public class ParserTest {
 	@Test()
 	public void testConstructorCall() {
 		String assignment = "new a(b);";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConstructorExpression constructorCallExpression = (ConstructorExpression) statement.getExpression();
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) constructorCallExpression.getFunction();
 		VariableExpression field = (VariableExpression) functionCallExpression.getFunction();
@@ -376,8 +372,7 @@ public class ParserTest {
 	@Test()
 	public void testImplicitConstructor() {
 		String assignment = "new {};";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
 		assertEquals(0, implicitConstructor.getStatements());
 	}
@@ -385,8 +380,7 @@ public class ParserTest {
 	@Test()
 	public void testImplicitConstructorWithStatements() {
 		String assignment = "new { print(\"a\"); };";
-		Module program = (Module) parse(assignment);
-		ExpressionStatement statement = (ExpressionStatement) program.getStatement(0);
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ImplicitConstructorExpression implicitConstructor = (ImplicitConstructorExpression)statement.getExpression();
 		assertEquals(1, implicitConstructor.getStatements());
 	}
@@ -394,8 +388,7 @@ public class ParserTest {
 	@Test()
 	public void testIf() {
 		String assignment = "if(a==b) { print(); } else { return; };";
-		Module program = (Module) parse(assignment);
-		IfStatement statement = (IfStatement) program.getStatement(0);
+		IfStatement statement = (IfStatement) parse(assignment);
 		
 		ScopeStatement then = (ScopeStatement) statement.getThenClause();
 		ExpressionStatement call = (ExpressionStatement) then.getStatement(0);
@@ -406,30 +399,27 @@ public class ParserTest {
 	@Test()
 	public void testTryCatch() {
 		String assignment = "try { a=1+1; } catch(exception) {return;};";
-		Module program = (Module) parse(assignment);
-		TryCatchBlock statement = (TryCatchBlock) program.getStatement(0);
+		TryCatchBlock statement = (TryCatchBlock) parse(assignment);
 		
 	}
 	@Test()
 	public void testTryCatchNoCatch() {
 		String assignment = "try { a=1+1; } catch(exception) {};";
-		Module program = (Module) parse(assignment);
-		TryCatchBlock statement = (TryCatchBlock) program.getStatement(0);
+		TryCatchBlock statement = (TryCatchBlock) parse(assignment);
 		
 	}
 
 	@Test()
 	public void testForLoop() {
 		String assignment = "for(b=0 ; b<10 ; b++ ) { return; }";
-		Module program = (Module) parse(assignment);
-		ForStatement statement = (ForStatement) program.getStatement(0);
+		ForStatement statement = (ForStatement) parse(assignment);
 		//TODO: implement test
 	}
 
 	
 	public Object parse(String code) {
 		Parser parser = Parboiled.createParser(Parser.class);
-		ParsingResult<Object> result = new RecoveringParseRunner<Object>(parser.Program()).run(code);
+		ParsingResult<Object> result = new RecoveringParseRunner<Object>(parser.Statement()).run(code);
 		if (!result.parseErrors.isEmpty()) {
 			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
 			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));

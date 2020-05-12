@@ -58,10 +58,11 @@ public class GScriptCompiler {
 		
 		code.add(GVM.NEW); //Init main function
 		for(Module m : modules) {
-			for( Compilable s : m.getAll() )
-			{
-				s.compile(this);
-			}
+//			for( Compilable s : m.getAll() )
+//			{
+//				s.compile(this);
+				m.compile(this);
+//			}
 		}
 		code.add(GVM.HALT); //Make sure the VM stops
 		

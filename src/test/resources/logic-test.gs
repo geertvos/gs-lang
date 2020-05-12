@@ -1,3 +1,5 @@
+module LogicTest;
+
 print = (text) -> {
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
 	return; //TODO: add auto return if missing.

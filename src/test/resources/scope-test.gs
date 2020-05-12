@@ -1,17 +1,12 @@
-/*
-*/
+module ScopeTest;
+import System;
 
-
-
-print = (text) -> {
-	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
-};
 assertStringEquals = (value, expected) -> {
 	test = value==expected;
-	print(" >> Testing value: '"+value+"' against: '" +expected+"', should be '"+test+"'");
+	System.print(" >> Testing value: '"+value+"' against: '" +expected+"', should be '"+test+"'");
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "testEqualsString", value ,expected);
 };
-print("Starting integration test.");
+System.print("Starting integration test.");
 
 person = (name) -> {
 	this.name = name;
@@ -19,18 +14,18 @@ person = (name) -> {
 	return this
 }
 
-print("Object and function scope test");
+System.print("Object and function scope test");
 
 geert = new person("Geert"); 
-print(geert.getName());
+System.print(geert.getName());
 
 assertStringEquals(geert.getName(), "Geert");
 
 geert.getName = () -> { return "override"; };
-print(geert.getName());
+System.print(geert.getName());
 assertStringEquals(geert.getName(), "override");
 
-print("Nested function test");
+System.print("Nested function test");
 
 first = (argument) -> {
 	return argument();
@@ -40,43 +35,43 @@ third = () -> { return "test"; };
 thevalue = first(third);
 assertStringEquals(thevalue, "test");
 
-if(true) print("Works!");
-if(false) print("Should't work!");
+if(true) System.print("Works!");
+if(false) System.print("Should't work!");
 
 if(true)
 {
-	print("Test completed.");
+	System.print("Test completed.");
 };
 
 beef = new {
 	recipe = "grill";
 	
 	hello = () -> {
-		print("Beef says hello!");
+		System.print("Beef says hello!");
 	}
 };
 beef.hello();
-print("Recipe: "+beef.recipe);
+System.print("Recipe: "+beef.recipe);
 for(b=0 ; b<10 ; b++ ) {
-	print(""+b);
+	System.print(""+b);
 };
-print("done");
+System.print("done");
 
 name = "Geert";
 if(name == "Geert") {
- print("vos!");
+ System.print("vos!");
 };
 
 //Postfix test
 a=6;
 b=0;
 b= a++;
-print(""+a);
-print(""+b);
+System.print(""+a);
+System.print(""+b);
 
 counter = 100;
 while(counter>0) {
-	print("Counter: "+counter);
+	System.print("Counter: "+counter);
 	counter--;
 	if(counter==50) {
 		break;
@@ -85,33 +80,33 @@ while(counter>0) {
 	if(counter<75) {
 		continue;
     }
-	print("Above 75");
+	System.print("Above 75");
 }
 
 //TODO: Check why this variable is not set to 0
 for(a=0;a<10;a++) {
-	print("a: "+a);
+	System.print("a: "+a);
 }
 
 while(a<100) {
 	a++;
-	print("a: "+a);
+	System.print("a: "+a);
 }
 try {
 	a = true + 5;
-	print("Not good");
+	System.print("Not good");
 } catch(a) {
-	print("Exception caught: "+a.message+" at ("+a.line+")");
+	System.print("Exception caught: "+a.message+" at ("+a.line+")");
 };
 try {
 	throw "Excellent!";
 } catch(a) {
-	print("Exception caught again: "+a.message+" at ("+a.line+")");
+	System.print("Exception caught again: "+a.message+" at ("+a.line+")");
 };
 
 modulus = 5 % 2;
-print("Modulus: "+modulus);
+System.print("Modulus: "+modulus);
 name = "GEert";
-print(name.lowercase);
-print("Finished.");
+System.print(name.lowercase);
+System.print("Finished.");
 

@@ -50,11 +50,11 @@ import net.geertvos.gvm.core.Value;
 class Parser extends BaseParser<Object> {
 
 	Rule Program() {
-		return Sequence(push(new Module()), Optional(Module()), Statements());
+		return Sequence(Module(), Statements());
 	}
 
 	Rule Module() {
-		return Sequence(Terminal("module"), Identifier(), push(((Module)pop()).setName(match())), Optional(SEMI), Imports());
+		return Sequence(Terminal("module"), Identifier(), push(new Module(match(), getCurrentPos())), Optional(SEMI), Imports());
 	}
 
 	Rule Imports() {

@@ -20,6 +20,7 @@ import org.parboiled.support.ParsingResult;
 import com.google.common.io.Resources;
 
 import net.geertvos.gvm.ast.Module;
+import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMProgram;
@@ -31,7 +32,7 @@ public class GVMIntegrationTest {
 	@Test()
 	public void testNativeFunctionCall() throws IOException {
 		String assignment = "native(\"net.geertvos.gvm.parser.GVMIntegrationTest\",\"setBoolean\");";
-		compileAndRun(assignment);
+		compileAndRunStatement(assignment);
 		assertTrue(flag);
 	}
 
@@ -71,8 +72,9 @@ public class GVMIntegrationTest {
 			URL url = Resources.getResource(module+".gs");
 			String moduleSource = Resources.toString(url, StandardCharsets.UTF_8);
 			Module loadedModule = (Module) parse(moduleSource);
-			modules.add(loadedModule);
+			modules.add(0, loadedModule);
 		}
+		
 		//Add the main program last
 		modules.add(program);
 		GScriptCompiler compiler = new GScriptCompiler();
@@ -81,6 +83,18 @@ public class GVMIntegrationTest {
 		vm.run();
 	}
 
+	private void compileAndRunStatement(String source) throws IOException {
+		Statement statement = (Statement) parseStatement(source);
+		GScriptCompiler compiler = new GScriptCompiler();
+		List<Statement> compilables = new LinkedList<Statement>();
+		compilables.add(statement);
+		GVMProgram p = compiler.compile(compilables);
+		GVM vm = new GVM(p);
+		vm.run();
+	}
+
+
+	
 	public static void setBoolean() {
 		flag = true;
 	}
@@ -109,8 +123,22 @@ public class GVMIntegrationTest {
 			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
 			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));
 		} else {
-			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
-			System.out.println(parseTreePrintOut);
+			//String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+			//System.out.println(parseTreePrintOut);
+		}
+		Object value = result.parseTreeRoot.getValue();
+		return value;
+	}
+
+	public Object parseStatement(String code) {
+		Parser parser = Parboiled.createParser(Parser.class);
+		ParsingResult<Object> result = new RecoveringParseRunner<Object>(parser.Statement()).run(code);
+		if (!result.parseErrors.isEmpty()) {
+			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
+			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));
+//		} else {
+//			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+//			System.out.println(parseTreePrintOut);
 		}
 		Object value = result.parseTreeRoot.getValue();
 		return value;
