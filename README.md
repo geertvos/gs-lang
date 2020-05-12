@@ -83,6 +83,22 @@ try {
 	print("Exception caught: "+a);
 };
 ```
+# module support
+All the code written in gscript is in scope of a module. With the import statement, other modules can be loaded. Each module is executed at load time. The example below creates Math module with a sum function in it. 
+```
+module Math;
+
+sum = (a,b) -> {
+	return a+b;
+}
+```
+The function can be referenced from other modules:
+```
+module MathUser;
+import Math;
+
+value = Math.sum(2, 4)
+```
 
 # native code support. 
 This compiler compiles the GScript code in to an a bytecode format that can be executed by the GVM. (See other project). Both have support for 'native' code by binding a function to a Java method.
