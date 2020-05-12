@@ -1,12 +1,11 @@
+module HashSettest;
+import System;
+
 /*
 * Example, a HashMap implementation to demonstrate the workings of GScript. 
 *
 */
 
-print = (text) -> {
-	native("net.geertvos.gvm.parser.GVMIntegrationTest", "print", text);
-	return; //TODO: add auto return if missing.
-};
 
 
 /**
@@ -85,9 +84,9 @@ HashSet = (buckets)-> {
 };
 
 set = new HashSet(3);
-print("Added: "+set.add("Geert"));
-print("Added: "+set.add("Geert"));
-print("Contains: "+set.contains("Geert"));
-print("Contains: "+set.contains("vos"));
-print("Done");
+System.print("Added: "+set.add("Geert"));
+System.print("Added: "+set.add("Geert"));
+System.print("Contains: "+set.contains("Geert"));
+System.print("Contains: "+set.contains("vos"));
+System.print("Done");
 
