@@ -28,6 +28,7 @@ public class GScriptCompiler {
 	public RandomAccessByteStream code;
 	private GVMFunction function;
 	private GVMProgram program;
+	private String currentModuleName = "unknown";
 	
 	public GVMProgram compile(List<Statement> compilables)
 	{
@@ -58,11 +59,8 @@ public class GScriptCompiler {
 		
 		code.add(GVM.NEW); //Init main function
 		for(Module m : modules) {
-//			for( Compilable s : m.getAll() )
-//			{
-//				s.compile(this);
-				m.compile(this);
-//			}
+			this.currentModuleName = m.getName();
+			m.compile(this);
 		}
 		code.add(GVM.HALT); //Make sure the VM stops
 		
@@ -91,6 +89,10 @@ public class GScriptCompiler {
 	
 	public GVMProgram getProgram() {
 		return program;
+	}
+	
+	public String getCurrentModule() {
+		return this.currentModuleName;
 	}
 	
 	public void pushLoop(LoopStatement loop) {

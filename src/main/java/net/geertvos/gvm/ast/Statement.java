@@ -18,6 +18,8 @@ public abstract class Statement implements Compilable {
 		if(c.isDebugModeEnabled()) {
 			c.code.add(GVM.DEBUG);
 			c.code.writeInt(position.line);
+			int moduleName = c.getProgram().addString(c.getCurrentModule());
+			c.code.writeInt(moduleName);
 		}
 	}
 	

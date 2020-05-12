@@ -26,7 +26,6 @@ import net.geertvos.gvm.ast.ImplicitConstructorExpression;
 import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.NativeFunctionCallExpression;
 import net.geertvos.gvm.ast.OrExpression;
-import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.ScopeStatement;

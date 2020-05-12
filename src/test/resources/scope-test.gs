@@ -101,7 +101,7 @@ try {
 try {
 	throw "Excellent!";
 } catch(a) {
-	System.print("Exception caught again: "+a.message+" at ("+a.line+")");
+	System.print("Exception caught again: "+a.message+" at "+a.location+":"+a.line);
 };
 
 modulus = 5 % 2;

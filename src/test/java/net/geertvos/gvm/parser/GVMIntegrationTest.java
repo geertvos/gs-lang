@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.parboiled.Parboiled;
 import org.parboiled.errors.ErrorUtils;
 import org.parboiled.parserunners.RecoveringParseRunner;
-import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.ParsingResult;
 
 import com.google.common.io.Resources;
