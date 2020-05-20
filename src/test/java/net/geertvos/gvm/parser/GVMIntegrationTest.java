@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -66,6 +68,26 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+
+	@Test()
+	public void testNativeObject() throws IOException {
+		URL url = Resources.getResource("NativeObject.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
+	public static void write(String string, OutputStream stream) {
+		try {
+			stream.write(string.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public static String getLineFeed() throws IOException {
+		return "\r\n";
+	}
 	
 	private void compileAndRun(String source) throws IOException {
 		List<Module> parsedModules = new LinkedList<>();

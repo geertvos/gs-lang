@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -45,8 +46,8 @@ public class GScript {
 	
 	public static void main(String[] args) throws IOException {
 		disableAccessWarnings();
-		
-		String source = readContent(args[0]);
+		Path main = Paths.get(args[0]).toAbsolutePath();
+		String source = readContent(main);
 		List<Module> parsedModules = new LinkedList<>();
 		Module program = (Module) parse(source);
 		Set<String> loadedModules = new HashSet<>();
@@ -55,7 +56,8 @@ public class GScript {
 		while(!modulesToLoad.isEmpty()) {
 			String module = modulesToLoad.poll();
 			if(!loadedModules.contains(module)) {
-				String moduleSource = readContent(module+".gs");
+				Path modulePath = Paths.get(main.getParent().toString()+"/"+module+".gs");
+				String moduleSource = readContent(modulePath);
 				loadedModules.add(module);
 				Module loadedModule = (Module) parse(moduleSource);
 				parsedModules.add(0, loadedModule);
@@ -74,8 +76,8 @@ public class GScript {
 	}
 
 
-	private static String readContent(String filename) throws IOException {
-		String source = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
+	private static String readContent(Path file) throws IOException {
+		String source = new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
 		return source;
 	}
 	
