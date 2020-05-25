@@ -4,10 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -63,21 +68,49 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+
+	@Test()
+	public void testNativeObject() throws IOException {
+		URL url = Resources.getResource("NativeObject.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
+	public static void write(String string, OutputStream stream) {
+		try {
+			stream.write(string.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public static String getLineFeed() throws IOException {
+		return "\r\n";
+	}
 	
 	private void compileAndRun(String source) throws IOException {
-		List<Module> modules = new LinkedList<>();
+		List<Module> parsedModules = new LinkedList<>();
 		Module program = (Module) parse(source);
-		for(String module : program.getImports() ) {
-			URL url = Resources.getResource(module+".gs");
-			String moduleSource = Resources.toString(url, StandardCharsets.UTF_8);
-			Module loadedModule = (Module) parse(moduleSource);
-			modules.add(0, loadedModule);
+		Set<String> loadedModules = new HashSet<>();
+		Queue<String> modulesToLoad = new LinkedList<String>();
+		modulesToLoad.addAll(program.getImports());
+		while(!modulesToLoad.isEmpty()) {
+			String module = modulesToLoad.poll();
+			if(!loadedModules.contains(module)) {
+				URL url = Resources.getResource(module+".gs");
+				String moduleSource = Resources.toString(url, StandardCharsets.UTF_8);
+				loadedModules.add(module);
+				Module loadedModule = (Module) parse(moduleSource);
+				parsedModules.add(0, loadedModule);
+				modulesToLoad.addAll(loadedModule.getImports());
+			}
 		}
 		
 		//Add the main program last
-		modules.add(program);
+		parsedModules.add(program);
 		GScriptCompiler compiler = new GScriptCompiler();
-		GVMProgram p = compiler.compileModules(modules);
+		GVMProgram p = compiler.compileModules(parsedModules);
 		GVM vm = new GVM(p);
 		vm.run();
 	}

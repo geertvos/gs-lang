@@ -47,9 +47,9 @@ import net.geertvos.gvm.ast.WhileStatement;
 import net.geertvos.gvm.core.Value;
 
 @BuildParseTree
-class Parser extends BaseParser<Object> {
+public class Parser extends BaseParser<Object> {
 
-	Rule Program() {
+	public Rule Program() {
 		return Sequence(Module(), Statements());
 	}
 
@@ -294,7 +294,7 @@ class Parser extends BaseParser<Object> {
 	@MemoMismatches
 	Rule String() {
 		//TODO: Fix and support UTF-8 strings 
-		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!?@#$%&*()|:; '<>"))), push(new ConstantExpression(match())), "\"");
+		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!/\\?@#$%&*()|:; '<>"))), push(new ConstantExpression(match())), "\"");
 	}
 
 	@SuppressSubnodes

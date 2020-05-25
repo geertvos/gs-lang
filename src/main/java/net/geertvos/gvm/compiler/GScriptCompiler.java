@@ -7,10 +7,10 @@ import java.util.Stack;
 import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.Statement;
+import net.geertvos.gvm.bridge.NativeMethodWrapper;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.program.GVMProgram;
-import net.geertvos.gvm.program.NativeMethodWrapper;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
 /**
