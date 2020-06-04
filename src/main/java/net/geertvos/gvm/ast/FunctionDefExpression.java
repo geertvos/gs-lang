@@ -4,7 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
+import net.geertvos.gvm.core.FunctionType;
 import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
@@ -60,13 +62,16 @@ public class FunctionDefExpression extends Expression implements Scope {
 			s.compile(c);
 		}
 		if(!(statements.get(statements.size()-1) instanceof ReturnStatement)) {
-			c.code.add(GVM.LDC_U);
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(0);
+			c.code.writeString(new Undefined().getName());
 			c.code.add(GVM.RETURN);
 		}
 		c.code = code;
 		c.setFunction(prev);
-		c.code.add( GVM.LDC_F );
+		c.code.add( GVM.LDC_D );
 		c.code.writeInt( index );
+		c.code.writeString(new FunctionType().getName());
 		
 	}
 

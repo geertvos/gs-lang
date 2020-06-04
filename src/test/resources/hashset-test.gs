@@ -40,7 +40,9 @@ HashSet = (buckets)-> {
 		 * The Bucket object contain a string of ListElements, the objects that store a reference to a value in the bucket and the next ListElement.
 		 */
 		bucketNr = getBucketNr(object);
+		System.print("works");
 		if(rootBucket == undef) {
+		System.print("works1");
 			this.rootBucket = new Bucket(0);
 		}
 		currentBucket = this.rootBucket;
@@ -86,7 +88,7 @@ HashSet = (buckets)-> {
 set = new HashSet(3);
 System.print("Added: "+set.add("Geert"));
 System.print("Added: "+set.add("Geert"));
-System.print("Contains: "+set.contains("Geert"));
-System.print("Contains: "+set.contains("vos"));
+//System.print("Contains: "+set.contains("Geert"));
+//System.print("Contains: "+set.contains("vos"));
 System.print("Done");
 

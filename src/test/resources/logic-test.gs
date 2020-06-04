@@ -6,6 +6,8 @@ print = (text) -> {
 };
 assertIntEquals = (value, expected) -> {
 	test = value==expected;
+	//print(value);
+	//print(expected);
 	print(" >> Testing value: '"+value+"' against: '" +expected+"', should be '"+test+"'");
 	native("net.geertvos.gvm.parser.GVMIntegrationTest", "testEqualsInt", value ,expected);
 	return; //TODO: add auto return if missing.

@@ -7,6 +7,8 @@ import org.parboiled.support.Position;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.core.Undefined;
+import net.geertvos.gvm.lang.types.GscriptObjectType;
 
 public class ReturnStatement extends Statement {
 
@@ -37,14 +39,18 @@ public class ReturnStatement extends Statement {
 	@Override
 	public void compile(GScriptCompiler c) {
 		super.compile(c);
-		if( returnValues == null )
-			c.code.add(GVM.LDC_U);
+		if( returnValues == null )  {
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(0);
+			c.code.writeString(new Undefined().getName());
+		}
 		else {
 			if(returnValues.size() == 1) {
 				returnValues.get(0).compile(c);
 			} else {
 				//Wrap multiple return values in an object and set fields by index
 				c.code.add(GVM.NEW);
+				c.code.writeString(new GscriptObjectType().getName());
 				for(int i=0;i<returnValues.size();i++) {
 					returnValues.get(i).compile(c); //this line is in the wrong spot
 					c.code.add(GVM.LDS);

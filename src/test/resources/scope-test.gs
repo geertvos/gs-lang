@@ -99,6 +99,9 @@ try {
 	System.print("Exception caught: "+a.message+" at ("+a.line+")");
 };
 try {
+	exception = new {
+		message = "";
+	}
 	throw "Excellent!";
 } catch(a) {
 	System.print("Exception caught again: "+a.message+" at "+a.location+":"+a.line);

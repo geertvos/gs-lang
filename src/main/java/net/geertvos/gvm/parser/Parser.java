@@ -44,7 +44,10 @@ import net.geertvos.gvm.ast.ThrowStatement;
 import net.geertvos.gvm.ast.TryCatchBlock;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
+import net.geertvos.gvm.core.BooleanType;
+import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.lang.types.NumberType;
 
 @BuildParseTree
 public class Parser extends BaseParser<Object> {
@@ -282,13 +285,13 @@ public class Parser extends BaseParser<Object> {
 
 	Rule Boolean() {
 		return FirstOf(
-				Sequence(TRUE, push(new ConstantExpression(1, Value.TYPE.BOOLEAN))),
-				Sequence(FALSE, push(new ConstantExpression(0, Value.TYPE.BOOLEAN)))
+				Sequence(TRUE, push(new ConstantExpression(1, new BooleanType().getName()))),
+				Sequence(FALSE, push(new ConstantExpression(0, new BooleanType().getName())))
 				);
 	}
 	
 	Rule Undef() {
-		return Sequence(UNDEF, push(new ConstantExpression(0, Value.TYPE.UNDEFINED)));
+		return Sequence(UNDEF, push(new ConstantExpression(0, new Undefined().getName())));
 	}
 	
 	@MemoMismatches
@@ -319,7 +322,7 @@ public class Parser extends BaseParser<Object> {
 
 	@MemoMismatches
 	Rule Number() {
-		return Sequence(OneOrMore(CharRange('0', '9')),	push(new ConstantExpression(Integer.parseInt(match().trim()), Value.TYPE.NUMBER)));
+		return Sequence(OneOrMore(CharRange('0', '9')),	push(new ConstantExpression(Integer.parseInt(match().trim()), new NumberType().getName())));
 	}
 
 	final Rule DOT = Terminal(".");

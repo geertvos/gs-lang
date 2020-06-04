@@ -69,7 +69,6 @@ public class GVMIntegrationTest {
 	}
 
 
-	@Test()
 	public void testNativeObject() throws IOException {
 		URL url = Resources.getResource("NativeObject.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);
