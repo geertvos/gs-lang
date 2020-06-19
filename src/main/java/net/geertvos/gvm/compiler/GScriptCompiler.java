@@ -13,6 +13,7 @@ import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.GscriptExceptionHandler;
 import net.geertvos.gvm.lang.GscriptValueConverter;
+import net.geertvos.gvm.lang.types.ArrayType;
 import net.geertvos.gvm.lang.types.GscriptObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
 import net.geertvos.gvm.lang.types.StringType;
@@ -85,6 +86,7 @@ public class GScriptCompiler {
 		program.registerType(new StringType());
 		program.registerType(new NumberType());
 		program.registerType(new BooleanType());
+		program.registerType(new ArrayType());
 		return program;
 	}
 	

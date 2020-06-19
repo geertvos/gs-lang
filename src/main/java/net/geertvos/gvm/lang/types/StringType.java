@@ -53,7 +53,7 @@ public class StringType implements Type {
 	}
 
 	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, String parameter) {
+	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
 		//Implement built in functions
 		if(parameter.equals("lowercase")) {
 			String lowered = context.getProgram().getString(thisValue.getValue()).toLowerCase();

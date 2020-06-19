@@ -68,6 +68,12 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+	@Test()
+	public void testArrays() throws IOException {
+		URL url = Resources.getResource("arrayTest.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
 
 	public void testNativeObject() throws IOException {
 		URL url = Resources.getResource("NativeObject.gs");

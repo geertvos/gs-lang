@@ -3,21 +3,20 @@ package net.geertvos.gvm.lang.types;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.core.Type.Operations;
 import net.geertvos.gvm.lang.GVMPlainObject;
 import net.geertvos.gvm.program.GVMContext;
 
 public class GscriptObjectType implements Type {
 
 	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, String parameter) {
+	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
 		if(op != Operations.GET) {
 			throw new IllegalArgumentException("Operation " + op + " is not supported by type " + getName());
 		}
 		if(parameter.equals("ref")) {
 			return new Value(thisValue.getValue(), new NumberType());
 		}
-		return context.getHeap().getObject(thisValue.getValue()).getValue(parameter);
+		return context.getHeap().getObject(thisValue.getValue()).getValue((String) parameter);
 	}
 
 	@Override

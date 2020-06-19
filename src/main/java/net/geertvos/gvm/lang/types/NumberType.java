@@ -76,7 +76,7 @@ public class NumberType implements Type {
 	}
 
 	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, String parameter) {
+	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
 		// TODO Auto-generated method stub
 		return null;
 	}

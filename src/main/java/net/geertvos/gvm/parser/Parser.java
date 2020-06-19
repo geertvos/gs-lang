@@ -12,6 +12,7 @@ import org.parboiled.support.Var;
 
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
+import net.geertvos.gvm.ast.ArrayDefinitionExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
 import net.geertvos.gvm.ast.BreakStatement;
 import net.geertvos.gvm.ast.ConditionalExpression;
@@ -225,7 +226,7 @@ public class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), Undef(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), ArrayDefinition(), Undef(), Reference());
     }
     
 	Rule Assignment() {
@@ -235,6 +236,10 @@ public class Parser extends BaseParser<Object> {
 	
 	Rule ObjectDefinition() {
 		return Sequence(NEW, LCURLY, push(new ImplicitConstructorExpression(getCurrentPos())), ZeroOrMore(Statements()), RCURLY);
+	}
+
+	Rule ArrayDefinition() {
+		return Sequence(NEW, Terminal("["), push(new ArrayDefinitionExpression()), FunctionArguments(), Terminal("]"));
 	}
 
 	Rule ConstructorCall() {
