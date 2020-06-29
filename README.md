@@ -34,6 +34,13 @@ Strings are UTF-8 encoded and can be defined by using the following notation:
 ```
 For objects and functions, see the sections below. Undefined cannot be defined. It is the opposite.
 
+# array support
+The language supports arrays with dynamic lengths. 
+```
+names = new ["Johny", "Calvin", "Clara"];
+System.print(names[0]);
+```
+
 # functions
 The following example shows how to create a Constructor that creates person objects. 
 ```
