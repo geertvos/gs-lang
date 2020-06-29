@@ -2,6 +2,7 @@ package net.geertvos.gvm.lang.types;
 
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Type;
+import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.program.GVMContext;
 
@@ -15,6 +16,9 @@ public class ArrayType implements Type {
 	@Override
 	public boolean supportsOperation(Operations op) {
 		if(op.equals(Operations.INDEX)) {
+			return true;
+		}
+		if(op.equals(Operations.GET)) {
 			return true;
 		}
 		if(op.equals(Operations.NEW)) {
@@ -43,7 +47,13 @@ public class ArrayType implements Type {
 			ArrayObject object = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
 			return object.getValue(index);
 		}
-		return null;
+		if(op.equals(Operations.GET)) {
+			if(parameter.equals("length")) {
+				ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
+				return new Value(array.getLength(), new NumberType());
+			}
+		}
+		return new Value(0, new Undefined());
 	}
 
 }
