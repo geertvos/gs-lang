@@ -11,12 +11,13 @@ Currently most of the basic language features are working. However, programming 
 The GScript language is a basic functional scripting language loosely based on Javascript. It is both object oriented and functional where both Objects and Functions are first class citizens. 
 
 # types
-At the core of GScript are 6 types:
+At the core of GScript are 7 types:
 
  - Boolean
  - Number
  - String
  - Object
+ - Array
  - Function
  - Undefined 
  
