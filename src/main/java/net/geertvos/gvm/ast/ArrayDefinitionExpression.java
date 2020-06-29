@@ -6,6 +6,7 @@ import java.util.List;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.types.ArrayType;
+import net.geertvos.gvm.lang.types.NumberType;
 
 public class ArrayDefinitionExpression extends Expression implements Parameterizable {
 
@@ -29,9 +30,13 @@ public class ArrayDefinitionExpression extends Expression implements Parameteriz
 			e.compile(c);
 			c.code.add(GVM.LDS);
 			c.code.writeInt(-1);
-			c.code.add(GVM.GETINDEX);
+			c.code.add(GVM.LDC_D);
 			c.code.writeInt(counter);
+			c.code.writeString(new NumberType().getName());
+			c.code.add(GVM.GETINDEX);
 			c.code.add(GVM.PUT);
+			c.code.add(GVM.POP);
+			counter++;
 		}
 	}
 

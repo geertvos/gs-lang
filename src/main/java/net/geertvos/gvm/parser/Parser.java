@@ -13,6 +13,7 @@ import org.parboiled.support.Var;
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
 import net.geertvos.gvm.ast.ArrayDefinitionExpression;
+import net.geertvos.gvm.ast.ArrayReferenceExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
 import net.geertvos.gvm.ast.BreakStatement;
 import net.geertvos.gvm.ast.ConditionalExpression;
@@ -215,6 +216,7 @@ public class Parser extends BaseParser<Object> {
     Rule UnaryExpression() {
         return FirstOf(
                 Sequence(EXCLAMATION, UnaryExpression(), push(new NotExpression((Expression)pop()))),
+                Sequence(Reference(),Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (Expression)(pop())))),
                 Sequence(Reference(),PostFixOperator(), push(new PostFixOperatorExpression(match(), (Expression)(pop())))),
                 OtherExpression()
         );

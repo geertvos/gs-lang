@@ -29,6 +29,10 @@ public class ArrayType implements Type {
 			Integer id = context.getHeap().addObject(new ArrayObject());
 			return new Value(id, new ArrayType());
 		}
+		if(op.equals(Operations.INDEX)) {
+			ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
+			return array.getValue(otherValue.getValue());
+		}
 		throw new IllegalArgumentException("Operation "+op+" not supported on Array type.");
 	}
 
