@@ -3,6 +3,8 @@ package net.geertvos.gvm.lang.types;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.core.Type.Operations;
+import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
 import net.geertvos.gvm.program.GVMContext;
 
@@ -55,24 +57,26 @@ public class StringType implements Type {
 	@Override
 	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
 		//Implement built in functions
-		if(parameter.equals("lowercase")) {
-			String lowered = context.getProgram().getString(thisValue.getValue()).toLowerCase();
-			int index = context.getProgram().addString(lowered);
-			return new Value(index, new StringType());
+		if(op.equals(Operations.GET)) {
+			if(parameter.equals("lowercase")) {
+				String lowered = context.getProgram().getString(thisValue.getValue()).toLowerCase();
+				int index = context.getProgram().addString(lowered);
+				return new Value(index, new StringType());
+			}
+			if(parameter.equals("length")) {
+				String s = context.getProgram().getString(thisValue.getValue());
+				return new Value(s.length(), new NumberType());
+			}
+			if(parameter.equals("bytes")) {
+				String s = context.getProgram().getString(thisValue.getValue());
+				int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
+				return new Value(index, new GscriptObjectType());
+			}
+			if(parameter.equals("ref")) {
+				return new Value(thisValue.getValue(), new NumberType());
+			}
 		}
-		if(parameter.equals("length")) {
-			String s = context.getProgram().getString(thisValue.getValue());
-			return new Value(s.length(), new NumberType());
-		}
-		if(parameter.equals("bytes")) {
-			String s = context.getProgram().getString(thisValue.getValue());
-			int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
-			return new Value(index, new GscriptObjectType());
-		}
-		if(parameter.equals("ref")) {
-			return new Value(thisValue.getValue(), new NumberType());
-		}
-		return null;
+		return new Value(0, new Undefined());
 	}
 
 }

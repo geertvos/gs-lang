@@ -8,7 +8,7 @@ import net.geertvos.gvm.core.Value;
 
 public class ArrayObject implements GVMObject {
 
-	private Value[] values = new Value[10];
+	private Value[] values = new Value[0];
 	
 	@Override
 	public void setValue(String id, Value v) {
@@ -18,8 +18,7 @@ public class ArrayObject implements GVMObject {
 
 	@Override
 	public Value getValue(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Value(0, new Undefined());
 	}
 
 	public void setValue(int index, Value v) {
@@ -58,6 +57,10 @@ public class ArrayObject implements GVMObject {
 	public void preDestroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getLength() {
+		return values.length;
 	}
 
 }
