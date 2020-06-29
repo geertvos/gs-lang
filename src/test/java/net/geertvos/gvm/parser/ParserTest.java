@@ -45,7 +45,7 @@ public class ParserTest {
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
 
 		assertEquals(variable.getName(), "a");
-		assertEquals(value.getType(), Value.TYPE.NUMBER);
+		assertEquals(value.getType(), "Number" );
 		assertEquals(value.getValue(), 10);
 	}
 
@@ -59,7 +59,7 @@ public class ParserTest {
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
 
 		assertEquals(variable.getName(), "a");
-		assertEquals(value.getType(), Value.TYPE.NUMBER);
+		assertEquals(value.getType(), "Number");
 		assertEquals(value.getValue(), 10);
 		assertEquals("+=", assignmentExpression.getOperator());
 	}
@@ -84,7 +84,7 @@ public class ParserTest {
 		
 		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
-		assertEquals(expression.getType(), Value.TYPE.BOOLEAN);
+		assertEquals(expression.getType(), "Boolean");
 		assertEquals(expression.getValue(), 1);
 	}
 
@@ -94,7 +94,7 @@ public class ParserTest {
 		
 		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		ConstantExpression expression = (ConstantExpression) statement.getExpression();
-		assertEquals(expression.getType(), Value.TYPE.BOOLEAN);
+		assertEquals(expression.getType(), "Boolean");
 		assertEquals(expression.getValue(), 0);
 	}
 
@@ -234,7 +234,7 @@ public class ParserTest {
 		ConstantExpression value = (ConstantExpression)assignmentExpression.getValue();  
 
 		assertEquals(variable.getName(), "a");
-		assertEquals(value.getType(), Value.TYPE.STRING);
+		assertEquals(value.getType(), "String");
 		assertEquals(value.getString(), "b");
 	}
 

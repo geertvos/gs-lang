@@ -8,7 +8,15 @@ import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.bridge.NativeMethodWrapper;
+import net.geertvos.gvm.bridge.ValueConverter;
+import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.lang.GscriptExceptionHandler;
+import net.geertvos.gvm.lang.GscriptValueConverter;
+import net.geertvos.gvm.lang.types.ArrayType;
+import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.NumberType;
+import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.program.GVMProgram;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
@@ -32,12 +40,13 @@ public class GScriptCompiler {
 	
 	public GVMProgram compile(List<Statement> compilables)
 	{
-		program = new GVMProgram("demo");
+		program = prepareProgram();
 		code = new RandomAccessByteStream();
 		function = new GVMFunction(code, new ArrayList<String>());
 		program.addFunction(function);
 		
 		code.add(GVM.NEW); //Init main function
+		code.writeString(new GscriptObjectType().getName());
 		for( Compilable s : compilables )
 		{
 			s.compile(this);
@@ -52,12 +61,13 @@ public class GScriptCompiler {
 
 	public GVMProgram compileModules(List<Module> modules)
 	{
-		program = new GVMProgram("demo");
+		program = prepareProgram();
 		code = new RandomAccessByteStream();
 		function = new GVMFunction(code, new ArrayList<String>());
 		program.addFunction(function);
 		
 		code.add(GVM.NEW); //Init main function
+		code.writeString(new GscriptObjectType().getName());
 		for(Module m : modules) {
 			this.currentModuleName = m.getName();
 			m.compile(this);
@@ -70,6 +80,16 @@ public class GScriptCompiler {
 		return program;
 	}
 
+	private GVMProgram prepareProgram() {
+		program = new GVMProgram("demo", new GscriptExceptionHandler(), new GscriptValueConverter());
+		program.registerType(new GscriptObjectType());
+		program.registerType(new StringType());
+		program.registerType(new NumberType());
+		program.registerType(new BooleanType());
+		program.registerType(new ArrayType());
+		return program;
+	}
+	
 	
 	//TODO: Move to symbol table inside program
 	public int registerVariable(String svariableName) {

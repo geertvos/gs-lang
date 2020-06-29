@@ -2,16 +2,16 @@ package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
-import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.core.Value.TYPE;
+import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.StringType;
 
 public class ConstantExpression extends Expression {
 
-	private final Value.TYPE type;
-	private int value;
+	private final String type;
+	private int value = -1;
 	private String string;
 	
-	public ConstantExpression( int value, Value.TYPE type )
+	public ConstantExpression( int value, String type )
 	{
 		this.value = value;
 		this.type = type;
@@ -24,47 +24,31 @@ public class ConstantExpression extends Expression {
 
 	public ConstantExpression( String s )
 	{
-		this.string = s;
-		this.type = Value.TYPE.STRING;
+		this.string = s.replaceAll("\\\\n", "\n");
+		this.type = new StringType().getName();
 	}
 
 	public ConstantExpression()
 	{
-		this.type = TYPE.OBJECT;
+		this.type = new GscriptObjectType().getName();
 	}	
 	
 	@Override
 	public void compile(GScriptCompiler c) {
-		if (type == Value.TYPE.BOOLEAN)
-		{
-			c.code.add( GVM.LDC_B);
-			c.code.write( (byte)value );
+		if(string != null) {
+			int index = c.getProgram().addString(string);
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(index);
+			c.code.writeString(new StringType().getName());
+			
 		}
-		else if (type == Value.TYPE.NUMBER) 
-		{
-			c.code.add( GVM.LDC_N);
-			c.code.writeInt(value);
-		}
-		else if (type == Value.TYPE.FUNCTION) 
-		{
-			c.code.add( GVM.LDC_F);
-			c.code.writeInt(value);
-		}
-		else if (type == Value.TYPE.STRING)
-		{
-			c.code.add( GVM.LDC_S);
-			c.code.writeInt( c.getProgram().addString(string) );
-			return;
-		}
-		else if (type == Value.TYPE.UNDEFINED)
-		{
-			c.code.add( GVM.LDC_U);
-			return;
-		}
-		else if (type == Value.TYPE.OBJECT)
-		{
+		else if(value == -1) {
 			c.code.add( GVM.NEW);
-			return;
+			c.code.writeString(type);
+		} else {
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(value);
+			c.code.writeString(type);
 		}
 	}
 
@@ -84,7 +68,7 @@ public class ConstantExpression extends Expression {
 		this.string = string;
 	}
 
-	public Value.TYPE getType() {
+	public String getType() {
 		return type;
 	}
 	

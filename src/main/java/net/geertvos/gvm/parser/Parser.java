@@ -12,6 +12,8 @@ import org.parboiled.support.Var;
 
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
+import net.geertvos.gvm.ast.ArrayDefinitionExpression;
+import net.geertvos.gvm.ast.ArrayReferenceExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
 import net.geertvos.gvm.ast.BreakStatement;
 import net.geertvos.gvm.ast.ConditionalExpression;
@@ -44,7 +46,10 @@ import net.geertvos.gvm.ast.ThrowStatement;
 import net.geertvos.gvm.ast.TryCatchBlock;
 import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
+import net.geertvos.gvm.core.BooleanType;
+import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.lang.types.NumberType;
 
 @BuildParseTree
 public class Parser extends BaseParser<Object> {
@@ -211,6 +216,7 @@ public class Parser extends BaseParser<Object> {
     Rule UnaryExpression() {
         return FirstOf(
                 Sequence(EXCLAMATION, UnaryExpression(), push(new NotExpression((Expression)pop()))),
+                Sequence(Reference(),Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (Expression)(pop())))),
                 Sequence(Reference(),PostFixOperator(), push(new PostFixOperatorExpression(match(), (Expression)(pop())))),
                 OtherExpression()
         );
@@ -222,7 +228,7 @@ public class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), Undef(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), ArrayDefinition(), Undef(), Reference());
     }
     
 	Rule Assignment() {
@@ -232,6 +238,10 @@ public class Parser extends BaseParser<Object> {
 	
 	Rule ObjectDefinition() {
 		return Sequence(NEW, LCURLY, push(new ImplicitConstructorExpression(getCurrentPos())), ZeroOrMore(Statements()), RCURLY);
+	}
+
+	Rule ArrayDefinition() {
+		return Sequence(NEW, Terminal("["), push(new ArrayDefinitionExpression()), FunctionArguments(), Terminal("]"));
 	}
 
 	Rule ConstructorCall() {
@@ -282,13 +292,13 @@ public class Parser extends BaseParser<Object> {
 
 	Rule Boolean() {
 		return FirstOf(
-				Sequence(TRUE, push(new ConstantExpression(1, Value.TYPE.BOOLEAN))),
-				Sequence(FALSE, push(new ConstantExpression(0, Value.TYPE.BOOLEAN)))
+				Sequence(TRUE, push(new ConstantExpression(1, new BooleanType().getName()))),
+				Sequence(FALSE, push(new ConstantExpression(0, new BooleanType().getName())))
 				);
 	}
 	
 	Rule Undef() {
-		return Sequence(UNDEF, push(new ConstantExpression(0, Value.TYPE.UNDEFINED)));
+		return Sequence(UNDEF, push(new ConstantExpression(0, new Undefined().getName())));
 	}
 	
 	@MemoMismatches
@@ -319,7 +329,7 @@ public class Parser extends BaseParser<Object> {
 
 	@MemoMismatches
 	Rule Number() {
-		return Sequence(OneOrMore(CharRange('0', '9')),	push(new ConstantExpression(Integer.parseInt(match().trim()), Value.TYPE.NUMBER)));
+		return Sequence(OneOrMore(CharRange('0', '9')),	push(new ConstantExpression(Integer.parseInt(match().trim()), new NumberType().getName())));
 	}
 
 	final Rule DOT = Terminal(".");
