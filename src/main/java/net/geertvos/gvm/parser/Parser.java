@@ -29,13 +29,14 @@ import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
 import net.geertvos.gvm.ast.IfStatement;
 import net.geertvos.gvm.ast.ImplicitConstructorExpression;
+import net.geertvos.gvm.ast.MapDefinitionExpression;
+import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.MultiplicativeExpression;
 import net.geertvos.gvm.ast.NativeFunctionCallExpression;
 import net.geertvos.gvm.ast.NotExpression;
 import net.geertvos.gvm.ast.OrExpression;
 import net.geertvos.gvm.ast.Parameterizable;
 import net.geertvos.gvm.ast.PostFixOperatorExpression;
-import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.RelationalExpression;
 import net.geertvos.gvm.ast.ReturnStatement;
 import net.geertvos.gvm.ast.Scope;
@@ -48,7 +49,6 @@ import net.geertvos.gvm.ast.VariableExpression;
 import net.geertvos.gvm.ast.WhileStatement;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Undefined;
-import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.types.NumberType;
 
 @BuildParseTree
@@ -228,7 +228,7 @@ public class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), ArrayDefinition(), Undef(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), MapDefinition(), ArrayDefinition(), Undef(), Reference());
     }
     
 	Rule Assignment() {
@@ -242,6 +242,20 @@ public class Parser extends BaseParser<Object> {
 
 	Rule ArrayDefinition() {
 		return Sequence(NEW, Terminal("["), push(new ArrayDefinitionExpression()), FunctionArguments(), Terminal("]"));
+	}
+
+	Rule MapDefinition() {
+		return Sequence(NEW, Terminal("["), push(new MapDefinitionExpression()), KeyValueArguments(), Terminal("]"));
+	}
+
+	Rule KeyValueArguments() {
+		return ZeroOrMore(Sequence(KeyValueArgument(),ZeroOrMore(Sequence(COMMA, KeyValueArgument()))));
+	}
+
+	Rule KeyValueArgument() {
+		Var<Expression> argumentVar1 = new Var<Expression>();
+		Var<Expression> argumentVar2 = new Var<Expression>();
+		return Sequence(Expression(),argumentVar1.set((Expression)pop()), Terminal("=>"),Expression(), argumentVar2.set((Expression)pop()), push(((MapDefinitionExpression)pop()).addKeyValue(argumentVar1.get(), argumentVar2.get())));
 	}
 
 	Rule ConstructorCall() {

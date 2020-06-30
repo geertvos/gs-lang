@@ -14,3 +14,6 @@ System.print("Array length: "+names.length);
 object = new {};
 object.name = "MyObject";
 System.print(object["name"]);
+
+object2 = new [ "name" => "Catlin", "age" => 38];
+System.print(object2.name);
