@@ -105,5 +105,11 @@ public class NativeObjectWrapper implements GVMObject {
 	public boolean hasValue(String id) {
 		return methods.containsKey(id);
 	}
+
+
+	@Override
+	public Collection<String> getKeys() {
+		return methods.keySet();
+	}
 	
 }

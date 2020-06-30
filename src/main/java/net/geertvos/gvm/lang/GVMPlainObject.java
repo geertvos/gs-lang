@@ -54,6 +54,10 @@ public class GVMPlainObject implements GVMObject {
 	public Collection<Value> getValues() {
 		return data.values();
 	}
+	
+	public Collection<String> getKeys() {
+		return data.keySet();
+	}
 
 	@Override
 	public String toString() {

@@ -2,7 +2,7 @@ package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.StringType;
 
 public class ConstantExpression extends Expression {
@@ -30,7 +30,7 @@ public class ConstantExpression extends Expression {
 
 	public ConstantExpression()
 	{
-		this.type = new GscriptObjectType().getName();
+		this.type = new ObjectType().getName();
 	}	
 	
 	@Override

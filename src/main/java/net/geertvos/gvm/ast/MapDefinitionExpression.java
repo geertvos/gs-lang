@@ -6,7 +6,7 @@ import java.util.List;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.types.ArrayType;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
 
 public class MapDefinitionExpression extends Expression {
@@ -26,7 +26,7 @@ public class MapDefinitionExpression extends Expression {
 	@Override
 	public void compile(GScriptCompiler c) {
 		c.code.add(GVM.NEW);
-		c.code.writeString(new GscriptObjectType().getName());
+		c.code.writeString(new ObjectType().getName());
 		for(int i=0;i<keys.size();i++) {
 			values.get(i).compile(c);
 			c.code.add(GVM.LDS);

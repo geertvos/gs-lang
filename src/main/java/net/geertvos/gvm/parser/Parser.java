@@ -255,7 +255,7 @@ public class Parser extends BaseParser<Object> {
 	Rule KeyValueArgument() {
 		Var<Expression> argumentVar1 = new Var<Expression>();
 		Var<Expression> argumentVar2 = new Var<Expression>();
-		return Sequence(Expression(),argumentVar1.set((Expression)pop()), Terminal("=>"),Expression(), argumentVar2.set((Expression)pop()), push(((MapDefinitionExpression)pop()).addKeyValue(argumentVar1.get(), argumentVar2.get())));
+		return Sequence(Expression(),argumentVar1.set((Expression)pop()), DOUBLEARROW, Expression(), argumentVar2.set((Expression)pop()), push(((MapDefinitionExpression)pop()).addKeyValue(argumentVar1.get(), argumentVar2.get())));
 	}
 
 	Rule ConstructorCall() {
@@ -318,7 +318,7 @@ public class Parser extends BaseParser<Object> {
 	@MemoMismatches
 	Rule String() {
 		//TODO: Fix and support UTF-8 strings 
-		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!/\\?@#$%&*()|:; '<>"))), push(new ConstantExpression(match())), "\"");
+		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!/\\?@#$%&*()|:; '<>\n"))), push(new ConstantExpression(match())), "\"");
 	}
 
 	@SuppressSubnodes
@@ -327,7 +327,7 @@ public class Parser extends BaseParser<Object> {
 	}
 
 	Rule ReservedKeywords() {
-		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW, GLOBAL, IMPORT, MODULE);
+		return FirstOf(QUESTION, EXCLAMATION, NEW, NATIVE, THIS, RETURN, BREAK, IF, WHILE, FOR, CONTINUE, TRUE, FALSE, TRY, CATCH, UNDEF, ELSE, THROW, GLOBAL, IMPORT, MODULE, DOUBLEARROW);
 	}
 
 	
@@ -384,6 +384,7 @@ public class Parser extends BaseParser<Object> {
 	final Rule GLOBAL = Terminal("global");
 	final Rule MODULE = Terminal("module");
 	final Rule IMPORT = Terminal("import");
+	final Rule DOUBLEARROW = Terminal("=>");
 
 	@SuppressNode
 	@DontLabel

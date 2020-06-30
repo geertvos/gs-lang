@@ -47,7 +47,7 @@ public class StringType implements Type {
 				if(parameter.equals("bytes")) {
 					String s = context.getProgram().getString(thisValue.getValue());
 					int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
-					return new Value(index, new GscriptObjectType());
+					return new Value(index, new ObjectType());
 				}
 				if(parameter.equals("ref")) {
 					return new Value(thisValue.getValue(), new NumberType());

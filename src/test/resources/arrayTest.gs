@@ -17,3 +17,10 @@ System.print(object["name"]);
 
 object2 = new [ "name" => "Catlin", "age" => 38];
 System.print(object2.name);
+object2.description = "An object with a name, age and a description.";
+
+//Reflection
+fields = object2.fields;
+for(x=0;x<fields.length;x++){
+	System.print(fields[x]);
+}

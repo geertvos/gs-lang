@@ -3,7 +3,7 @@ package net.geertvos.gvm.lang;
 import net.geertvos.gvm.core.GVMExceptionHandler;
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
@@ -20,7 +20,7 @@ public class GscriptExceptionHandler implements GVMExceptionHandler {
 		exceptionObject.setValue("line", new Value(line, new NumberType()));
 		exceptionObject.setValue("location", new Value(location, new StringType()));
 		int id = context.getHeap().addObject(exceptionObject);
-		return new Value(id, new GscriptObjectType());
+		return new Value(id, new ObjectType());
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class GscriptExceptionHandler implements GVMExceptionHandler {
 			exceptionObject.setValue("line", new Value(line, new NumberType()));
 			exceptionObject.setValue("location", new Value(location, new StringType()));
 			int id = context.getHeap().addObject(exceptionObject);
-			return new Value(id, new GscriptObjectType());
+			return new Value(id, new ObjectType());
 	}
 
 }

@@ -10,7 +10,7 @@ import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.bridge.GvmToNativeOjectWrapper;
 import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
@@ -30,7 +30,7 @@ public class GscriptValueConverter implements ValueConverter {
 			return value.getValue();
 		} else if(type instanceof BooleanType) {
 			return value.getValue() > 0;
-		} else if(type instanceof GscriptObjectType) {
+		} else if(type instanceof ObjectType) {
 			int objectId = value.getValue();
 			Object backingObject = context.getHeap().getObject(objectId);
 			if(backingObject instanceof NativeObjectWrapper) {
@@ -52,7 +52,7 @@ public class GscriptValueConverter implements ValueConverter {
 			return value.getValue();
 		} else if(type instanceof BooleanType && (convertTo == Boolean.class || convertTo == boolean.class)) {
 			return value.getValue() > 0;
-		} else if(type instanceof GscriptObjectType) {
+		} else if(type instanceof ObjectType) {
 			int objectId = value.getValue();
 			Object backingObject = context.getHeap().getObject(objectId);
 			if(backingObject instanceof NativeObjectWrapper) {
@@ -97,11 +97,11 @@ public class GscriptValueConverter implements ValueConverter {
 		}
 		else if(returnValue instanceof GVMObject) {
 			int index = context.getHeap().addObject((GVMObject)returnValue);
-			return new Value(index, new GscriptObjectType());
+			return new Value(index, new ObjectType());
 		} else {
 			NativeObjectWrapper wrapper = new NativeObjectWrapper(returnValue, context);
 			int index = context.getHeap().addObject(wrapper);
-			return new Value(index, new GscriptObjectType());
+			return new Value(index, new ObjectType());
 		}
 
 	}
