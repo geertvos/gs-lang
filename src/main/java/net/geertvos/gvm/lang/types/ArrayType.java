@@ -37,6 +37,21 @@ public class ArrayType implements Type {
 			ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
 			return array.getValue(otherValue.getValue());
 		}
+		if(op.equals(Operations.GET)) {
+			if(otherValue.getType().isInstance(new StringType())) {
+				String parameter = context.getProgram().getString(otherValue.getValue());
+				if(parameter.equals("length")) {
+					ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
+					return new Value(array.getLength(), new NumberType());
+				} else {
+					return new Value(0, new Undefined());
+				}
+			}
+			if(otherValue.getType().isInstance(new NumberType())) {
+				ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
+				return array.getValue(otherValue.getValue());
+			}
+		}
 		throw new IllegalArgumentException("Operation "+op+" not supported on Array type.");
 	}
 
@@ -55,5 +70,14 @@ public class ArrayType implements Type {
 		}
 		return new Value(0, new Undefined());
 	}
+	
+	@Override
+	public boolean isInstance(Type otherType) {
+		if(otherType.getName().equals(getName())) {
+			return true;
+		}
+		return false;
+	}
+
 
 }

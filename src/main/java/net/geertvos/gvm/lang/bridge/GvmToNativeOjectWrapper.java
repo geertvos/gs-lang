@@ -10,6 +10,7 @@ import net.geertvos.gvm.bridge.ValueConverter;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.GVMThread;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
@@ -42,8 +43,11 @@ public class GvmToNativeOjectWrapper implements InvocationHandler {
 			paramNames.add(p.getName());
 		}
 		//Generate a function to call the native method
+		int ref = context.getProgram().addString(method.getName());
+		code.add(GVM.LDC_D);
+		code.writeInt(ref);
+		code.writeString(new StringType().getName());
 		code.add(GVM.GET);
-		code.writeString(method.getName());
 		code.add(GVM.INVOKE);
 		code.writeInt(argumentCount);
 		code.add(GVM.HALT);

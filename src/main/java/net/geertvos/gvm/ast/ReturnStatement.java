@@ -1,18 +1,14 @@
 package net.geertvos.gvm.ast;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.parboiled.support.Position;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.Undefined;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
 
 public class ReturnStatement extends Statement {
 
-	private List<Expression> returnValues;
+	private Expression returnValue;
 	
 	public ReturnStatement(Position pos)
 	{
@@ -22,47 +18,26 @@ public class ReturnStatement extends Statement {
 	public ReturnStatement( Expression val, Position pos )
 	{
 		super(pos);
-		this.returnValues = new LinkedList<Expression>();
-		this.returnValues.add(val);
+		this.returnValue = val;
 	}
 
-	
-	public ReturnStatement(List<Expression> returnValues, Position pos) {
-		super(pos);
-		this.returnValues = returnValues;
-	}
-
-	public Expression getExpression(int index) {
-		return returnValues.get(index);
-	}
 	
 	@Override
 	public void compile(GScriptCompiler c) {
 		super.compile(c);
-		if( returnValues == null )  {
+		if( returnValue == null )  {
 			c.code.add(GVM.LDC_D);
 			c.code.writeInt(0);
 			c.code.writeString(new Undefined().getName());
 		}
 		else {
-			if(returnValues.size() == 1) {
-				returnValues.get(0).compile(c);
-			} else {
-				//Wrap multiple return values in an object and set fields by index
-				c.code.add(GVM.NEW);
-				c.code.writeString(new GscriptObjectType().getName());
-				for(int i=0;i<returnValues.size();i++) {
-					returnValues.get(i).compile(c); //this line is in the wrong spot
-					c.code.add(GVM.LDS);
-					c.code.writeInt(-1);
-					c.code.add(GVM.GET);
-					c.code.writeString("field_"+i);
-					c.code.add(GVM.PUT);
-					c.code.add(GVM.POP);
-				}
-			}
+			returnValue.compile(c);
 		}
 		c.code.add(GVM.RETURN);
+	}
+
+	public Expression getReturnValue() {
+		return returnValue;
 	}
 
 }

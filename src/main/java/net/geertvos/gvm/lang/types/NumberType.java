@@ -80,5 +80,14 @@ public class NumberType implements Type {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean isInstance(Type otherType) {
+		if(otherType.getName().equals(getName())) {
+			return true;
+		}
+		return false;
+	}
+
 
 }

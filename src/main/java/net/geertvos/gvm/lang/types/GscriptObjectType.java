@@ -44,12 +44,33 @@ public class GscriptObjectType implements Type {
 			//TODO: Check if this always works
 			return new Value(thisValue.getValue() == otherValue.getValue()?1:0, new BooleanType());
 		}
+		if(op.equals(Operations.GET)) {
+			int ref = otherValue.getValue();
+			if(otherValue.getType().isInstance(new StringType())) {
+				String name = context.getProgram().getString(ref);
+				if(name.equals("ref")) {
+					return new Value(thisValue.getValue(), new NumberType());
+				} else {
+					return context.getHeap().getObject(thisValue.getValue()).getValue(name);
+				}
+			}
+			throw new IllegalArgumentException("Operation "+op+" not supported on "+getName()+" with type "+otherValue.getType());
+		}
 		if(op.equals(Operations.NEW)) {
 			int id = context.getHeap().addObject(new GVMPlainObject());
 			return new Value(id, new GscriptObjectType());
 		}
 		return null;
 	}
+	
+	@Override
+	public boolean isInstance(Type otherType) {
+		if(otherType.getName().equals(getName())) {
+			return true;
+		}
+		return false;
+	}
+
 
 	
 }

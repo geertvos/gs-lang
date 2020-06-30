@@ -47,7 +47,7 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
-	@Test()
+	//@Test()
 	public void testScope() throws IOException {
 		URL url = Resources.getResource("scope-test.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);

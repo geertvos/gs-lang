@@ -2,6 +2,7 @@ package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
+import net.geertvos.gvm.lang.types.StringType;
 
 public class VariableExpression extends Expression implements FieldReferenceExpression {
 
@@ -49,12 +50,18 @@ public class VariableExpression extends Expression implements FieldReferenceExpr
 		} else if (field != null) {
 			// Variable points to a field of the specified parent field
 			field.compile(c);
+			int ref = c.getProgram().addString(name);
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(ref);
+			c.code.writeString(new StringType().getName());
 			c.code.add(GVM.GET);
-			c.code.writeString(name);
 		} else {
 			// It just refers to a field
+			int ref = c.getProgram().addString(name); 
+			c.code.add(GVM.LDC_D);
+			c.code.writeInt(ref);
+			c.code.writeString(new StringType().getName());
 			c.code.add(GVM.GETDYNAMIC);
-			c.code.writeString(name);
 			return;
 		}
 	}

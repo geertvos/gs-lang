@@ -33,7 +33,7 @@ public class ArrayDefinitionExpression extends Expression implements Parameteriz
 			c.code.add(GVM.LDC_D);
 			c.code.writeInt(counter);
 			c.code.writeString(new NumberType().getName());
-			c.code.add(GVM.GETINDEX);
+			c.code.add(GVM.GET);
 			c.code.add(GVM.PUT);
 			c.code.add(GVM.POP);
 			counter++;

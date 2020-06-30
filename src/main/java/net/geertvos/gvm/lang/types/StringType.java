@@ -31,7 +31,31 @@ public class StringType implements Type {
 
 	@Override
 	public Value perform(GVMContext context, Operations op, Value thisValue, Value otherValue) {
-		if(op.equals(Operations.ADD)) {
+		if(op.equals(Operations.GET)) {
+			int ref = otherValue.getValue();
+			if(otherValue.getType().isInstance(new StringType())) {
+				String parameter = context.getProgram().getString(ref);
+				if(parameter.equals("lowercase")) {
+					String lowered = context.getProgram().getString(thisValue.getValue()).toLowerCase();
+					int index = context.getProgram().addString(lowered);
+					return new Value(index, new StringType());
+				}
+				if(parameter.equals("length")) {
+					String s = context.getProgram().getString(thisValue.getValue());
+					return new Value(s.length(), new NumberType());
+				}
+				if(parameter.equals("bytes")) {
+					String s = context.getProgram().getString(thisValue.getValue());
+					int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
+					return new Value(index, new GscriptObjectType());
+				}
+				if(parameter.equals("ref")) {
+					return new Value(thisValue.getValue(), new NumberType());
+				}
+			}
+			return new Value(thisValue.getValue() == otherValue.getValue()?1:0, new BooleanType());
+		}
+		else if(op.equals(Operations.ADD)) {
 			String arg1 = context.getProgram().getString(thisValue.getValue());
 			String arg2 = "";
 			if(otherValue.getType() instanceof StringType) {
@@ -57,26 +81,16 @@ public class StringType implements Type {
 	@Override
 	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
 		//Implement built in functions
-		if(op.equals(Operations.GET)) {
-			if(parameter.equals("lowercase")) {
-				String lowered = context.getProgram().getString(thisValue.getValue()).toLowerCase();
-				int index = context.getProgram().addString(lowered);
-				return new Value(index, new StringType());
-			}
-			if(parameter.equals("length")) {
-				String s = context.getProgram().getString(thisValue.getValue());
-				return new Value(s.length(), new NumberType());
-			}
-			if(parameter.equals("bytes")) {
-				String s = context.getProgram().getString(thisValue.getValue());
-				int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
-				return new Value(index, new GscriptObjectType());
-			}
-			if(parameter.equals("ref")) {
-				return new Value(thisValue.getValue(), new NumberType());
-			}
-		}
 		return new Value(0, new Undefined());
 	}
+	
+	@Override
+	public boolean isInstance(Type otherType) {
+		if(otherType.getName().equals(getName())) {
+			return true;
+		}
+		return false;
+	}
+
 
 }

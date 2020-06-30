@@ -246,7 +246,7 @@ public class ParserTest {
 		FunctionDefExpression functionDefExpression = (FunctionDefExpression) statement.getExpression();
 		assertEquals("a", functionDefExpression.getParameter(0));
 		ReturnStatement returnStatement = (ReturnStatement) functionDefExpression.getStatement(0);
-		VariableExpression variable = (VariableExpression) returnStatement.getExpression(0);
+		VariableExpression variable = (VariableExpression) returnStatement.getReturnValue();
 		assertEquals("b", variable.getName());
 	}
 

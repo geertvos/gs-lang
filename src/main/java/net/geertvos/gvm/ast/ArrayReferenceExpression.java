@@ -17,7 +17,7 @@ public class ArrayReferenceExpression extends Expression {
 	public void compile(GScriptCompiler c) {
 		reference.compile(c);
 		index.compile(c);
-		c.code.add(GVM.GETINDEX);
+		c.code.add(GVM.GET);
 	}
 
 }
