@@ -76,12 +76,6 @@ public class NumberType implements Type {
 	}
 
 	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	public boolean isInstance(Type otherType) {
 		if(otherType.getName().equals(getName())) {
 			return true;

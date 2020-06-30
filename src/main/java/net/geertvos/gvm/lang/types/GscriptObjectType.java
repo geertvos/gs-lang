@@ -9,17 +9,6 @@ import net.geertvos.gvm.program.GVMContext;
 public class GscriptObjectType implements Type {
 
 	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
-		if(op != Operations.GET) {
-			throw new IllegalArgumentException("Operation " + op + " is not supported by type " + getName());
-		}
-		if(parameter.equals("ref")) {
-			return new Value(thisValue.getValue(), new NumberType());
-		}
-		return context.getHeap().getObject(thisValue.getValue()).getValue((String) parameter);
-	}
-
-	@Override
 	public String getName() {
 		return "Object";
 	}

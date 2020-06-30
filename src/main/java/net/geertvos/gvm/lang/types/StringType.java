@@ -53,7 +53,7 @@ public class StringType implements Type {
 					return new Value(thisValue.getValue(), new NumberType());
 				}
 			}
-			return new Value(thisValue.getValue() == otherValue.getValue()?1:0, new BooleanType());
+			throw new IllegalArgumentException("Operation "+op+" not supported on "+getName()+" with argument type: "+otherValue.getType().getName());
 		}
 		else if(op.equals(Operations.ADD)) {
 			String arg1 = context.getProgram().getString(thisValue.getValue());
@@ -78,12 +78,6 @@ public class StringType implements Type {
 		}
 	}
 
-	@Override
-	public Value perform(GVMContext context, Operations op, Value thisValue, Object parameter) {
-		//Implement built in functions
-		return new Value(0, new Undefined());
-	}
-	
 	@Override
 	public boolean isInstance(Type otherType) {
 		if(otherType.getName().equals(getName())) {
