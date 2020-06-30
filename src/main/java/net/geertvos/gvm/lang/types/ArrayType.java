@@ -1,6 +1,5 @@
 package net.geertvos.gvm.lang.types;
 
-import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
