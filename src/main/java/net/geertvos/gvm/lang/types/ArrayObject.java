@@ -2,10 +2,12 @@ package net.geertvos.gvm.lang.types;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.lang.GVMPlainObject;
 
 public class ArrayObject implements GVMObject {
 
@@ -73,5 +75,15 @@ public class ArrayObject implements GVMObject {
 	public Collection<String> getKeys() {
 		return new LinkedList<String>();
 	}
+
+	@Override
+	public ArrayObject clone() {
+		ArrayObject plain = new ArrayObject();
+		for(int i=0;i<values.length;i++) {
+			plain.values[i] = this.values[i];
+		}
+		return plain;
+	}
+	
 
 }

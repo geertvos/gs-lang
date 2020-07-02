@@ -25,6 +25,7 @@ import net.geertvos.gvm.ast.Expression;
 import net.geertvos.gvm.ast.ExpressionStatement;
 import net.geertvos.gvm.ast.FieldReferenceExpression;
 import net.geertvos.gvm.ast.ForStatement;
+import net.geertvos.gvm.ast.ForkExpression;
 import net.geertvos.gvm.ast.FunctionCallExpression;
 import net.geertvos.gvm.ast.FunctionDefExpression;
 import net.geertvos.gvm.ast.IfStatement;
@@ -228,12 +229,16 @@ public class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Number(), Boolean(), String(), MapDefinition(), ArrayDefinition(), Undef(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Fork(), Number(), Boolean(), String(), MapDefinition(), ArrayDefinition(), Undef(), Reference());
     }
     
 	Rule Assignment() {
 		return Sequence(Reference(), EQUALS, Expression(),
 				push(new AssignmentExpression((Expression) pop(), (Expression) pop())));
+	}
+	
+	Rule Fork() {
+		return Sequence(Terminal("fork()"),push(new ForkExpression()));
 	}
 	
 	Rule ObjectDefinition() {

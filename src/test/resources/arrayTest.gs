@@ -1,6 +1,7 @@
 module ArrayTest;
 import System;
 
+
 names = new ["Johny", "Calvin", "Clara"];
 System.print(names[0]);
 System.print(names[1]);

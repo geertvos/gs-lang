@@ -75,6 +75,13 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+	@Test()
+	public void testMultiThreading() throws IOException {
+		URL url = Resources.getResource("MultiThreadingTest.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
 	public void testNativeObject() throws IOException {
 		URL url = Resources.getResource("NativeObject.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);
