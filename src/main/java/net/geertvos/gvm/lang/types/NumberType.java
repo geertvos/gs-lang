@@ -3,7 +3,6 @@ package net.geertvos.gvm.lang.types;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.core.Type.Operations;
 import net.geertvos.gvm.program.GVMContext;
 
 public class NumberType implements Type {

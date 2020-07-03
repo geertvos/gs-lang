@@ -2,12 +2,10 @@ package net.geertvos.gvm.lang.types;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.GVMPlainObject;
 
 public class ArrayObject implements GVMObject {
 
