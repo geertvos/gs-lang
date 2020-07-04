@@ -82,6 +82,13 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 
+	@Test()
+	public void testCallback() throws IOException {
+		URL url = Resources.getResource("callback-test.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
 	public void testNativeObject() throws IOException {
 		URL url = Resources.getResource("NativeObject.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);

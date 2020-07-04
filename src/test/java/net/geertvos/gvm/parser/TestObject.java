@@ -6,4 +6,8 @@ public class TestObject {
 		return "Geert";
 	}
 	
+	public void setCallback(Callback c) {
+		c.onCallback("You called me!");
+	}
+	
 }

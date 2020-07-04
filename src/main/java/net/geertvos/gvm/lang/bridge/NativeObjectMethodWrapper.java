@@ -27,14 +27,13 @@ public class NativeObjectMethodWrapper extends NativeMethodWrapper {
 		ValueConverter converter = context.getProgram().getConverter();
 		try {
 			Object[] wrappedArgs = new Object[arguments.size()];
-			Class[] wrappedTypes = new Class[arguments.size()];
+			Class<?>[] wrappedTypes = new Class[arguments.size()];
 			for(int i=0;i<arguments.size();i++) {
 				Object converted = converter.convertFromGVM(context, arguments.get(i));
 				wrappedArgs[i] = converted;
 				wrappedTypes[i] = converted.getClass();
 			}
 
-			//TODO: Add object support
 			Method theMethod = null;
 			int count = 0;
 			for(Method m : parent.getClass().getMethods()) {

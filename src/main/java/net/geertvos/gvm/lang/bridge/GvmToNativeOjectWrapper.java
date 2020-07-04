@@ -15,51 +15,42 @@ import net.geertvos.gvm.program.GVMContext;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
+/**
+ * This class generates a Java Proxy that calls in to the GVM to execute a function.
+ * 
+ * @author Geert Vos
+ *
+ */
 public class GvmToNativeOjectWrapper implements InvocationHandler {
  
-	private Value value;
-	private ValueConverter converter;
+	private final Value value;
 	private final GVMContext context;
 	
 	public GvmToNativeOjectWrapper(GVMContext context, Value value) {
 		this.context = context;
 		this.value = value;
-    	this.converter = context.getProgram().getConverter();
     }
 
 	@Override
-    public Object invoke(Object proxy, Method method, Object[] args) 
-      throws Throwable {
-		System.out.println("Proxy called on "+method.getName());
-		
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		ValueConverter converter = context.getProgram().getConverter();
 		//Generate wrapper function
 		int argumentCount = 0;
 		if(args != null) {
 			argumentCount = args.length;
 		}
-		RandomAccessByteStream code = new RandomAccessByteStream(256);
 		List<String> paramNames = new LinkedList<String>();
 		for(Parameter p : method.getParameters()) {
 			paramNames.add(p.getName());
 		}
 		//Generate a function to call the native method
-		int ref = context.getProgram().addString(method.getName());
-		code.add(GVM.LDC_D);
-		code.writeInt(ref);
-		code.writeString(new StringType().getName());
-		code.add(GVM.GET);
-		code.add(GVM.INVOKE);
-		code.writeInt(argumentCount);
-		code.add(GVM.HALT);
+		//Run in a fork of the original thread to copy existing scope
+		GVMThread thread = context.getThread().fork();
+
+		RandomAccessByteStream code = generateFunction(method, argumentCount);
 		GVMFunction function = new GVMFunction(code, paramNames);
 		int functionPointer = context.getProgram().addFunction(function);
-//TODO: Rewrite to reuse existing thread, so we can also use GETDYNAMIC to get variables outside the current scope.
-//		GVMThread thread = context.getThread();
-		GVMThread thread = new GVMThread(context.getProgram(), context.getHeap());
 		thread.setFunctionPointer(functionPointer);
-//		int callerFunction = thread.getFunctionPointer();
-//		thread.getCallStack().push(new StackFrame(thread.getBytecode().getPointerPosition(), thread.getFramepointer(), callerFunction, thread.getDebugLineNumber(), thread.getLocation(), value));
-//		thread.setFramepointer(thread.getStack().size()-1);
 		thread.setBytecode(code);
 		//Set the this
 		thread.getStack().push(value);
@@ -84,4 +75,17 @@ public class GvmToNativeOjectWrapper implements InvocationHandler {
         return converter.convertFromGVM(context, returnVal);
         
     }
+
+	private RandomAccessByteStream generateFunction(Method method, int argumentCount) {
+		RandomAccessByteStream code = new RandomAccessByteStream(256);
+		int ref = context.getProgram().addString(method.getName());
+		code.add(GVM.LDC_D);
+		code.writeInt(ref);
+		code.writeString(new StringType().getName());
+		code.add(GVM.GET);
+		code.add(GVM.INVOKE);
+		code.writeInt(argumentCount);
+		code.add(GVM.HALT);
+		return code;
+	}
 }
