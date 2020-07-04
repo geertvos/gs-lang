@@ -3,8 +3,6 @@ package net.geertvos.gvm.lang.types;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.core.Type.Operations;
-import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
 import net.geertvos.gvm.program.GVMContext;
 
@@ -47,7 +45,7 @@ public class StringType implements Type {
 				if(parameter.equals("bytes")) {
 					String s = context.getProgram().getString(thisValue.getValue());
 					int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
-					return new Value(index, new GscriptObjectType());
+					return new Value(index, new ObjectType());
 				}
 				if(parameter.equals("ref")) {
 					return new Value(thisValue.getValue(), new NumberType());

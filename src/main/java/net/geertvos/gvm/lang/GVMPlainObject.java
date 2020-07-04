@@ -3,6 +3,7 @@ package net.geertvos.gvm.lang;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Undefined;
@@ -54,6 +55,10 @@ public class GVMPlainObject implements GVMObject {
 	public Collection<Value> getValues() {
 		return data.values();
 	}
+	
+	public Collection<String> getKeys() {
+		return data.keySet();
+	}
 
 	@Override
 	public String toString() {
@@ -67,6 +72,15 @@ public class GVMPlainObject implements GVMObject {
 	@Override
 	public boolean hasValue(String id) {
 		return data.containsKey(id);
+	}
+	
+	@Override
+	public GVMPlainObject clone() {
+		GVMPlainObject plain = new GVMPlainObject();
+		for(Entry<String,Value> keyVal : data.entrySet()) {
+			plain.data.put(keyVal.getKey(), keyVal.getValue());
+		}
+		return plain;
 	}
 	
 }

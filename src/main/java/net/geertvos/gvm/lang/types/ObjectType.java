@@ -1,12 +1,13 @@
 package net.geertvos.gvm.lang.types;
 
 import net.geertvos.gvm.core.BooleanType;
+import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.GVMPlainObject;
 import net.geertvos.gvm.program.GVMContext;
 
-public class GscriptObjectType implements Type {
+public class ObjectType implements Type {
 
 	@Override
 	public String getName() {
@@ -37,17 +38,29 @@ public class GscriptObjectType implements Type {
 			int ref = otherValue.getValue();
 			if(otherValue.getType().isInstance(new StringType())) {
 				String name = context.getProgram().getString(ref);
-				if(name.equals("ref")) {
+				if(name.equals("fields")) {
+					GVMObject thisObject = context.getHeap().getObject(thisValue.getValue());
+					ArrayObject arrayObject = new ArrayObject();
+					int arrayRef = context.getHeap().addObject(arrayObject);
+					int count = 0;
+					for(String key : thisObject.getKeys()) {
+						int keyRef = context.getProgram().addString(key);
+						Value val = new Value(keyRef, new StringType(), "Reflection based value");
+						arrayObject.setValue(count, val);
+						count++;
+					}
+					return new Value(arrayRef, new ArrayType());
+				} else if(name.equals("ref")) {
 					return new Value(thisValue.getValue(), new NumberType());
 				} else {
 					return context.getHeap().getObject(thisValue.getValue()).getValue(name);
 				}
 			}
-			throw new IllegalArgumentException("Operation "+op+" not supported on "+getName()+" with type "+otherValue.getType());
+			throw new IllegalArgumentException("Operation "+op+" not supported on "+getName()+" with type "+otherValue.getType().getName());
 		}
 		if(op.equals(Operations.NEW)) {
 			int id = context.getHeap().addObject(new GVMPlainObject());
-			return new Value(id, new GscriptObjectType());
+			return new Value(id, new ObjectType());
 		}
 		return null;
 	}

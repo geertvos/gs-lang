@@ -15,10 +15,16 @@ import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
+import net.geertvos.gvm.lang.types.ArrayObject;
 import net.geertvos.gvm.program.GVMContext;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;
 
+/**
+ * WRaps Java object in a GScript object. Generating method to call in to the native method.
+ * @author geert
+ *
+ */
 public class NativeObjectWrapper implements GVMObject {
 
 	private Object object;
@@ -55,14 +61,13 @@ public class NativeObjectWrapper implements GVMObject {
 			generatedFunctions.add(index);
 			generatedFunctions.add(nativeFunction);
 			methods.put(m.getName(), new Value(index, new FunctionType(), "Generated function to call "+m.getName()+" on "+object.getClass().getName()));
-			//TODO: invent a mechanism to GC unused functions
 		}
 	}
 
 
 	@Override
 	public void setValue(String id, Value v) {
-		//do later
+		//TODO: Currently not supported
 	}
 
 	@Override
@@ -104,6 +109,17 @@ public class NativeObjectWrapper implements GVMObject {
 	@Override
 	public boolean hasValue(String id) {
 		return methods.containsKey(id);
+	}
+
+
+	@Override
+	public Collection<String> getKeys() {
+		return methods.keySet();
+	}
+	
+	@Override
+	public NativeObjectWrapper clone() {
+		return this;
 	}
 	
 }

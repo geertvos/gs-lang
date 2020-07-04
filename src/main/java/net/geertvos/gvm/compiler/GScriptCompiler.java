@@ -14,7 +14,7 @@ import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.GscriptExceptionHandler;
 import net.geertvos.gvm.lang.GscriptValueConverter;
 import net.geertvos.gvm.lang.types.ArrayType;
-import net.geertvos.gvm.lang.types.GscriptObjectType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMFunction;
@@ -46,7 +46,7 @@ public class GScriptCompiler {
 		program.addFunction(function);
 		
 		code.add(GVM.NEW); //Init main function
-		code.writeString(new GscriptObjectType().getName());
+		code.writeString(new ObjectType().getName());
 		for( Compilable s : compilables )
 		{
 			s.compile(this);
@@ -67,7 +67,7 @@ public class GScriptCompiler {
 		program.addFunction(function);
 		
 		code.add(GVM.NEW); //Init main function
-		code.writeString(new GscriptObjectType().getName());
+		code.writeString(new ObjectType().getName());
 		for(Module m : modules) {
 			this.currentModuleName = m.getName();
 			m.compile(this);
@@ -82,7 +82,7 @@ public class GScriptCompiler {
 
 	private GVMProgram prepareProgram() {
 		program = new GVMProgram("demo", new GscriptExceptionHandler(), new GscriptValueConverter());
-		program.registerType(new GscriptObjectType());
+		program.registerType(new ObjectType());
 		program.registerType(new StringType());
 		program.registerType(new NumberType());
 		program.registerType(new BooleanType());
