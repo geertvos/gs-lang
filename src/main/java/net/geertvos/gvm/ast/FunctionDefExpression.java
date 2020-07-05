@@ -57,18 +57,11 @@ public class FunctionDefExpression extends Expression implements Scope {
 		c.code = functionCode;
 		
 		int index = c.getProgram().addFunction(function);
+		function.setIndex(index);
+		
 		for( Statement s : statements )
 		{
-			if(s instanceof ReturnStatement) {
-				//TODO: Implement tail recursion runtime check here
-				//Implement runtime check to see if the return value resolves to the same function that we now execute.
-				//If true, jump to beginning of function without return.
-				//If false, return.
 				s.compile(c);
-			} else {
-				s.compile(c);
-			}
-			
 		}
 		if(!(statements.get(statements.size()-1) instanceof ReturnStatement)) {
 			c.code.add(GVM.LDC_D);

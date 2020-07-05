@@ -3,6 +3,7 @@ package net.geertvos.gvm.ast;
 import org.parboiled.support.Position;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
+import net.geertvos.gvm.core.FunctionType;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.Undefined;
 
@@ -31,7 +32,39 @@ public class ReturnStatement extends Statement {
 			c.code.writeString(new Undefined().getName());
 		}
 		else {
-			returnValue.compile(c);
+			if(returnValue instanceof FunctionCallExpression) {
+				//Tail recursion checks
+				//We have a function call, compare to this function
+				FunctionCallExpression fc = (FunctionCallExpression)returnValue;
+				FieldReferenceExpression field = fc.getFunction();
+				field.compile(c);
+
+				c.code.add(GVM.LDC_D);
+				c.code.writeInt(c.getFunction().getIndex()); 
+				c.code.writeString(new FunctionType().getName());
+				c.code.add(GVM.EQL);
+				c.code.add(GVM.NOT);
+				c.code.add(GVM.CJMP);   //We check if we are calling the same function. If not,  jump to return.
+				int jumpLocation = c.code.getPointerPosition();
+				c.code.writeInt(-1);
+				//Update the parameter values instead of calling the function
+				for(int x=0;x<fc.getParameterCount();x++) {
+					//Value
+					fc.getParameter(x).compile(c);
+					//Variable
+					c.code.add(GVM.LDS);
+					c.code.writeInt(1 + x);
+					c.code.add(GVM.PUT);
+					c.code.add(GVM.POP);
+				}
+				c.code.add(GVM.JMP); //Do not continue with return, but jump to beginning of function again.
+				c.code.writeInt(0);
+				int jump = c.code.getPointerPosition();
+				c.code.set(jumpLocation, jump);
+				returnValue.compile(c);
+			} else {
+				returnValue.compile(c);
+			}
 		}
 		c.code.add(GVM.RETURN);
 	}
