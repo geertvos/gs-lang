@@ -6,12 +6,14 @@ import System;
 linefeed = "\n";
 serversocket = native("java.net.ServerSocket","ServerSocket", 8081);
 
-responseheader = "HTTP/1.0 200 OK";
+responseheader = "HTTP/1.1 200 OK";
 int counter = 0;
 while(true) {
 	socket = serversocket.accept();
 	output = socket.getOutputStream();
-	message = responseheader+linefeed+linefeed+"<h1>Hello "+counter+"</h1><h6>Served from the GVM"+linefeed+linefeed;
+	headers = "Connection: close;\n";
+	headers += "Content-Length: 42;\n";
+	message = responseheader+"\n"+headers+"\n\n"+"<h1>Hello "+counter+"</h1><h6>Served from the GVM"+linefeed+linefeed;
 	bytes = message.bytes;
     output.write(bytes);
 	output.flush();
