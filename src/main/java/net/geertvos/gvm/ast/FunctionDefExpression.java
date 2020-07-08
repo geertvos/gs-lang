@@ -57,9 +57,11 @@ public class FunctionDefExpression extends Expression implements Scope {
 		c.code = functionCode;
 		
 		int index = c.getProgram().addFunction(function);
+		function.setIndex(index);
+		
 		for( Statement s : statements )
 		{
-			s.compile(c);
+				s.compile(c);
 		}
 		if(!(statements.get(statements.size()-1) instanceof ReturnStatement)) {
 			c.code.add(GVM.LDC_D);
@@ -74,6 +76,7 @@ public class FunctionDefExpression extends Expression implements Scope {
 		c.code.writeString(new FunctionType().getName());
 		
 	}
+
 
 	public int getStatements() {
 		return statements.size();

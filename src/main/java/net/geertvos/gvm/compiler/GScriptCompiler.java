@@ -1,21 +1,22 @@
 package net.geertvos.gvm.compiler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.bridge.NativeMethodWrapper;
-import net.geertvos.gvm.bridge.ValueConverter;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.GscriptExceptionHandler;
 import net.geertvos.gvm.lang.GscriptValueConverter;
 import net.geertvos.gvm.lang.types.ArrayType;
-import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.program.GVMProgram;
@@ -32,11 +33,16 @@ public class GScriptCompiler {
 	private final List<String> varNamesConstants = new ArrayList<>();
 	private final List<NativeMethodWrapper> natives = new ArrayList<>();
 	private final Stack<LoopStatement> loopStack = new Stack<>();
+	private final Set<CompilerOptimizations> enabledOptimizations = new HashSet<>();
 	
 	public RandomAccessByteStream code;
 	private GVMFunction function;
 	private GVMProgram program;
 	private String currentModuleName = "unknown";
+	
+	public GScriptCompiler() {
+		enabledOptimizations.add(CompilerOptimizations.TAIL_RECURSION);
+	}
 	
 	public GVMProgram compile(List<Statement> compilables)
 	{
@@ -129,6 +135,18 @@ public class GScriptCompiler {
 	
 	public boolean isDebugModeEnabled() {
 		return true;
+	}
+	
+	public boolean isEnabled(CompilerOptimizations optimization) {
+		return enabledOptimizations.contains(optimization);
+	}
+	
+	public void enableOptimization(CompilerOptimizations optimization) {
+		enabledOptimizations.add(optimization);
+	}
+	
+	public void disableOptimization(CompilerOptimizations optimization) {
+		enabledOptimizations.remove(optimization);
 	}
 	
 	public boolean hasNativeMethod(NativeMethodWrapper method) {
