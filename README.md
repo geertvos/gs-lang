@@ -117,3 +117,6 @@ myFunction = (argument) -> {
 	return; 
 }
 ```
+
+# tail recursion
+The compiler contains support to optimze tail recursion. This will reduce the stack usage and will reuse the existing stackframe for the tail call. The optimization can be enabled/disabled. The optimization is implemented as a runtime check becuase the language is dynamically typed and functions are first class citizens. Only at runtime we can verify that we are performing an actual tail call.  The runtime check might impact performane.
