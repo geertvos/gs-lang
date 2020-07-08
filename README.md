@@ -41,6 +41,13 @@ The language supports arrays with dynamic lengths.
 names = new ["Johny", "Calvin", "Clara"];
 System.print(names[0]);
 ```
+# map syntax support
+The language supports maps naturally, since all objects are implemented as hashmaps. The syntax supports maps, by using a similar definition as arrays. 
+```
+ageMap = new ["Johny" => 32, "Calvin" => 25, "Clara" => 16];
+System.print(ageMap["Johny"]);
+```
+
 
 # functions
 The following example shows how to create a Constructor that creates person objects. 
