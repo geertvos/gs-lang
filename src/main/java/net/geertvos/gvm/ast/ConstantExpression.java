@@ -9,12 +9,13 @@ public class ConstantExpression extends Expression {
 
 	private final String type;
 	private int value = -1;
-	private String string;
+	private final String string;
 	
 	public ConstantExpression( int value, String type )
 	{
 		this.value = value;
 		this.type = type;
+		this.string = null;
 	}
 	
 	@Override
@@ -31,6 +32,7 @@ public class ConstantExpression extends Expression {
 	public ConstantExpression()
 	{
 		this.type = new ObjectType().getName();
+		this.string = null;
 	}	
 	
 	@Override
@@ -56,16 +58,8 @@ public class ConstantExpression extends Expression {
 		return value;
 	}
 
-	public void setValue(int value) {
-		this.value = value;
-	}
-
 	public String getString() {
 		return string;
-	}
-
-	public void setString(String string) {
-		this.string = string;
 	}
 
 	public String getType() {

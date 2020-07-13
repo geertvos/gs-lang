@@ -11,7 +11,7 @@ import net.geertvos.gvm.core.GVM;
 public class ImplicitConstructorExpression extends Expression implements Scope {
 
 	private final List<Statement> statements = new LinkedList<Statement>();
-	private Position pos;
+	private final Position pos;
 	
 	public ImplicitConstructorExpression(Position pos) {
 		this.pos = pos;

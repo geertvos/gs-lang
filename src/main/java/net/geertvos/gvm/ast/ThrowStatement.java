@@ -7,7 +7,7 @@ import net.geertvos.gvm.core.GVM;
 
 public class ThrowStatement extends Statement {
 
-	private Expression exception;
+	private final Expression exception;
 	
 	public ThrowStatement(Expression exception, Position pos) {
 		super(pos);

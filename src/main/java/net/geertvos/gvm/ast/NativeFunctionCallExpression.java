@@ -11,7 +11,6 @@ import net.geertvos.gvm.lang.bridge.NativeStaticMethodAutoWrapper;
 
 public class NativeFunctionCallExpression extends Expression implements Parameterizable {
 
-	private int identifier;
 	private final List<Expression> parameters = new LinkedList<Expression>();
 	
 	public NativeFunctionCallExpression() {
@@ -20,7 +19,7 @@ public class NativeFunctionCallExpression extends Expression implements Paramete
 	@Override
 	public void compile(GScriptCompiler c) {
 		NativeMethodWrapper method = new NativeStaticMethodAutoWrapper(parameters.size());
-		identifier = c.getNativeMethodIndex(method);
+		int identifier = c.getNativeMethodIndex(method);
 		for( Expression e : parameters ) {
 			e.compile(c);
 		}
@@ -28,7 +27,6 @@ public class NativeFunctionCallExpression extends Expression implements Paramete
 		c.code.writeInt(identifier);
 		c.code.writeString(new FunctionType().getName());
 		c.code.add(GVM.NATIVE);
-//		c.code.add(GVM.RETURN); //TODO: Check why this line needs to be commented out
 	}
 
 	public Parameterizable addParameter(Expression expression) {

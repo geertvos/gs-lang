@@ -7,8 +7,8 @@ import net.geertvos.gvm.core.GVM;
 
 public class WhileStatement extends LoopStatement{
 
-	private Expression condition;
-	private Statement statement;
+	private final Expression condition;
+	private final Statement statement;
 	
 	public WhileStatement( Statement loop, Expression condition, Position pos )
 	{

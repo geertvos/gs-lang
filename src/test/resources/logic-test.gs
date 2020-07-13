@@ -56,6 +56,10 @@ assertBoolEquals(true, 3 >= 2);
 assertBoolEquals(true, 1 <= 1);
 assertBoolEquals(true, 1 <= 2);
 
+print("Condition expression");
+assertBoolEquals(true, true?true:false);
+assertBoolEquals(false, false?true:false);
+
 print("Test completed.");
 
 

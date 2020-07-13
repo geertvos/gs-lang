@@ -5,9 +5,10 @@ import net.geertvos.gvm.core.GVM;
 
 public class ThisExpression extends Expression {
 
-	private VariableExpression field;
+	private final VariableExpression field;
 	
 	public ThisExpression(){
+		this(null);
 	}
 	
 	public ThisExpression(VariableExpression field){

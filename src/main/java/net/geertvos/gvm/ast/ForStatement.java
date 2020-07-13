@@ -13,7 +13,7 @@ public class ForStatement extends LoopStatement implements Scope {
 	private final Expression condition;
 	private final Expression initstatement;
 	private final Expression updatestatement;
-	private List<Statement> loop = new LinkedList<Statement>();
+	private final List<Statement> loop = new LinkedList<Statement>();
 
 	public ForStatement( Statement statement, Expression update , Expression condition , Expression init, Position pos ) {
 		super(pos);

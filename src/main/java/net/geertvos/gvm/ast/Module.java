@@ -14,7 +14,7 @@ import net.geertvos.gvm.core.GVM;
 public class Module implements Scope, Compilable {
 
 	private final String name;
-	private Set<String> imports = new HashSet<String>();
+	private final Set<String> imports = new HashSet<String>();
 	private final List<Statement> statements = new LinkedList<Statement>();
 	private final Position pos;
 

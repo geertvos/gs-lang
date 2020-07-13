@@ -1,6 +1,7 @@
 package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
+import net.geertvos.gvm.core.GVM;
 
 public class ConditionalExpression extends Expression {
 
@@ -17,12 +18,10 @@ public class ConditionalExpression extends Expression {
 		this.negativeExpression = negativeExpression;
 	}
 
-
-
+	
 	public Expression getCondition() {
 		return condition;
 	}
-
 
 
 	public Expression getPositiveExpression() {
@@ -30,17 +29,25 @@ public class ConditionalExpression extends Expression {
 	}
 
 
-
 	public Expression getNegativeExpression() {
 		return negativeExpression;
 	}
 
 
-
 	@Override
 	public void compile(GScriptCompiler c) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
+		condition.compile(c);
+		c.code.add( GVM.NOT );
+		c.code.add( GVM.CJMP );
+		int elsepos = c.code.getPointerPosition();
+		c.code.writeInt( -1 ); 
+		positiveExpression.compile(c);
+		c.code.add( GVM.JMP );
+		int endoftrue = c.code.getPointerPosition();
+		c.code.writeInt( -1 );
+		c.code.set(elsepos, c.code.getPointerPosition());
+		negativeExpression.compile(c);
+		c.code.set(endoftrue, c.code.getPointerPosition());
 	}
 
 }

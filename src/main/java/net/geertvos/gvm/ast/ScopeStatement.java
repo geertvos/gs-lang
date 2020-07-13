@@ -9,11 +9,12 @@ import net.geertvos.gvm.compiler.GScriptCompiler;
 
 public class ScopeStatement extends Statement implements Scope {
 
+	private final List<Statement> statements = new LinkedList<>();
+
 	public ScopeStatement(Position pos) {
 		super(pos);
 	}
 
-	private List<Statement> statements = new LinkedList<>();
 	
 	@Override
 	public Scope addStatement(Statement statement) {

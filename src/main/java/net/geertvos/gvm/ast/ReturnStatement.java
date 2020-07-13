@@ -10,11 +10,11 @@ import net.geertvos.gvm.core.Undefined;
 
 public class ReturnStatement extends Statement {
 
-	private Expression returnValue;
+	private final Expression returnValue;
 	
 	public ReturnStatement(Position pos)
 	{
-		super(pos);
+		this(null, pos);
 	}
 
 	public ReturnStatement( Expression val, Position pos )
@@ -46,7 +46,7 @@ public class ReturnStatement extends Statement {
 
 	private void generateRuntimeChecks(GScriptCompiler c) {
 		/**
-		 * This code generate a check where the functino called as return variable is compared
+		 * This code generate a check where the function called as return variable is compared
 		 * to the current function. If they match, we use tail recursion to optimize stack usage.
 		 * 
 		 * If the comparison fails, we just jump over the code that resets the parameters and return.
