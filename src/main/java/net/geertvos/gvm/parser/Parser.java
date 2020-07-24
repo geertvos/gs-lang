@@ -233,7 +233,7 @@ public class Parser extends BaseParser<Object> {
     
     Rule OtherExpression() {
 		return FirstOf(ObjectDefinition(), FunctionDefinition(), ConstructorCall(),
-				NativeFunctionCall(), FunctionCall(),Assignment(), Fork(), Number(), Boolean(), String(), MapDefinition(), ArrayDefinition(), Undef(), Reference());
+				NativeFunctionCall(), FunctionCall(),Assignment(), Fork(), Number(), Boolean(), String(),ArrayDefinition(), MapDefinition(),  Undef(), Reference());
     }
     
 	Rule Assignment() {
