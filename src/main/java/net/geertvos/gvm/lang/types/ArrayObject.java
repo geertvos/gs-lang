@@ -1,5 +1,6 @@
 package net.geertvos.gvm.lang.types;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -55,8 +56,7 @@ public class ArrayObject implements GVMObject {
 
 	@Override
 	public Collection<Value> getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(values);
 	}
 
 	@Override

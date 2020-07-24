@@ -51,3 +51,4 @@ while(true) {
 		stack.push(instruction);
 	}
 }
+msg = "Virtual Machine has been executed.";

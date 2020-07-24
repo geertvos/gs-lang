@@ -27,46 +27,10 @@ public class VirtualMachineDemo {
 	public static void main(String[] args) throws IOException {
 		URL url = Resources.getResource("VirtualMachine.gs");
 		String source = Resources.toString(url, StandardCharsets.UTF_8);
-		compileAndRun(source);
-	}
-	
-	private static void compileAndRun(String source) throws IOException {
-		List<Module> parsedModules = new LinkedList<>();
-		Module program = (Module) parse(source);
-		Set<String> loadedModules = new HashSet<>();
-		Queue<String> modulesToLoad = new LinkedList<String>();
-		modulesToLoad.addAll(program.getImports());
-		while(!modulesToLoad.isEmpty()) {
-			String module = modulesToLoad.poll();
-			if(!loadedModules.contains(module)) {
-				URL url = Resources.getResource(module+".gs");
-				String moduleSource = Resources.toString(url, StandardCharsets.UTF_8);
-				loadedModules.add(module);
-				Module loadedModule = (Module) parse(moduleSource);
-				parsedModules.add(0, loadedModule);
-				modulesToLoad.addAll(loadedModule.getImports());
-			}
-		}
-		
-		//Add the main program last
-		parsedModules.add(program);
-		GScriptCompiler compiler = new GScriptCompiler();
-		GVMProgram p = compiler.compileModules(parsedModules);
-		GVM vm = new GVM(p);
-		vm.run();
-	}
-
-	public static Object parse(String code) {
-		Parser parser = Parboiled.createParser(Parser.class);
-		ParsingResult<Object> result = new RecoveringParseRunner<Object>(parser.Program()).run(code);
-		if (!result.parseErrors.isEmpty()) {
-			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
-		} else {
-			//String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
-			//System.out.println(parseTreePrintOut);
-		}
-		Object value = result.parseTreeRoot.getValue();
-		return value;
+		GVMRuntime runtime = new GVMRuntime();
+		GVM gvm = runtime.load(source);
+		gvm.run();
+		runtime.execute("System.print(\"Message is: \"+VirtualMachine.msg);", gvm);
 	}
 
 }

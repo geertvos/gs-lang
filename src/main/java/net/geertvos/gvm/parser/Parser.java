@@ -59,6 +59,10 @@ public class Parser extends BaseParser<Object> {
 		return Sequence(Module(), Statements());
 	}
 
+	public Rule StatementsOnly() {
+		return Sequence(push(new ScopeStatement(getCurrentPos())),Statements());
+	}
+
 	Rule Module() {
 		return Sequence(Terminal("module"), Identifier(), push(new Module(match(), getCurrentPos())), Optional(SEMI), Imports());
 	}

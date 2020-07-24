@@ -35,6 +35,9 @@ public class NativeObjectWrapper implements GVMObject {
 	
 	public NativeObjectWrapper(Object object, GVMContext context) {
 		this.object = object;
+		if(object instanceof RequiresGVMContext) {
+			((RequiresGVMContext)object).setContext(context);
+		}
 		this.context = context;
 		this.converter = context.getProgram().getConverter();
 		for(Method m : object.getClass().getMethods()) {

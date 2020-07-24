@@ -11,6 +11,8 @@ import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.bridge.GvmToNativeOjectWrapper;
 import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
 import net.geertvos.gvm.lang.types.ObjectType;
+import net.geertvos.gvm.lang.types.ArrayObject;
+import net.geertvos.gvm.lang.types.ArrayType;
 import net.geertvos.gvm.lang.types.NumberType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
@@ -30,6 +32,9 @@ public class GscriptValueConverter implements ValueConverter {
 			return value.getValue();
 		} else if(type instanceof BooleanType) {
 			return value.getValue() > 0;
+		} else if(type instanceof ArrayType) {
+			Object backingObject = context.getHeap().getObject(value.getValue());
+			return ((ArrayObject)backingObject).getValues();
 		} else if(type instanceof ObjectType) {
 			int objectId = value.getValue();
 			Object backingObject = context.getHeap().getObject(objectId);
@@ -38,12 +43,15 @@ public class GscriptValueConverter implements ValueConverter {
 			}
 			return backingObject;
 		} else {
-			throw new RuntimeException("Argument type "+type+" not supported.");
+			throw new RuntimeException("Argument type "+type+" not supported by the value converter.");
 		}
 	}
 
 	public Object convertFromGVM(GVMContext context ,Value value, Class convertTo) {
 		Type type = value.getType();
+		if(convertTo == Value.class) {
+			return value;
+		}
 		if(type instanceof Undefined) {
 			return null;
 		} else if(type instanceof StringType && convertTo == String.class) {
@@ -94,6 +102,9 @@ public class GscriptValueConverter implements ValueConverter {
 		}
 		else if(returnValue instanceof Boolean) {
 			return new Value(((Boolean)returnValue)?1:0, new BooleanType());
+		}
+		else if(returnValue instanceof Value) {
+			return (Value) returnValue;
 		}
 		else if(returnValue instanceof GVMObject) {
 			int index = context.getHeap().addObject((GVMObject)returnValue);

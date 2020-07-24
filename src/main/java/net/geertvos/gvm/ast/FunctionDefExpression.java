@@ -63,7 +63,7 @@ public class FunctionDefExpression extends Expression implements Scope {
 		{
 				s.compile(c);
 		}
-		if(!(statements.get(statements.size()-1) instanceof ReturnStatement)) {
+		if(statements.isEmpty() || !(statements.get(statements.size()-1) instanceof ReturnStatement)) {
 			c.code.add(GVM.LDC_D);
 			c.code.writeInt(0);
 			c.code.writeString(new Undefined().getName());

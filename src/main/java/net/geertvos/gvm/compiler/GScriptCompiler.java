@@ -35,7 +35,7 @@ public class GScriptCompiler {
 	private final Stack<LoopStatement> loopStack = new Stack<>();
 	private final Set<CompilerOptimizations> enabledOptimizations = new HashSet<>();
 	
-	public RandomAccessByteStream code;
+	public RandomAccessByteStream code; /* ugly */
 	private GVMFunction function;
 	private GVMProgram program;
 	private String currentModuleName = "unknown";

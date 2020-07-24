@@ -65,12 +65,14 @@ public class GvmToNativeOjectWrapper implements InvocationHandler {
 		code.seek(0);
 		//TODO: Add debug info support.. line numbers etc
 		//TODO: Is this the right way to call back in to the GVM? Or should we find the original calling thread?
-		GVM gvm = new GVM(context.getProgram(), context.getHeap());
+		//TODO: disable GC
+		//Blocks until finished
 		boolean running = true;
 		while(running) {
-			running = gvm.fetchAndDecode(thread);
+			running = context.getGVM().fetchAndDecode(thread);
 		}
 		context.getProgram().deleteFunction(functionPointer);
+		//TODO: enable GC
         Value returnVal = thread.getStack().pop(); //TODO implement return values
         return converter.convertFromGVM(context, returnVal);
         

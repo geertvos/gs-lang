@@ -2,6 +2,7 @@ package net.geertvos.gvm.lang.bridge;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 
 import net.geertvos.gvm.bridge.NativeMethodWrapper;
@@ -26,14 +27,6 @@ public class NativeObjectMethodWrapper extends NativeMethodWrapper {
 	public Value invoke(List<Value> arguments, GVMContext context) {
 		ValueConverter converter = context.getProgram().getConverter();
 		try {
-			Object[] wrappedArgs = new Object[arguments.size()];
-			Class<?>[] wrappedTypes = new Class[arguments.size()];
-			for(int i=0;i<arguments.size();i++) {
-				Object converted = converter.convertFromGVM(context, arguments.get(i));
-				wrappedArgs[i] = converted;
-				wrappedTypes[i] = converted.getClass();
-			}
-
 			Method theMethod = null;
 			int count = 0;
 			for(Method m : parent.getClass().getMethods()) {
@@ -42,13 +35,26 @@ public class NativeObjectMethodWrapper extends NativeMethodWrapper {
 					count++;
 				}
 			}
+			Object[] wrappedArgs = new Object[arguments.size()];
+			Class<?>[] wrappedTypes = new Class[arguments.size()];
+			Collections.reverse(arguments);
+			
+			for(int i=0;i<arguments.size();i++) {
+				Object converted = converter.convertFromGVM(context, arguments.get(i));
+				wrappedArgs[i] = converted;
+				wrappedTypes[i] = converted.getClass();
+			}
+
 			if(count > 1) {
 				//Check arguments
 				theMethod = parent.getClass().getMethod(methodName, wrappedTypes);
 			}
 			theMethod.setAccessible(true);
 			for(int p=0;p<wrappedTypes.length;p++) {
-				if(wrappedTypes[p] == GVMPlainObject.class ) {
+				if(theMethod.getParameters()[p].getType() == Value.class) {
+					wrappedArgs[p] = arguments.get(p);
+				}
+				if(wrappedTypes[p] == GVMPlainObject.class ) { //TODO: check target method, maybe it wants the GVMPlain object
 					wrappedArgs[p] = converter.convertFromGVM(context, arguments.get(p), theMethod.getParameterTypes()[p]);
 				}
 			}
