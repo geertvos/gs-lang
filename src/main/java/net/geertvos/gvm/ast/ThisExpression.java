@@ -3,15 +3,15 @@ package net.geertvos.gvm.ast;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
-public class ThisExpression extends Expression {
+public class ThisExpression extends Expression implements FieldReferenceExpression {
 
-	private final VariableExpression field;
+	private Expression field;
 	
 	public ThisExpression(){
 		this(null);
 	}
 	
-	public ThisExpression(VariableExpression field){
+	public ThisExpression(Expression field){
 		this.field = field;
 	}
 
@@ -21,6 +21,17 @@ public class ThisExpression extends Expression {
 		c.code.writeInt(0);
 		if( field != null )
 			field.compile(c);
+	}
+
+	@Override
+	public FieldReferenceExpression setField(Expression e) {
+		field = e;
+		return this;
+	}
+
+	@Override
+	public Expression getField() {
+		return field;
 	}
 	
 	

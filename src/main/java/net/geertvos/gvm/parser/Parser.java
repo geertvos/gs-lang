@@ -221,10 +221,17 @@ public class Parser extends BaseParser<Object> {
     Rule UnaryExpression() {
         return FirstOf(
                 Sequence(EXCLAMATION, UnaryExpression(), push(new NotExpression((Expression)pop()))),
-                Sequence(Reference(),Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (Expression)(pop())))),
+                Sequence(Reference(), OneOrMore( PostFixReference())),
                 Sequence(Reference(),PostFixOperator(), push(new PostFixOperatorExpression(match(), (Expression)(pop())))),
                 OtherExpression()
         );
+    }
+    
+    Rule PostFixReference() {
+    	return FirstOf(
+    				Sequence( Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (FieldReferenceExpression)(pop())))),
+    				Sequence( push(new FunctionCallExpression((FieldReferenceExpression) pop())), LBRACE, FunctionArguments(), RBRACE) 
+    			);
     }
     
     Rule PostFixOperator() {
@@ -268,7 +275,7 @@ public class Parser extends BaseParser<Object> {
 	}
 
 	Rule ConstructorCall() {
-		return Sequence(NEW, FunctionCall(), push(new ConstructorExpression((FunctionCallExpression) pop())));
+		return Sequence(NEW, Variable(), OneOrMore( Sequence( push(new FunctionCallExpression((FieldReferenceExpression) pop())), LBRACE, FunctionArguments(), RBRACE) ), push(new ConstructorExpression((FunctionCallExpression) pop())));
 	}
 
 	Rule FunctionDefinition() {
@@ -279,9 +286,6 @@ public class Parser extends BaseParser<Object> {
 		return Sequence(NATIVE, push(new NativeFunctionCallExpression()), LBRACE, FunctionArguments(), RBRACE);
 	}
 
-	Rule FunctionCall() {
-		return Sequence(Variable(), push(new FunctionCallExpression((FieldReferenceExpression) pop())), LBRACE, FunctionArguments(), RBRACE);
-	}
 	
 	Rule FunctionArguments() {
 		return ZeroOrMore(Sequence(FunctionArgument(),ZeroOrMore(Sequence(COMMA, FunctionArgument()))));
@@ -293,7 +297,7 @@ public class Parser extends BaseParser<Object> {
 	}
 
 	Rule Reference() {
-		return Sequence(FirstOf(FunctionCall(), SelfReference(), Variable()), ZeroOrMore(SubReferences()));
+		return Sequence(FirstOf(SelfReference(), Variable()), ZeroOrMore(SubReferences()));
 	}
 
 	Rule SubReferences() {

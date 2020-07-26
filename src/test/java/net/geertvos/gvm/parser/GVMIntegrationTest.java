@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.parboiled.Parboiled;
 import org.parboiled.errors.ErrorUtils;
 import org.parboiled.parserunners.RecoveringParseRunner;
+import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.ParsingResult;
 
 import com.google.common.io.Resources;
@@ -101,6 +102,14 @@ public class GVMIntegrationTest {
 		String source = Resources.toString(url, StandardCharsets.UTF_8);
 		compileAndRun(source);
 	}
+	
+	@Test
+	public void testFieldNames() throws IOException {
+		URL url = Resources.getResource("fieldnames-test.gs");
+		String source = Resources.toString(url, StandardCharsets.UTF_8);
+		compileAndRun(source);
+	}
+
 
 	public static void write(String string, OutputStream stream) {
 		try {
@@ -181,9 +190,11 @@ public class GVMIntegrationTest {
 			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
 			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));
 		} else {
-			//String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
-			//System.out.println(parseTreePrintOut);
+			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+			System.out.println(parseTreePrintOut);
 		}
+		String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+		System.out.println(parseTreePrintOut);
 		Object value = result.parseTreeRoot.getValue();
 		return value;
 	}
@@ -194,10 +205,12 @@ public class GVMIntegrationTest {
 		if (!result.parseErrors.isEmpty()) {
 			System.out.println(ErrorUtils.printParseError(result.parseErrors.get(0)));
 			Assert.fail(ErrorUtils.printParseError(result.parseErrors.get(0)));
-//		} else {
-//			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
-//			System.out.println(parseTreePrintOut);
+		} else {
+			String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+			System.out.println(parseTreePrintOut);
 		}
+		String parseTreePrintOut = ParseTreeUtils.printNodeTree(result);
+		System.out.println(parseTreePrintOut);
 		Object value = result.parseTreeRoot.getValue();
 		return value;
 	}

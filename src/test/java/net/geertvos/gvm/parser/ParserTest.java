@@ -12,6 +12,7 @@ import org.parboiled.support.ParsingResult;
 
 import net.geertvos.gvm.ast.AdditiveExpression;
 import net.geertvos.gvm.ast.AndExpression;
+import net.geertvos.gvm.ast.ArrayReferenceExpression;
 import net.geertvos.gvm.ast.AssignmentExpression;
 import net.geertvos.gvm.ast.ConditionalExpression;
 import net.geertvos.gvm.ast.ConstantExpression;
@@ -274,7 +275,7 @@ public class ParserTest {
 		
 		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
 		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
-		VariableExpression field = (VariableExpression) functionCallExpression.getField();
+		VariableExpression field = (VariableExpression) functionCallExpression.getFunction().getField();
 		assertEquals("person", field.getName());
 		VariableExpression function = (VariableExpression) functionCallExpression.getFunction();
 		assertEquals("getName", function.getName());
@@ -310,6 +311,30 @@ public class ParserTest {
 		assertEquals(1, functionCallExpression.getParameterCount());
 		VariableExpression parameter = (VariableExpression) functionCallExpression.getParameter(0);
 		assertEquals("b", parameter.getName());
+	}
+
+	@Test()
+	public void testFunctionCallResultCall() {
+		String assignment = "a(b)(c);"; //Call result of a with param c
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
+		FunctionCallExpression functionCallExpression = (FunctionCallExpression) statement.getExpression();
+		assertEquals(1, functionCallExpression.getParameterCount());
+		VariableExpression parameter = (VariableExpression) functionCallExpression.getParameter(0);
+		assertEquals("c", parameter.getName());
+
+		FunctionCallExpression field = (FunctionCallExpression) functionCallExpression.getFunction();
+		VariableExpression nestedParameter = (VariableExpression) field.getParameter(0);
+		assertEquals("b", nestedParameter.getName());
+	}
+	
+
+	@Test()
+	public void testFunctionCallOnArrayElement() {
+		String assignment = "a[1](c);"; //Call result of a with param c
+		ExpressionStatement statement = (ExpressionStatement) parse(assignment);
+		FunctionCallExpression functionCAll = (FunctionCallExpression) statement.getExpression();
+		ArrayReferenceExpression arrayRefExpression = (ArrayReferenceExpression) functionCAll.getFunction();
+		ConstantExpression constant = (ConstantExpression) arrayRefExpression.getIndex();
 	}
 
 

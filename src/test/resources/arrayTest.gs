@@ -25,3 +25,8 @@ fields = object2.fields;
 for(x=0;x<fields.length;x++){
 	System.print(fields[x]);
 }
+
+test = new[];
+test[1] = new[];
+test[1][1] = "geert2";
+System.print(test[1][1]);

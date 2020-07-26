@@ -6,27 +6,15 @@ import java.util.List;
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
 
-public class FunctionCallExpression extends Expression implements FieldReferenceExpression, Parameterizable {
+public class FunctionCallExpression extends Expression implements Parameterizable, FieldReferenceExpression {
 
 	private final FieldReferenceExpression function;
 	private final List<Expression> parameters;
 	private Expression field;
 
-	
-	public FunctionCallExpression( Expression field, FieldReferenceExpression function , List<Expression> parameters )
-	{
-		this.field = field;
-		this.function = function;
-		this.parameters = parameters;
-	}	
-	
 	public FunctionCallExpression addParameter(Expression parameter) {
 		this.parameters.add(parameter);
 		return this;
-	}
-	
-	public Expression getField() {
-		return field;
 	}
 	
 	public FieldReferenceExpression getFunction() {
@@ -39,23 +27,6 @@ public class FunctionCallExpression extends Expression implements FieldReference
 	
 	public Expression getParameter(int index) {
 		return parameters.get(index);
-	}
-	
-	public FieldReferenceExpression setField( Expression field )
-	{
-		if( this.field == null )
-		{
-			this.field = field;
-			this.function.setField(field);
-		} else {
-			((FieldReferenceExpression)this.field).setField(field);
-		}
-		return this;
-	}
-
-	public void setFieldOnly( Expression field )
-	{
-		this.field = field;
 	}
 	
 	public FunctionCallExpression( FieldReferenceExpression function , List<Expression> parameters )
@@ -86,5 +57,18 @@ public class FunctionCallExpression extends Expression implements FieldReference
 		c.code.add(GVM.INVOKE);
 		c.code.writeInt(parameters.size());
 	}
+
+	@Override
+	public FieldReferenceExpression setField(Expression e) {
+		((FieldReferenceExpression)function).setField(e);
+		return this;
+	}
+
+	@Override
+	public Expression getField() {
+		return function.getField();
+	}
+	
+	
 
 }

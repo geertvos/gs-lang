@@ -9,7 +9,6 @@ public class ConstructorExpression extends Expression {
 	public ConstructorExpression( FunctionCallExpression function )
 	{
 		this.function = function;
-		function.setFieldOnly( new ConstantExpression() );	
 	}
 
 	public FunctionCallExpression getFunction() {
@@ -18,6 +17,7 @@ public class ConstructorExpression extends Expression {
 	
 	@Override
 	public void compile(GScriptCompiler c) {
+		new ConstantExpression().compile(c);
 		function.compile(c);
 	}
 
