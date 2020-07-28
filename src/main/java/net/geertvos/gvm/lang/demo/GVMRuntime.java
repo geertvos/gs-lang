@@ -22,8 +22,6 @@ import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.FunctionType;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.GVMThread;
-import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.GVMPlainObject;
 import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.parser.Parser;
 import net.geertvos.gvm.program.GVMFunction;

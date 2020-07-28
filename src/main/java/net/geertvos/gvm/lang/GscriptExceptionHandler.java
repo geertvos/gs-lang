@@ -3,8 +3,8 @@ package net.geertvos.gvm.lang;
 import net.geertvos.gvm.core.GVMExceptionHandler;
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.NumberType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
 

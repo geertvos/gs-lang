@@ -10,10 +10,10 @@ import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.bridge.GvmToNativeOjectWrapper;
 import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
-import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.ArrayObject;
 import net.geertvos.gvm.lang.types.ArrayType;
 import net.geertvos.gvm.lang.types.NumberType;
+import net.geertvos.gvm.lang.types.ObjectType;
 import net.geertvos.gvm.lang.types.StringType;
 import net.geertvos.gvm.program.GVMContext;
 
@@ -78,7 +78,7 @@ public class GscriptValueConverter implements ValueConverter {
 		}
 	}
 
-	private Object createProxyObject(GVMContext context ,Value value, Class convertTo) {
+	private Object createProxyObject(GVMContext context ,Value value, Class<?> convertTo) {
 		Object proxyInstance = Proxy.newProxyInstance(
 				  convertTo.getClassLoader(), 
 				  new Class[] { convertTo }, 

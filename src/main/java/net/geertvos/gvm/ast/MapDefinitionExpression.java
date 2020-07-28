@@ -5,9 +5,7 @@ import java.util.List;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
-import net.geertvos.gvm.lang.types.ArrayType;
 import net.geertvos.gvm.lang.types.ObjectType;
-import net.geertvos.gvm.lang.types.NumberType;
 
 public class MapDefinitionExpression extends Expression {
 

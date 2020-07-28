@@ -15,7 +15,6 @@ import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.core.GVMObject;
 import net.geertvos.gvm.core.Undefined;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.types.ArrayObject;
 import net.geertvos.gvm.program.GVMContext;
 import net.geertvos.gvm.program.GVMFunction;
 import net.geertvos.gvm.streams.RandomAccessByteStream;

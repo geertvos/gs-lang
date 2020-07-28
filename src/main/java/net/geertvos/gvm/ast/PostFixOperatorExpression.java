@@ -2,7 +2,6 @@ package net.geertvos.gvm.ast;
 
 import net.geertvos.gvm.compiler.GScriptCompiler;
 import net.geertvos.gvm.core.GVM;
-import net.geertvos.gvm.core.Value;
 import net.geertvos.gvm.lang.types.NumberType;
 
 public class PostFixOperatorExpression extends Expression {
