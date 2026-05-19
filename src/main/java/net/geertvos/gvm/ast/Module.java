@@ -56,10 +56,10 @@ public class Module implements Scope, Compilable {
 	@Override
 	public void compile(GScriptCompiler c) {
 		/**
-		 * Create a new Object that will capture this module 
+		 * Create a new Object that will capture this module
 		 */
 		ConstantExpression constant = new ConstantExpression();
-		constant.compile(c);  
+		constant.compile(c);
 
 		/*
 		 * Create the constructor for this module
@@ -68,7 +68,7 @@ public class Module implements Scope, Compilable {
 		functionStatements.add(new ReturnStatement(new ThisExpression(), pos));
 		FunctionDefExpression functionDef = new FunctionDefExpression(new LinkedList<String>(), functionStatements);
 		functionDef.compile(c);
-		
+
 		/**
 		 * Execute the constructor and leave the object on the stack
 		 */
@@ -80,8 +80,40 @@ public class Module implements Scope, Compilable {
 		 */
 		Expression variable = new VariableExpression(name);
 		variable.compile(c);
-		
+
 		c.code.add(GVM.PUT);
+
+		/**
+		 * Export module members as top-level variables so they can be
+		 * used without the module prefix (e.g. BufferedReader instead of Net.BufferedReader)
+		 */
+		for (String exportedName : getExportedNames()) {
+			// Push value: module.field
+			new VariableExpression(exportedName, new VariableExpression(name)).compile(c);
+			// Push variable target
+			new VariableExpression(exportedName).compile(c);
+			c.code.add(GVM.PUT);
+			c.code.add(GVM.POP);
+		}
+	}
+
+	private List<String> getExportedNames() {
+		List<String> names = new LinkedList<>();
+		for (Statement stmt : statements) {
+			if (stmt instanceof ExpressionStatement) {
+				Expression expr = ((ExpressionStatement) stmt).getExpression();
+				if (expr instanceof AssignmentExpression) {
+					Expression var = ((AssignmentExpression) expr).getVariable();
+					if (var instanceof VariableExpression) {
+						VariableExpression ve = (VariableExpression) var;
+						if (ve.getField() == null && !names.contains(ve.getName())) {
+							names.add(ve.getName());
+						}
+					}
+				}
+			}
+		}
+		return names;
 	}
 	
 }

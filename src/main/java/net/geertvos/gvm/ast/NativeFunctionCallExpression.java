@@ -18,7 +18,7 @@ public class NativeFunctionCallExpression extends Expression implements Paramete
 	
 	@Override
 	public void compile(GScriptCompiler c) {
-		NativeMethodWrapper method = new NativeStaticMethodAutoWrapper(parameters.size());
+		NativeMethodWrapper method = new NativeStaticMethodAutoWrapper(parameters.size(), c.getRegistry());
 		int identifier = c.getNativeMethodIndex(method);
 		for( Expression e : parameters ) {
 			e.compile(c);

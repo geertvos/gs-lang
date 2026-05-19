@@ -65,6 +65,12 @@ public class ArrayObject implements GVMObject {
 		
 	}
 
+	public void append(Value v) {
+		int index = values.length;
+		resizeIfNeeded(index);
+		values[index] = new Value(v.getValue(), v.getType());
+	}
+
 	public int getLength() {
 		return values.length;
 	}

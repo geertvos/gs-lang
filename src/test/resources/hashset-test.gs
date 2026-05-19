@@ -83,6 +83,8 @@ HashSet = (buckets)-> {
 	return this;
 };
 
+System.print("Compiled with Rust!");
+
 set = new HashSet(3);
 System.print("Added: "+set.add("Geert"));
 System.print("Added: "+set.add("Geert"));

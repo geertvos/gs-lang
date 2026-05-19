@@ -229,8 +229,8 @@ public class Parser extends BaseParser<Object> {
     
     Rule PostFixReference() {
     	return FirstOf(
-    				Sequence( Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (FieldReferenceExpression)(pop())))),
-    				Sequence( push(new FunctionCallExpression((FieldReferenceExpression) pop())), LBRACE, FunctionArguments(), RBRACE) 
+    				Sequence( Terminal("["), Expression(), Terminal("]"),  push(new ArrayReferenceExpression((Expression)(pop()), (FieldReferenceExpression)(pop()))), Optional(SubReferences())),
+    				Sequence( push(new FunctionCallExpression((FieldReferenceExpression) pop())), LBRACE, FunctionArguments(), RBRACE)
     			);
     }
     
@@ -331,7 +331,7 @@ public class Parser extends BaseParser<Object> {
 	@MemoMismatches
 	Rule String() {
 		//TODO: Fix and support UTF-8 strings 
-		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'z'),CharRange('0','9'),AnyOf(".,!/\\?@#$%&*()|-:; '<>\n"))), push(new ConstantExpression(match())), "\"");
+		return Sequence("\"", ZeroOrMore(FirstOf(CharRange('A', 'Z'),CharRange('a', 'z'),CharRange('0','9'),AnyOf(".,!/\\?@#$%&*()|-:; '<>\n_{}+-=~^[]`"))), push(new ConstantExpression(match())), "\"");
 	}
 
 	@SuppressSubnodes

@@ -68,7 +68,7 @@ public class GscriptValueConverter implements ValueConverter {
 				if(backing.getClass() == convertTo) {
 					return backing;
 				} else {
-					throw new RuntimeException("Request type conversino to "+convertTo+" not supported, backing type is: "+backing.getClass());
+					throw new RuntimeException("Request type conversion to "+convertTo+" not supported, backing type is: "+backing.getClass());
 				}
 			}
 			Object proxyInstance = createProxyObject(context, value, convertTo);

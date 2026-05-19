@@ -10,6 +10,7 @@ import net.geertvos.gvm.ast.LoopStatement;
 import net.geertvos.gvm.ast.Module;
 import net.geertvos.gvm.ast.Statement;
 import net.geertvos.gvm.bridge.NativeMethodWrapper;
+import net.geertvos.gvm.bridge.NativeRegistry;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.GVM;
 import net.geertvos.gvm.lang.GscriptExceptionHandler;
@@ -34,14 +35,30 @@ public class GScriptCompiler {
 	private final List<NativeMethodWrapper> natives = new ArrayList<>();
 	private final Stack<LoopStatement> loopStack = new Stack<>();
 	private final Set<CompilerOptimizations> enabledOptimizations = new HashSet<>();
-	
+	private final NativeRegistry registry;
+
 	public RandomAccessByteStream code; /* ugly */
 	private GVMFunction function;
 	private GVMProgram program;
 	private String currentModuleName = "unknown";
-	
-	public GScriptCompiler() {
+
+	public GScriptCompiler(NativeRegistry registry) {
+		this.registry = registry;
 		enabledOptimizations.add(CompilerOptimizations.TAIL_RECURSION);
+	}
+
+	public GScriptCompiler() {
+		this(createDefaultRegistry());
+	}
+
+	private static NativeRegistry createDefaultRegistry() {
+		NativeRegistry r = new NativeRegistry();
+		net.geertvos.gvm.stdlib.StandardLibrary.registerAll(r);
+		return r;
+	}
+
+	public NativeRegistry getRegistry() {
+		return registry;
 	}
 	
 	public GVMProgram compile(List<Statement> compilables)

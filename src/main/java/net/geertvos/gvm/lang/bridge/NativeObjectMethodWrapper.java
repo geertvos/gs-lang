@@ -35,10 +35,13 @@ public class NativeObjectMethodWrapper extends NativeMethodWrapper {
 					count++;
 				}
 			}
+			if(theMethod == null) {
+				throw new RuntimeException("No method found with name: " + methodName + " on " + parent.getClass().getName());
+			}
 			Object[] wrappedArgs = new Object[arguments.size()];
 			Class<?>[] wrappedTypes = new Class[arguments.size()];
 			Collections.reverse(arguments);
-			
+
 			for(int i=0;i<arguments.size();i++) {
 				Object converted = converter.convertFromGVM(context, arguments.get(i));
 				wrappedArgs[i] = converted;
@@ -46,16 +49,16 @@ public class NativeObjectMethodWrapper extends NativeMethodWrapper {
 			}
 
 			if(count > 1) {
-				//Check arguments
 				theMethod = parent.getClass().getMethod(methodName, wrappedTypes);
 			}
 			theMethod.setAccessible(true);
 			for(int p=0;p<wrappedTypes.length;p++) {
-				if(theMethod.getParameters()[p].getType() == Value.class) {
+				if(theMethod.getParameterTypes()[p] == Value.class) {
 					wrappedArgs[p] = arguments.get(p);
-				}
-				if(wrappedTypes[p] == GVMPlainObject.class ) { //TODO: check target method, maybe it wants the GVMPlain object
+					wrappedTypes[p] = Value.class;
+				} else if(wrappedTypes[p] == GVMPlainObject.class) {
 					wrappedArgs[p] = converter.convertFromGVM(context, arguments.get(p), theMethod.getParameterTypes()[p]);
+					wrappedTypes[p] = theMethod.getParameterTypes()[p];
 				}
 			}
 			Object returnValue = theMethod.invoke(parent, wrappedArgs);

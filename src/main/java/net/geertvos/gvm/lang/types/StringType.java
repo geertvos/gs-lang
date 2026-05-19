@@ -3,7 +3,8 @@ package net.geertvos.gvm.lang.types;
 import net.geertvos.gvm.core.BooleanType;
 import net.geertvos.gvm.core.Type;
 import net.geertvos.gvm.core.Value;
-import net.geertvos.gvm.lang.bridge.NativeObjectWrapper;
+import net.geertvos.gvm.lang.bridge.ByteArrayInstance;
+import net.geertvos.gvm.lang.bridge.NativeInstanceObject;
 import net.geertvos.gvm.program.GVMContext;
 
 public class StringType implements Type {
@@ -31,6 +32,12 @@ public class StringType implements Type {
 	public Value perform(GVMContext context, Operations op, Value thisValue, Value otherValue) {
 		if(op.equals(Operations.GET)) {
 			int ref = otherValue.getValue();
+			if(otherValue.getType().isInstance(new NumberType())) {
+				String s = context.getProgram().getString(thisValue.getValue());
+				String ch = String.valueOf(s.charAt(ref));
+				int index = context.getProgram().addString(ch);
+				return new Value(index, new StringType());
+			}
 			if(otherValue.getType().isInstance(new StringType())) {
 				String parameter = context.getProgram().getString(ref);
 				if(parameter.equals("lowercase")) {
@@ -44,7 +51,9 @@ public class StringType implements Type {
 				}
 				if(parameter.equals("bytes")) {
 					String s = context.getProgram().getString(thisValue.getValue());
-					int index = context.getHeap().addObject(new NativeObjectWrapper(s.getBytes(), context));
+					ByteArrayInstance byteInst = new ByteArrayInstance(s.getBytes());
+					NativeInstanceObject wrapper = new NativeInstanceObject(byteInst, context);
+					int index = context.getHeap().addObject(wrapper);
 					return new Value(index, new ObjectType());
 				}
 				if(parameter.equals("ref")) {

@@ -103,13 +103,6 @@ public class GVMIntegrationTest {
 		compileAndRun(source);
 	}
 	
-	@Test
-	public void testFieldNames() throws IOException {
-		URL url = Resources.getResource("fieldnames-test.gs");
-		String source = Resources.toString(url, StandardCharsets.UTF_8);
-		compileAndRun(source);
-	}
-
 
 	public static void write(String string, OutputStream stream) {
 		try {

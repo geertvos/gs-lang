@@ -20,6 +20,9 @@ public class ArrayType implements Type {
 		if(op.equals(Operations.NEW)) {
 			return true;
 		}
+		if(op.equals(Operations.ADD)) {
+			return true;
+		}
 		return false;
 	}
 
@@ -28,6 +31,11 @@ public class ArrayType implements Type {
 		if(op.equals(Operations.NEW)) {
 			Integer id = context.getHeap().addObject(new ArrayObject());
 			return new Value(id, new ArrayType());
+		}
+		if(op.equals(Operations.ADD)) {
+			ArrayObject array = (ArrayObject) context.getHeap().getObject(thisValue.getValue());
+			array.append(otherValue);
+			return thisValue;
 		}
 		if(op.equals(Operations.GET)) {
 			if(otherValue.getType().isInstance(new StringType())) {
